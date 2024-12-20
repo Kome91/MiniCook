@@ -65,8 +65,8 @@ class DrawModel extends JPanel {
         return grid;
     }
 
-    public  getFieldSize() {
-        return new Cdnt(xsize, ysize);
+    public int[] getFieldSize() {
+        return new int[]{xsize, ysize};
     }
 
     public int getCellSize() {
@@ -92,12 +92,12 @@ class DrawView extends JPanel {
 
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        Cdnt size = model.getFieldSize();
+        int[] size = model.getFieldSize();
         Grid[][] grid = model.getGrid();
         int cellSize = model.getCellSize();
         Player player = model.getPlayer();
-        for (int i = 0; i < size.x; i++) {
-            for (int j = 0; j < size.y; j++) {
+        for (int i = 0; i < size[0]; i++) {
+            for (int j = 0; j < size[1]; j++) {
                 if (grid[i][j].wall) {
                     g.setColor(Color.GRAY);
                 } else if (grid[i][j].obstacle) {
