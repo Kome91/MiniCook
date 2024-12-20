@@ -1,1 +1,2 @@
 MiniCookのリポジトリです。
+yoshida
