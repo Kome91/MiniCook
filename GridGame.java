@@ -152,16 +152,16 @@ class DrawController implements KeyListener {
 
         // キーコードに応じた移動量を設定
         switch (e.getKeyCode()) {
-            case KeyEvent.VK_UP:
+            case KeyEvent.VK_W:
                 dy = -1;
                 break;
-            case KeyEvent.VK_DOWN:
+            case KeyEvent.VK_S:
                 dy = 1;
                 break;
-            case KeyEvent.VK_LEFT:
+            case KeyEvent.VK_A:
                 dx = -1;
                 break;
-            case KeyEvent.VK_RIGHT:
+            case KeyEvent.VK_D:
                 dx = 1;
                 break;
         }
