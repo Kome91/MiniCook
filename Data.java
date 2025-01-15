@@ -21,43 +21,46 @@ class Grid {
         return food != null;
     }
 }
+class Food {
+    public int cabbage = 0; // =0は何も所持していない
+    public int tomato = 0; // = 1は基本的には未加工状態
+    public int cucumber = 0;
+    public boolean canCut = false;
+    //public boolean canHeat = false;
+    public boolean isOnPlate = false;
+    public Food(int cabbage, int tomato, int cucumber, boolean canCut){
+        this.cabbage = cabbage;
+        this.tomato = tomato;
+        this.cucumber = cucumber;
+        this.canCut = canCut;
+    }
+    public void cut(){
+        cabbage = 2; //キャベツを切った状態に
+    }
+    public int getImageId(){ //ステータスから適切な画像idをさくせいする
+        if(cabbage==0 && tomato==0 && cucumber==0){
+            System.out.println("エラーです。このような状態にはなりません");
+            return 0;
+        }else if(cabbage==1 && tomato==0 && cucumber==0){
+            System.out.println("未加工キャベツのImgIdが取得されました");
+            return 1;
+        }else if(cabbage==2 && tomato==0 && cucumber==0){
+            System.out.println("カットキャベツのImgIdが取得されました");
+            return 5;
+        }else{
+            System.err.println("回答になりえない状態になっています");
+            return 0;
+        }
+    }
+}
 
+/*
 abstract class Food { //継承させる前提のabstractクラス
     public int foodStatus; //食材のステータスの変数、何もしてなければ0になる
     public boolean canCut; //その食材がカット可能ならtrue
     public boolean canHeat; //その食材が加熱可能ならtrue
     public boolean isOnPlate; //皿の上に置かれているか
     public abstract int getImageIdFromStatus();
-    /*
-    int cooking_method; 
-    public Food(){
-        this.cooking_method = 0; //0は調理されてない状態
-    }
-    public void cut(){
-        this.cooking_method = 1;
-    }
-    public void stir_fry(){
-        this.cooking_method = 2;
-    }
-    public void grill(){
-        this.cooking_method = 3;
-    }
-    public void cooked(int cooking_method) {
-        switch (cooking_method) {
-            case 1:
-                cut();
-                break;
-            case 2:
-                stir_fry();
-                break;
-            case 3:
-                grill();
-                break;
-            default:
-                System.out.println("無効な調理方法です。");
-        }
-    }
-    */
 }
 class Kyabetu extends Food{
     public Kyabetu(){
@@ -76,3 +79,4 @@ class Kyabetu extends Food{
         }
     }
 }
+*/

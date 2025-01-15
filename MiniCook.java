@@ -16,7 +16,7 @@ class MiniCook extends JFrame {
         view.addKeyListener(cont); // キーリスナーを設定
 
         model.setImageAtPosition(5, 5, 1);
-        model.getGrid()[5][5].food = new Kyabetu();
+        model.getGrid()[5][5].food = new Food(1,0,0,true);
 
         model.getPlayer().move(1, 1, model.getGrid());
 

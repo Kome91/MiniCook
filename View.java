@@ -125,15 +125,12 @@ class DrawView extends JPanel {
         // プレイヤーが食材を持っている場合、プレイヤーの上に食材の画像を重ねて描画
         if (player.getFood() != null) {
             Image heldFoodImage = null;
-            switch (player.getFood().foodStatus) { //食材の状況によって画像の分岐をする
-                case 0:
+            switch (player.getFood().cabbage) { //食材の状況によって画像の分岐をする
+                case 1:
                     heldFoodImage = Image1; // 未調理の食材
                     break;
-                case 1:
-                    heldFoodImage = Image5; // 切った状態の食材
-                    break;
                 case 2:
-                    heldFoodImage = Image3; // 炒めた状態の食材（仮）
+                    heldFoodImage = Image5; // 切った状態の食材
                     break;
             }
 

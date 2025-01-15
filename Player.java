@@ -60,7 +60,7 @@ class Player {
             System.out.println("食材を持っていません！");
             return;
         }else if(frontGrid.tool == 1 && food.canCut == true){
-            food.foodStatus = 1;
+            food.cut();
             System.out.printf("食材を切りました\n");
             return;
         }
@@ -96,7 +96,7 @@ class Player {
         }
         if (food == null) {  // 何も持っていない場合
             if(frontGrid.foodBox == true){ //目の前のマスが食材ボックスだったら
-                this.food = new Kyabetu();
+                this.food = new Food(1,0,0,true);
                 System.out.println("新たに食材を取得しました！");
             }
             else if (frontGrid.hasFood()) {  // 現在のマスに食材がある場合
@@ -117,7 +117,7 @@ class Player {
             if (!frontGrid.hasFood() && frontGrid.tool == 0) {  // 現在のマスが空いている場合 かつ そのマスがツールマスではない 
                 frontGrid.food = food;  // 食材を置く
                 food = null;  // 手持ちを空にする
-                model.setImageAtPosition(frontGrid.x, frontGrid.y, frontGrid.food.getImageIdFromStatus()); // 新しい位置に食材画像を設定
+                model.setImageAtPosition(frontGrid.x, frontGrid.y, frontGrid.food.getImageId()); // 新しい位置に食材画像を設定
                 System.out.println("食材を置きました！");
             } else {
                 if(frontGrid.hasFood() == true) System.out.println("ここには既に食材があります！");

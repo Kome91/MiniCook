@@ -23,7 +23,7 @@ class DrawModel extends JPanel {
                 }
             }
         }
-        grid[5][5].food = new Kyabetu();  // (5,5)の位置に食材を配置
+        grid[5][5].food = new Food(1,0,0,true);  // (5,5)の位置に食材を配置
         imageGrid[5][5] = 1;
 
         grid[7][7].foodBox = true; //(7,7)にキャベツボックスを配置
