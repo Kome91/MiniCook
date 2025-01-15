@@ -1,0 +1,2 @@
+MiniCookのリポジトリです。
+Kome2です
