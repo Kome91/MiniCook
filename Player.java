@@ -90,9 +90,6 @@ class Player {
         }else if(hasPlate == false && frontGrid.isPlatePlaced == true){ //playerは皿を持っていない かつ 目の前マスに皿がある
             hasPlate = true; //皿を持つ
             frontGrid.isPlatePlaced = false; //目の前マスから皿を回収
-        }else if(hasPlate == true && frontGrid.tool == 0) { //いま皿を持っていて かつ 目の前がツールマスではない
-            hasPlate = false; //皿を捨てる(置く)
-            frontGrid.isPlatePlaced =true;
         }
         if (food == null) {  // 何も持っていない場合
             if(frontGrid.foodBox == true){ //目の前のマスが食材ボックスだったら
@@ -113,6 +110,10 @@ class Player {
     public void put(){
         Grid currentGrid = grid[x][y];
         Grid frontGrid = getFrontGrid();
+        if(hasPlate == true && frontGrid.tool == 0) { //いま皿を持っていて かつ 目の前がツールマスではない
+            hasPlate = false; //皿を捨てる(置く)
+            frontGrid.isPlatePlaced =true;
+        }
         if(food != null) {  // 既に食材を持っている場合
             if (!frontGrid.hasFood() && frontGrid.tool == 0) {  // 現在のマスが空いている場合 かつ そのマスがツールマスではない 
                 frontGrid.food = food;  // 食材を置く
