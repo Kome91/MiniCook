@@ -139,6 +139,10 @@ class DrawView extends JPanel {
                     heldFoodImage = Image5; // 切った状態の食材
                     break;
             }
+            switch (player.getFood().tomato) {
+                case 1: heldFoodImage = Image8; break;
+                case 2: heldFoodImage = Image9; break;
+            }
 
             if (heldFoodImage != null) {
                 // 少し小さめにしてプレイヤーの上に描画
@@ -153,6 +157,5 @@ class DrawView extends JPanel {
                 
             }
         }
-
     }
 }

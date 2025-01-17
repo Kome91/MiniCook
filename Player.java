@@ -120,6 +120,10 @@ class Player {
                 food = null;  // 手持ちを空にする
                 model.setImageAtPosition(frontGrid.x, frontGrid.y, frontGrid.food.getImageId()); // 新しい位置に食材画像を設定
                 System.out.println("食材を置きました！");
+            }else if(frontGrid.hasFood()==true && frontGrid.tool == 0){ //目の間に食材あり かつ 目の前がツールマスではない
+                frontGrid.food.addFood(this.food);
+                food = null; //手持ちを空にする
+                model.setImageAtPosition(frontGrid.x, frontGrid.y, frontGrid.food.getImageId());
             } else {
                 if(frontGrid.hasFood() == true) System.out.println("ここには既に食材があります！");
                 if(frontGrid.tool != 0) System.out.printf("ここはツールなので食材は置けません");

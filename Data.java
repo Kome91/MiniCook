@@ -48,12 +48,31 @@ class Food {
             System.out.println("カットキャベツのImgIdが取得されました");
             return 5;
         }else if(cabbage==0 && tomato==1 && cucumber==0){
-            System.out.println("カットキャベツのImgIdが取得されました");
+            System.out.println("未加工トマトのImgIdが取得されました");
             return 8;
+        }else if(cabbage==1 && tomato==1 && cucumber==0){
+            System.out.println("未加工トマト+未加工キャベツのImgIdが取得されました");
+            return 0;
         }else{
             System.err.println("回答になりえない状態になっています");
             return 0;
         }
+    }
+    public void addFood(Food plusFood){ //食材に対して食材を置こうとしたときの処理
+        System.out.printf("受け取ったフードの内容は(%d,%d,%d)です\n", plusFood.cabbage, plusFood.tomato, plusFood.cucumber);
+        if(this.cabbage==0 || plusFood.cabbage==0){
+            System.out.printf("キャベツの結合を行います\n");
+            this.cabbage = this.cabbage + plusFood.cabbage;
+        }
+        if(this.tomato==0 || plusFood.tomato==0){
+            System.out.printf("トマトの結合を行います\n");
+            this.tomato = this.tomato + plusFood.tomato;
+        }
+        if(this.cucumber==0 || plusFood.cucumber==0){
+            System.out.printf("きゅうりの結合を行います\n");
+            this.cucumber = this.cucumber + plusFood.cucumber;
+        }
+        System.out.printf("最終的な結果として(%d,%d,%d)となりました\n", this.cabbage, this.tomato, this.cucumber);
     }
 }
 
