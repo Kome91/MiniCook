@@ -10,7 +10,7 @@ class Grid {
     public boolean isPlatePlaced = false; //そのマスにさらがおかれているか
     public boolean foodBox = false; //フードボックスだった場合にtrueになる
     public boolean plateBox = false; //皿ボックスだった場合trueになる
-    int tool = 0; //0はツールではない, 1は包丁, 2はキャベツボックス, 3は皿ボックス
+    int tool = 0; //0はツールではない, 1は包丁, 2はキャベツボックス, 3は皿ボックス, 4:トマトボックス
 
     public Grid(int x, int y) {
         this.x = x;
@@ -47,6 +47,9 @@ class Food {
         }else if(cabbage==2 && tomato==0 && cucumber==0){
             System.out.println("カットキャベツのImgIdが取得されました");
             return 5;
+        }else if(cabbage==0 && tomato==1 && cucumber==0){
+            System.out.println("カットキャベツのImgIdが取得されました");
+            return 8;
         }else{
             System.err.println("回答になりえない状態になっています");
             return 0;
