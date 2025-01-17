@@ -49,7 +49,7 @@ class DrawView extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         int[] size = model.getFieldSize();
-        int[][] imageGrid = model.getImageGrid();
+        //int[][] imageGrid = model.getImageGrid();
         int cellSize = model.getCellSize();
 
         for (int i = 0; i < size[0]; i++) {
@@ -82,7 +82,7 @@ class DrawView extends JPanel {
                     selectedImage = setToolImage(grid[i][j].tool);
                 }
 
-
+                /*
                 switch (imageGrid[i][j]) {
                     case 1:
                         selectedImage = Image1; break;
@@ -105,17 +105,10 @@ class DrawView extends JPanel {
                     case 10:
                         selectedImage = Image10; break;
                 }
+                */
                 if (selectedImage != null) {
                     g.drawImage(selectedImage, i * cellSize, j * cellSize, cellSize, cellSize, this);
                 }
-
-                // 食材の描画
-                
-                //if (grid[i][j].food != null) {
-                //    switch (grid[i][j].food.cooking_method) {
-                //    }
-                //}
-                
             }
         }
         // プレイヤーを描画
@@ -126,14 +119,10 @@ class DrawView extends JPanel {
             case 4: ImagePlayer = ImagePlayer_right; break;
         }
         g.drawImage(ImagePlayer,player.x * cellSize, player.y * cellSize, cellSize, cellSize, this);
-        //プレイヤーが色ver
-        //g.setColor(Color.GREEN);g.fillRect(player.x * cellSize, player.y * cellSize, cellSize - 1, cellSize - 1);
 
         //プレイヤーが皿を持っていたら皿をプレイヤーの上に表示
         if(player.hasPlate == true){
-            int foodSize = cellSize * 2/3; //命名が良くない気がするけどまぁ耐えか？
-            //int offsetX = 0;
-            //int offsetY = 0;
+            int foodSize = cellSize * 2/3;
             int offsetX = cellSize /6;
             int offsetY = cellSize /6;
             if(player.direction == 1) offsetY -= cellSize / 2;
@@ -175,7 +164,7 @@ class DrawView extends JPanel {
     }
     private Image setFoodImage(int[] info){
         if(info[0]==1 && info[1]==0 && info[2] == 0) return Image1; //未加工キャベツ
-        else if(info[0]==0 && info[1]==1 && info[2] == 0) return Image8; //未加工キャベツ
+        else if(info[0]==0 && info[1]==1 && info[2] == 0) return Image8; //未加工トマト
         else if(info[0]==2 && info[1]==0 && info[2] == 0) return Image5; //カットキャベツ
         else if(info[0]==0 && info[1]==1 && info[2] == 0) return Image8; //未加工キャベツ
         else if(info[0]==0 && info[1]==1 && info[2] == 0) return Image8; //未加工キャベツ
