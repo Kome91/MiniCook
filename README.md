@@ -1,2 +1,7 @@
-MiniCookのリポジトリです。
-Kome2でした
+MiniCookのリポジトリです。  
+Kome2でした  
+
+25/01/17 20:01  
+　cut()メソッドに関して、food.canCut==trueなのを確認してから  
+food.cut()を呼ぶか  
+　cut()メソッド内で自身のboolean canCutを確認してから実行しようか迷っています

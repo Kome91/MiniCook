@@ -9,15 +9,15 @@ class DrawModel extends JPanel {
     protected Grid[][] grid;
     private Player player;
     private Food food;
-    private int[][] imageGrid; // 各マスの画像IDを管理する2次元配列
+    //private int[][] imageGrid; // 各マスの画像IDを管理する2次元配列
 
     public DrawModel() {
         grid = new Grid[xsize][ysize];
-        imageGrid = new int[xsize][ysize];
+        //imageGrid = new int[xsize][ysize];
         for (int i = 0; i < xsize; i++) {
             for (int j = 0; j < ysize; j++) {
                 grid[i][j] = new Grid(i, j);
-                imageGrid[i][j] = '\0';
+                //imageGrid[i][j] = '\0';
                 if (i == 0 || j == 0 || i == xsize - 1 || j == ysize - 1) {
                     grid[i][j].wall = true; // 外周を壁に設定
                 }
@@ -74,11 +74,13 @@ class DrawModel extends JPanel {
         player.move(dx, dy, grid);
     }
     // 特定の位置に障害物を設定
+    /*
     public void setObstacleAtPosition(int x, int y) {
         if (x >= 0 && x < xsize && y >= 0 && y < ysize) {
             //grid[x][y].obstacle = true;
         }
     }
+    
     //特定の位置に画像IDを設定
     public void setImageAtPosition(int x, int y, int id) {
         if (x >= 0 && x < xsize && y >= 0 && y < ysize) {
@@ -97,6 +99,7 @@ class DrawModel extends JPanel {
             imageGrid[x][y] = 0;
         }
     }
+    */
     public void printInfo(){
         System.out.println("<デバッグ用情報>");
     }

@@ -93,13 +93,13 @@ class Player {
         }
         if (food == null) {  // 何も持っていない場合
             if(frontGrid.foodBox == true){ //目の前のマスが食材ボックスだったら
-                this.food = new Food(1,0,0,true);
-                System.out.println("新たに食材を取得しました！");
+                if(frontGrid.tool == 2) this.food = new Food(1,0,0,true);
+                else if(frontGrid.tool == 4) this.food = new Food(0,1,0,true);
             }
             else if (frontGrid.hasFood()) {  // 現在のマスに食材がある場合
                 food = frontGrid.food;  // 食材を拾う
                 frontGrid.food = null;  // マスから食材を消す
-                model.deleteImageAtPosition(frontGrid.x, frontGrid.y); // 画像を削除
+                //model.deleteImageAtPosition(frontGrid.x, frontGrid.y); // 画像を削除
                 System.out.println("食材を持ち上げました！");
             } else {
                 System.out.println("ここには食材がありません。");

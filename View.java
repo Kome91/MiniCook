@@ -22,6 +22,7 @@ class DrawView extends JPanel {
     private Image ImagePlayer_down;
     private Image ImagePlayer_right;
     private Image imgCabTom;
+    private Image imgErrorBlock;
     Player player;
     public DrawView(DrawModel m) {
         model = m;
@@ -44,6 +45,7 @@ class DrawView extends JPanel {
         ImagePlayer_down = new ImageIcon("player_down.png").getImage();
         ImagePlayer_right = new ImageIcon("player_right.png").getImage();
         imgCabTom = new ImageIcon("cabbage_and_tomato.png").getImage();
+        imgErrorBlock = new ImageIcon("error_image.png").getImage();
     }
 
     protected void paintComponent(Graphics g) {
@@ -77,7 +79,6 @@ class DrawView extends JPanel {
                 if(grid[i][j].food != null){ //食材の描画です
                     int[] receivedInfo = grid[i][j].food.getInfo(); //そのマスのFood情報を受け取る;
                     selectedImage = setFoodImage(receivedInfo);
-                    //setFoodImage(receivedInfo); //テスト用ですよ
                 }else if(grid[i][j].tool != 0){ //そのマスが何かしらのツールだった場合にツールの描画
                     selectedImage = setToolImage(grid[i][j].tool);
                 }
@@ -166,12 +167,12 @@ class DrawView extends JPanel {
         if(info[0]==1 && info[1]==0 && info[2] == 0) return Image1; //未加工キャベツ
         else if(info[0]==0 && info[1]==1 && info[2] == 0) return Image8; //未加工トマト
         else if(info[0]==2 && info[1]==0 && info[2] == 0) return Image5; //カットキャベツ
-        else if(info[0]==0 && info[1]==1 && info[2] == 0) return Image8; //未加工キャベツ
+        else if(info[0]==0 && info[1]==2 && info[2] == 0) return Image9; //未加工キャベツ
         else if(info[0]==0 && info[1]==1 && info[2] == 0) return Image8; //未加工キャベツ
         else if(info[0] == 1 && info[1] ==  1){
             return imgCabTom;
         }
-        return Image3;
+        return imgErrorBlock;
     }
     private Image setToolImage(int toolId){
         switch(toolId){
@@ -180,6 +181,6 @@ class DrawView extends JPanel {
             case 3: return Image6;
             case 4: return Image10;
         }
-        return Image3;
+        return imgErrorBlock;
     }
 }

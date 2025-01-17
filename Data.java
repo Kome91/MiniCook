@@ -35,9 +35,12 @@ class Food {
         this.canCut = canCut;
     }
     public void cut(){
-        cabbage = 2; //キャベツを切った状態に
+        if(cabbage == 1 && tomato == 0 && cucumber == 0) cabbage = 2;
+        else if(cabbage == 0 && tomato == 1 && cucumber == 0) tomato = 2;
+        else if(cabbage == 0 && tomato == 0 && cucumber == 1) cucumber = 2;
     }
     public int getImageId(){ //ステータスから適切な画像idをさくせいする
+        System.out.println("この関数はもう呼ばれないはずです");
         if(cabbage==0 && tomato==0 && cucumber==0){
             System.out.println("エラーです。このような状態にはなりません");
             return 0;
