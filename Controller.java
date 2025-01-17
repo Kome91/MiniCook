@@ -50,6 +50,9 @@ class DrawController implements KeyListener {
             case KeyEvent.VK_I: //デバッグ用にIキーで情報を表示する
                 model.printInfo();
                 break;
+            case KeyEvent.VK_ESCAPE: // ESCキーでゲーム終了
+            System.exit(0);
+            break;
         }
         
         // 再描画

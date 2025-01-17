@@ -11,6 +11,10 @@ class DrawView extends JPanel {
     private Image Image5;
     private Image Image6;
     private Image Image7;
+    private Image Image8;
+    private Image Image9;
+    private Image Image10;
+    //private Image Image11;
     private Image ImagePlayer;
     private Image ImagePlayer_up;
     private Image ImagePlayer_left;
@@ -29,6 +33,9 @@ class DrawView extends JPanel {
         Image5 = new ImageIcon("CutKyabetu.png").getImage();
         Image6 = new ImageIcon("PlateBox.png").getImage();
         Image7 = new ImageIcon("Plate.png").getImage();
+        Image8 = new ImageIcon("Tomato.png").getImage();
+        Image9 = new ImageIcon("CutTomato.png").getImage();
+        Image10 = new ImageIcon("TomatoBox.png").getImage();
         ImagePlayer_up = new ImageIcon("player_up.png").getImage();
         ImagePlayer_left = new ImageIcon("player_left.png").getImage();
         ImagePlayer_down = new ImageIcon("player_down.png").getImage();
@@ -63,26 +70,25 @@ class DrawView extends JPanel {
                 Image selectedImage = null;
                 switch (imageGrid[i][j]) {
                     case 1:
-                        selectedImage = Image1;
-                        break;
+                        selectedImage = Image1; break;
                     case 2:
-                        selectedImage = Image2;
-                        break;
+                        selectedImage = Image2; break;
                     case 3:
-                        selectedImage = Image3;
-                        break;
+                        selectedImage = Image3; break;
                     case 4:
-                        selectedImage = Image4;
-                        break;
+                        selectedImage = Image4; break;
                     case 5:
-                        selectedImage = Image5;
-                        break;
+                        selectedImage = Image5; break;
                     case 6:
-                        selectedImage = Image6;
-                        break;
+                        selectedImage = Image6; break;
                     case 7:
-                        selectedImage = Image7;
-                        break;
+                        selectedImage = Image7; break;
+                    case 8:
+                        selectedImage = Image8; break;
+                    case 9:
+                        selectedImage = Image9; break;
+                    case 10:
+                        selectedImage = Image10; break;
                 }
                 if (selectedImage != null) {
                     g.drawImage(selectedImage, i * cellSize, j * cellSize, cellSize, cellSize, this);

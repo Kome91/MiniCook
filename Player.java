@@ -77,7 +77,7 @@ class Player {
         } else {
             System.out.println("既に調理済みです！");
         }
-            */
+        */
     }
 
     public void pick_up() {

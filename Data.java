@@ -22,11 +22,11 @@ class Grid {
     }
 }
 class Food {
-    public int cabbage = 0; // =0は何も所持していない
-    public int tomato = 0; // = 1は基本的には未加工状態
+    public int cabbage = 0; // 0:未所持 1:カット 2:
+    public int tomato = 0;
     public int cucumber = 0;
     public boolean canCut = false;
-    //public boolean canHeat = false;
+    public boolean canHeat = false;
     public boolean isOnPlate = false;
     public Food(int cabbage, int tomato, int cucumber, boolean canCut){
         this.cabbage = cabbage;
