@@ -10,7 +10,7 @@ class Grid {
     public boolean isPlatePlaced = false; //そのマスにさらがおかれているか
     public boolean foodBox = false; //フードボックスだった場合にtrueになる
     public boolean plateBox = false; //皿ボックスだった場合trueになる
-    int tool = 0; //0はツールではない, 1は包丁, 2はキャベツボックス, 3は皿ボックス, 4:トマトボックス
+    public int tool = 0; //0はツールではない, 1は包丁, 2はキャベツボックス, 3は皿ボックス, 4:トマトボックス
 
     public Grid(int x, int y) {
         this.x = x;
@@ -74,6 +74,12 @@ class Food {
         }
         System.out.printf("最終的な結果として(%d,%d,%d)となりました\n", this.cabbage, this.tomato, this.cucumber);
     }
+    
+    public int[] getInfo(){ //情報を渡す関数
+        int info[] = {this.cabbage, this.tomato, this.cucumber};
+        return info;
+    }
+    
 }
 
 /*

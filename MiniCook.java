@@ -2,8 +2,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-
-
 class MiniCook extends JFrame {
     DrawModel model;
     DrawView view;
@@ -15,10 +13,10 @@ class MiniCook extends JFrame {
         cont = new DrawController(model, view);
         view.addKeyListener(cont); // キーリスナーを設定
 
-        model.setImageAtPosition(5, 5, 1);
-        model.getGrid()[5][5].food = new Food(1,0,0,true);
+        //model.setImageAtPosition(5, 5, 1);
+        //model.getGrid()[5][5].food = new Food(1,0,0,true);
 
-        model.getPlayer().move(1, 1, model.getGrid());
+        //model.getPlayer().move(1, 1, model.getGrid());
 
         this.setBackground(Color.white);
         this.setTitle("MiniCook");
@@ -32,4 +30,3 @@ class MiniCook extends JFrame {
         new MiniCook();
     }
 }
-

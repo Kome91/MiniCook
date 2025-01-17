@@ -24,20 +24,18 @@ class DrawModel extends JPanel {
             }
         }
         grid[5][5].food = new Food(1,0,0,true);  // (5,5)の位置にキャベツを配置
-        imageGrid[5][5] = 1;
+        //imageGrid[5][5] = 1;
 
         grid[5][7].food = new Food(0,1,0,true); // (5,7)の位置にトマトを配置
-        imageGrid[5][7] = 8;
+        //imageGrid[5][7] = 8;
 
         grid[7][7].foodBox = true; //(7,7)にキャベツボックスを配置
         grid[7][7].obstacle = true;
         grid[7][7].tool = 2;
-        setImageAtPosition(7,7,4);
 
         grid[9][7].foodBox = true; //(9,7)にトマトボックスを配置
         grid[9][7].obstacle = true;
         grid[9][7].tool = 4;
-        setImageAtPosition(9,7,10);
         
         player = new Player(1, 1, this, grid);
 
@@ -46,11 +44,9 @@ class DrawModel extends JPanel {
         grid[3][5].obstacle = true;
 
         grid[0][3].tool = 1;
-        setImageAtPosition(0, 3, 2);
 
         grid[0][6].plateBox = true;
         grid[0][6].tool = 3;
-        setImageAtPosition(0, 6, 6);
     }
 
     public Grid[][] getGrid() {

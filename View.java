@@ -4,6 +4,7 @@ import java.awt.event.*;
 
 class DrawView extends JPanel {
     protected DrawModel model;
+    Grid[][] grid;
     private Image Image1;
     private Image Image2;
     private Image Image3;
@@ -20,11 +21,13 @@ class DrawView extends JPanel {
     private Image ImagePlayer_left;
     private Image ImagePlayer_down;
     private Image ImagePlayer_right;
+    private Image imgCabTom;
     Player player;
     public DrawView(DrawModel m) {
         model = m;
         this.setFocusable(true);
         player = model.getPlayer();
+        grid = model.getGrid();
         //画像読み込み
         Image1=new ImageIcon("kyabetu.png").getImage();
         Image2=new ImageIcon("houtyou.png").getImage();
@@ -40,12 +43,12 @@ class DrawView extends JPanel {
         ImagePlayer_left = new ImageIcon("player_left.png").getImage();
         ImagePlayer_down = new ImageIcon("player_down.png").getImage();
         ImagePlayer_right = new ImageIcon("player_right.png").getImage();
+        imgCabTom = new ImageIcon("cabbage_and_tomato.png").getImage();
     }
 
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         int[] size = model.getFieldSize();
-        Grid[][] grid = model.getGrid();
         int[][] imageGrid = model.getImageGrid();
         int cellSize = model.getCellSize();
 
@@ -66,8 +69,20 @@ class DrawView extends JPanel {
                 }else{
                     
                 }
+
+                
                 //画像を描画
                 Image selectedImage = null;
+                
+                if(grid[i][j].food != null){ //食材の描画です
+                    int[] receivedInfo = grid[i][j].food.getInfo(); //そのマスのFood情報を受け取る;
+                    selectedImage = setFoodImage(receivedInfo);
+                    //setFoodImage(receivedInfo); //テスト用ですよ
+                }else if(grid[i][j].tool != 0){ //そのマスが何かしらのツールだった場合にツールの描画
+                    selectedImage = setToolImage(grid[i][j].tool);
+                }
+
+
                 switch (imageGrid[i][j]) {
                     case 1:
                         selectedImage = Image1; break;
@@ -157,5 +172,25 @@ class DrawView extends JPanel {
                 
             }
         }
+    }
+    private Image setFoodImage(int[] info){
+        if(info[0]==1 && info[1]==0 && info[2] == 0) return Image1; //未加工キャベツ
+        else if(info[0]==0 && info[1]==1 && info[2] == 0) return Image8; //未加工キャベツ
+        else if(info[0]==2 && info[1]==0 && info[2] == 0) return Image5; //カットキャベツ
+        else if(info[0]==0 && info[1]==1 && info[2] == 0) return Image8; //未加工キャベツ
+        else if(info[0]==0 && info[1]==1 && info[2] == 0) return Image8; //未加工キャベツ
+        else if(info[0] == 1 && info[1] ==  1){
+            return imgCabTom;
+        }
+        return Image3;
+    }
+    private Image setToolImage(int toolId){
+        switch(toolId){
+            case 1: return Image2;
+            case 2: return Image4;
+            case 3: return Image6;
+            case 4: return Image10;
+        }
+        return Image3;
     }
 }
