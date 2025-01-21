@@ -136,16 +136,20 @@ class Player {
     public void put(){
         Grid currentGrid = grid[x][y];
         Grid frontGrid = getFrontGrid();
-        if(frontGrid.isCounter){
+        if(frontGrid.isCounter == true){ //目の前がカウンターだったら
             System.out.println("目の前はカウンターです。");
         }else System.out.println("目の前はカウンターではありません。");
-        if(hasPlate == true && frontGrid.tool == 0) { //いま皿を持っていて かつ 目の前がツールマスではない
+
+         //いま皿を持っていて かつ 目の前がツールマスではない かつ 目の前がカウンターではない
+        if((hasPlate) && frontGrid.tool==0 && frontGrid.isCounter==false) {
+            System.out.println("でばっぐ");
             hasPlate = false; //皿を捨てる(置く)
-            plate = null; //プレイヤーは皿を離す
             frontGrid.isPlatePlaced =true;
-            frontGrid.plate = new Plate();
+            frontGrid.plate = plate; //プレイヤーが持っている皿をグリッドにわたす
+            plate = null; //プレイヤーは皿を離す
         }
-        /* else */if(hasPlate == true && frontGrid.isCounter) { //いま皿を持っていて かつ 目の前がカウンター
+        if(hasPlate == true && frontGrid.tool == 0 && frontGrid.isCounter == false)
+        /* else */if(hasPlate==true && frontGrid.isCounter==true) { //いま皿を持っていて かつ 目の前がカウンター
             System.out.println("カウンターに提供します。");
             hasPlate = false; //皿を捨てる(置く)
             frontGrid.plate = plate;
@@ -171,9 +175,9 @@ class Player {
                 frontGrid.food = food;  // 食材を置く
                 food = null;  // 手持ちを空にする
                 //model.setImageAtPosition(frontGrid.x, frontGrid.y, frontGrid.food.getImageId()); // 新しい位置に食材画像を設定
-                System.out.println("食材を置きました！");
+                System.out.println("皿がないマスに対して食材を置きました！");
             }
-            //こちら統合前コードになります 皿がないそもそも食材の結合をしないようにすれば良いから要らんかも Kome
+            //こちら統合前コードになります 皿がないときにそもそも食材の結合をしないようにすれば良いから要らんかも Kome
             /*
             else if(frontGrid.hasFood()==true && frontGrid.tool == 0){ //目の間に食材あり かつ 目の前がツールマスではない
                 frontGrid.food.addFood(this.food);

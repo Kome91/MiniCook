@@ -144,12 +144,12 @@ class DrawModel extends JPanel {
     public void generateOrder() {
         for (int i = 0; i < 3; i++) {
             if (orders[i] == null) {
-                System.out.println("orders[" + i + "] is null. Creating new order.");
+                System.out.println("orders[" + i + "] はnullです 新しいオーダーを生成します");
                 orders[i] = new Order("salad", i , this);
-                System.out.println("Created order: " + orders[i].orderName);
+                System.out.println("生成されたオーダー: " + orders[i].orderName);
                 break;
             } else {
-            System.out.println("orders[" + i + "] already has: " + orders[i].orderName);
+            System.out.println("orders[" + i + "] は存在しています: " + orders[i].orderName);
             }
         }
     }

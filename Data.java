@@ -162,6 +162,11 @@ class Plate {
         foods[2] = null;
     }
 
+    public boolean hasAnyFood(){ //plateになにかしら乗っているかのboolean
+        if(foods[0]==null && foods[1]==null && foods[2]==null) return false;
+        else return true;
+    }
+
     public void add(Food food) {
         for (int i = 0; i < foods.length; i++) {
             if (foods[i] == null) {
@@ -178,6 +183,8 @@ class Plate {
         else return foods[i];
     }
 
+    //これっている?
+    /*
     public int getImageByFood(Order currentOrder) {
         if (currentOrder == null) {
             System.out.println("Order が null です。");
@@ -224,6 +231,7 @@ class Plate {
             return 7; // 未完成の画像ID
         }
     }
+    */
 
     public int getImageByProgress() {
         // 食材が何かしらの状態にある場合、それに応じた画像IDを返す
@@ -348,7 +356,7 @@ class Order {
         expirationTimer.start();
     }
 
-    public boolean isCompleted(Plate plate) {
+    public boolean isCompleted(Plate plate) { //オーダー判定処理 Kome
         boolean[] matchedIngredients = new boolean[3];
         Food[] orderIngredients = {ingredient1, ingredient2, ingredient3};
     

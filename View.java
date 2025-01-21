@@ -38,7 +38,7 @@ class DrawView extends JPanel {
         Image6 = new ImageIcon("PlateBox.png").getImage();
         Image7 = new ImageIcon("Plate.png").getImage();
         Image8 = new ImageIcon("Tomato.png").getImage();
-        Image9 = new ImageIcon("CutTomato.png").getImage();
+        Image9 = new ImageIcon("cut_tomato.png").getImage();
         Image10 = new ImageIcon("TomatoBox.png").getImage();
         ImagePlayer_up = new ImageIcon("player_up.png").getImage();
         ImagePlayer_left = new ImageIcon("player_left.png").getImage();
@@ -73,17 +73,21 @@ class DrawView extends JPanel {
                 }
 
                 
-                //画像を描画
+                //食材画像を描画
                 Image selectedImage = null;
                 if(grid[i][j].plate == null && grid[i][j].food != null){ //そのマスはplateをもっていなく かつ そのマスにはしょくざいがある とき
                     //つまり皿の描画はなくFoodだけの描画の場合です。
                     selectedImage = setFoodImage2(grid[i][j].food);
-                }else if(grid[i][j].plate != null){ //食材がおいてある場合
-                    System.out.printf("食材が置いてある場合の処理です\nまだやってないです Kome\n");
+                }else if(grid[i][j].plate != null && grid[i][j].plate.hasAnyFood() == true){ //皿があって食材がおいてある場合
+                    System.out.printf("少し進めたよ Kome\n");
+                    selectedImage = setPlateImage(grid[i][j].plate);
                 }
-                if(grid[i][j].tool != 0){ //そのマスが何かしらのツールだった場合にツールの描画
+
+                //ツールマスに関しての描画
+                if(grid[i][j].tool != 0){
                     selectedImage = setToolImage(grid[i][j].tool);
                 }
+
                 //統合前コードです Kome
                 /*
                 if(grid[i][j].food != null){ //食材の描画です
@@ -133,7 +137,7 @@ class DrawView extends JPanel {
         g.drawImage(ImagePlayer,player.x * cellSize, player.y * cellSize, cellSize, cellSize, this);
 
         if(player.hasPlate == true){ //プレイヤーが皿を持っていたら
-            //皿を小さく表示
+            //皿と画像の比率を調整
             int foodSize = cellSize * 2/3;
             int offsetX = cellSize /6;
             int offsetY = cellSize /6;
@@ -142,22 +146,21 @@ class DrawView extends JPanel {
             else if(player.direction == 3) offsetY += cellSize / 2;
             else if(player.direction == 4) offsetX += cellSize / 2;
             g.drawImage(Image7, player.x * cellSize + offsetX, player.y * cellSize + offsetY , foodSize, foodSize, this);
-        }else{ //プレイヤーが皿を持っていなかったら
-            Image heldFoodImage = null;
-            if(player.getFood() != null){
-                heldFoodImage = setFoodImage2(player.getFood());
-            }
-            if (heldFoodImage != null) {
-                // 少し小さめにしてプレイヤーの上に描画
-                int foodSize = cellSize / 2;
-                int offsetX = cellSize / 4;
-                int offsetY = cellSize / 4;
-                if(player.direction == 1) offsetY -= cellSize / 2;
-                else if(player.direction == 2) offsetX -= cellSize / 2;
-                else if(player.direction == 3) offsetY += cellSize / 2;
-                else if(player.direction == 4) offsetX += cellSize / 2;
-                g.drawImage(heldFoodImage, player.x * cellSize + offsetX, player.y * cellSize + offsetY , foodSize, foodSize, this);
-            }
+        }
+        Image heldFoodImage = null;
+        if(player.getFood() != null){
+            heldFoodImage = setFoodImage2(player.getFood());
+        }
+        if (heldFoodImage != null) {
+            // 少し小さめにしてプレイヤーの上に描画
+            int foodSize = cellSize / 2;
+            int offsetX = cellSize / 4;
+            int offsetY = cellSize / 4;
+            if(player.direction == 1) offsetY -= cellSize / 2;
+            else if(player.direction == 2) offsetX -= cellSize / 2;
+            else if(player.direction == 3) offsetY += cellSize / 2;
+            else if(player.direction == 4) offsetX += cellSize / 2;
+            g.drawImage(heldFoodImage, player.x * cellSize + offsetX, player.y * cellSize + offsetY , foodSize, foodSize, this);
         }
 
         //統合前コードです。うまく結合できた気がする Kome
@@ -224,6 +227,9 @@ class DrawView extends JPanel {
             else if(foodInfo.foodStatus == 1) return Image9;
             else return imgErrorBlock;
         }
+        return imgErrorBlock;
+    }
+    private Image setPlateImage(Plate plateInfo){
         return imgErrorBlock;
     }
 }

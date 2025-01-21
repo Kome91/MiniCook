@@ -11,6 +11,7 @@ class MiniCook extends JFrame {
         //前はこっちだったんだけど
         //model = new DrawModel();
         //こっちになってるけど、これって意味が違うんかな Kome
+        System.out.printf("\n---Start---\n\n"); //見やすいように Kome
         model = DrawModel.getInstance();
         view = new DrawView(model);
         cont = new DrawController(model, view);
