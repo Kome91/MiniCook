@@ -217,11 +217,11 @@ class DrawView extends JPanel {
         // switch文にしてもいいかもね
         if(foodInfo.foodName == "Kyabetu"){
             if(foodInfo.foodStatus == 0) return Image1;
-            else if(foodInfo.foodStatus == 0) return Image5;
+            else if(foodInfo.foodStatus == 1) return Image5;
             else return imgErrorBlock;
         }else if(foodInfo.foodName == "Tomato"){
             if(foodInfo.foodStatus == 0) return Image8;
-            else if(foodInfo.foodStatus == 0) return Image9;
+            else if(foodInfo.foodStatus == 1) return Image9;
             else return imgErrorBlock;
         }
         return imgErrorBlock;
