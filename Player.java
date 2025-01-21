@@ -6,7 +6,7 @@ class Player {
     public int x; //プレイヤーのx座標
     public int y; //プレイヤーのy座標
     private Food food;
-    private Plate plate;
+    public Plate plate;
     public boolean hasPlate;
     private DrawModel model;
     public int direction; //プレイヤーの向きWASDの順で1(上),2(左),3(下),4(右)
@@ -61,7 +61,7 @@ class Player {
             System.out.println("食材を持っていません！");
             return;
         }else if(frontGrid.tool == 1 && food.canCut == true){
-            food.foodStatus = 1; //これで切ったこととなるのだ Kome
+            food.foodStatus = 2; //これで切ったこととなるのだ Kome
             //food.cut();
             System.out.printf("食材を切りました\n");
             return;
@@ -95,6 +95,8 @@ class Player {
             plate = frontGrid.plate;
             frontGrid.isPlatePlaced = false; //目の前マスから皿を回収
             frontGrid.plate = null;
+            //food = frontGrid.food;
+            //frontGrid.food = null;
         }
         else if (food == null) {  // 何も持っていない場合
             if(frontGrid.foodBox == 1){ //目の前のマスがキャベツボックスだったら
@@ -140,15 +142,21 @@ class Player {
             System.out.println("目の前はカウンターです。");
         }else System.out.println("目の前はカウンターではありません。");
 
-         //いま皿を持っていて かつ 目の前がツールマスではない かつ 目の前がカウンターではない
-        if((hasPlate) && frontGrid.tool==0 && frontGrid.isCounter==false) {
-            System.out.println("でばっぐ");
+         //皿を持っていて 目の前がツールマスではなくカウンターでもない、目の前に食材なし
+        if((hasPlate) && frontGrid.tool==0 && frontGrid.isCounter==false && frontGrid.food==null) {
             hasPlate = false; //皿を捨てる(置く)
             frontGrid.isPlatePlaced =true;
             frontGrid.plate = plate; //プレイヤーが持っている皿をグリッドにわたす
             plate = null; //プレイヤーは皿を離す
         }
-        if(hasPlate == true && frontGrid.tool == 0 && frontGrid.isCounter == false)
+        //皿を持ってて、目の前はツールマスではなくカウンターでもない、目の前に食材がある
+        if((hasPlate) && frontGrid.tool==0 && frontGrid.isCounter==false && frontGrid.food!=null){
+            plate.add(frontGrid.food); //まず最初に自分のplateにfoodを追加する。
+            frontGrid.isPlatePlaced = true;
+            frontGrid.plate = plate;
+            plate = null;
+            hasPlate = false;
+        }
         /* else */if(hasPlate==true && frontGrid.isCounter==true) { //いま皿を持っていて かつ 目の前がカウンター
             System.out.println("カウンターに提供します。");
             hasPlate = false; //皿を捨てる(置く)

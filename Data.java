@@ -111,7 +111,7 @@ abstract class Food { //継承させる前提のabstractクラス
 //Foodクラスを継承したKyabetuクラスです
 class Kyabetu extends Food{
     public Kyabetu(){
-        super(0, true, false, false, "Kyabetu");
+        super(1, true, false, false, "Kyabetu");
     }
 
     public int getFoodStatus(){ //そのフードの状態を返す
@@ -134,7 +134,7 @@ class Kyabetu extends Food{
 //Foodクラスを継承したTomatoクラスです
 class Tomato extends Food{
     public Tomato(){
-        super(0, true, false, false, "Tomato");
+        super(1, true, false, false, "Tomato");
     }
     public int getFoodStatus(){ //そのフードの状態を返す
         return foodStatus;

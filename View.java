@@ -79,7 +79,6 @@ class DrawView extends JPanel {
                     //つまり皿の描画はなくFoodだけの描画の場合です。
                     selectedImage = setFoodImage2(grid[i][j].food);
                 }else if(grid[i][j].plate != null && grid[i][j].plate.hasAnyFood() == true){ //皿があって食材がおいてある場合
-                    System.out.printf("少し進めたよ Kome\n");
                     selectedImage = setPlateImage(grid[i][j].plate);
                 }
 
@@ -148,7 +147,10 @@ class DrawView extends JPanel {
             g.drawImage(Image7, player.x * cellSize + offsetX, player.y * cellSize + offsetY , foodSize, foodSize, this);
         }
         Image heldFoodImage = null;
-        if(player.getFood() != null){
+        if(player.hasPlate == true && player.plate.hasAnyFood() == true){ //食材ありの皿を持ってたら
+            heldFoodImage = setPlateImage(player.plate);
+        }
+        else if(player.getFood() != null){ //単体の食材を持っていたら
             heldFoodImage = setFoodImage2(player.getFood());
         }
         if (heldFoodImage != null) {
@@ -219,17 +221,34 @@ class DrawView extends JPanel {
     private Image setFoodImage2(Food foodInfo){
         // switch文にしてもいいかもね
         if(foodInfo.foodName == "Kyabetu"){
-            if(foodInfo.foodStatus == 0) return Image1;
-            else if(foodInfo.foodStatus == 1) return Image5;
+            if(foodInfo.foodStatus == 1) return Image1;
+            else if(foodInfo.foodStatus == 2) return Image5;
             else return imgErrorBlock;
         }else if(foodInfo.foodName == "Tomato"){
-            if(foodInfo.foodStatus == 0) return Image8;
-            else if(foodInfo.foodStatus == 1) return Image9;
+            if(foodInfo.foodStatus == 1) return Image8;
+            else if(foodInfo.foodStatus == 2) return Image9;
             else return imgErrorBlock;
         }
         return imgErrorBlock;
     }
-    private Image setPlateImage(Plate plateInfo){
+    private Image setPlateImage(Plate targetPlate){
+        Food food[] = new Food[3];
+        int kyabetu = 0; //そのプレートにおいてそれぞれの食材がどうなっているか
+        int tomato = 0;
+        int cucumber = 0;
+        for(int i = 0; i < 3; i++){
+            food[i] = targetPlate.get(i);
+            if(food[i] == null){  break; }//これ以上の食材はないのでbreak
+            if(food[i].foodName == "Kyabetu") kyabetu = food[i].foodStatus;
+            else if(food[i].foodName == "Tomato") tomato = food[i].foodStatus;
+            //else if(food[i].foodName == "cucumber") cucumber = food[i].foodStatus;
+        }
+        //System.out.printf("(%d, %d, %d)\n", kyabetu, tomato, cucumber);
+        if(kyabetu==1 && tomato==0 && cucumber == 0) return Image1; //未加工キャベツ
+        else if(kyabetu==0 && tomato==1 && cucumber == 0) return Image8; //未加工トマト
+        else if(kyabetu==2 && tomato==0 && cucumber == 0) return Image5; //カットキャベツ
+        else if(kyabetu==0 && tomato==2 && cucumber == 0) return Image9; //未加工キャベツ
+        else if(kyabetu == 1 && tomato ==  1 && cucumber == 0) return imgCabTom;
         return imgErrorBlock;
     }
 }
