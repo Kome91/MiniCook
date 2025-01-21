@@ -6,11 +6,28 @@ class DrawController implements KeyListener {
     protected DrawModel model;
     protected DrawView view;
     protected Player player;
+    protected Timer timer;
 
     public DrawController(DrawModel m, DrawView v) {
         model = m;
         view = v;
         player = model.getPlayer(); //ここでplayerを取得しておく
+
+        System.out.println("DrawModel in Controller: " + model);
+
+        model.generateOrder();
+
+        //こんな文法あるんだね。知らんかった Kome
+        timer = new Timer(30*1000, new ActionListener() {
+            public void actionPerformed(ActionEvent e){
+                model.generateOrder();
+                view.repaint();
+                System.out.println("新しい注文が追加されました！");
+            }
+        });
+        timer.start();
+        System.out.println("Timer started: " + timer);
+
     }
 
     @Override
@@ -58,7 +75,11 @@ class DrawController implements KeyListener {
         // 再描画
         view.repaint();
     }
-
+    public void stopOrderTimer() {
+        if (timer != null) {
+            timer.stop();
+        }
+    }
     @Override
     public void keyReleased(KeyEvent e) {}
 

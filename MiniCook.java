@@ -8,7 +8,10 @@ class MiniCook extends JFrame {
     DrawController cont;
 
     public MiniCook() {
-        model = new DrawModel();
+        //前はこっちだったんだけど
+        //model = new DrawModel();
+        //こっちになってるけど、これって意味が違うんかな Kome
+        model = DrawModel.getInstance();
         view = new DrawView(model);
         cont = new DrawController(model, view);
         view.addKeyListener(cont); // キーリスナーを設定
