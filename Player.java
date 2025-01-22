@@ -29,16 +29,14 @@ class Player {
     public void move(int dx, int dy, Grid[][] grid) {
         int newX = x + dx;
         int newY = y + dy;
-        //System.out.printf("移動が試みられました\n");
         //障害物と重ならないように(障害物である場合、移動を棄却する)
         if (newX >= 0 && newX < grid.length && newY >= 0 && newY < grid[0].length) {
             if (!grid[newX][newY].wall && !grid[newX][newY].obstacle/*&& (newX != x || newY != y)*/) {
                 x = newX;
                 y = newY;
             }else{
-                System.out.printf("移動が棄却されました\n");
-                if(grid[newX][newY].wall) System.out.printf("条件1\n");
-                if(grid[newX][newY].obstacle) System.out.printf("条件2\n");
+                if(grid[newX][newY].wall) System.out.printf("wallに激突しました\n");
+                if(grid[newX][newY].obstacle) System.out.printf("obstacleに激突しました\n");
             }
         }
     }
@@ -66,25 +64,11 @@ class Player {
             System.out.printf("食材を切りました\n");
             return;
         }
-        /*
-        if (food.cooking_method == 0) {
-            food.cut();
-            System.out.println("食材を切りました！");
-        } else if (food.cooking_method == 1) {
-            food.stir_fry();
-            System.out.println("食材を炒めました！");
-        } else if (food.cooking_method == 2) {
-            food.grill();
-            System.out.println("食材を焼きました！");
-        } else {
-            System.out.println("既に調理済みです！");
-        }
-        */
     }
 
     public void pick_up() {
-        Grid currentGrid = grid[x][y];
-        Grid frontGrid = getFrontGrid();
+        Grid currentGrid = grid[x][y]; //自分の足元のグリッド
+        Grid frontGrid = getFrontGrid(); //自身の目の前のグリッド
         System.out.printf("frontGrid = (%d,%d)\n", frontGrid.x, frontGrid.y);
         if(hasPlate == false && frontGrid.tool == 3 ){ //playerは皿を持っていない かつ 目の前マスが皿ボックス
             System.out.println("皿を持ちました");
