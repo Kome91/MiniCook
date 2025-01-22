@@ -260,9 +260,9 @@ class DrawView extends JPanel {
     }
 
     // setPlateImageはこうしらどうでしょうか？
-    private Image setPlateImage2(Plate targetPlate){
+    /*private Image setPlateImage2(Plate targetPlate){
         Food food1 = targetPlate.foods[0]; 
         Food food2 = targetPlate.foods[1]; 
         Food food3 = targetPlate.foods[2]; 
-    }
+    }*/
 }
