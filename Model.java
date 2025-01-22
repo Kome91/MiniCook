@@ -172,6 +172,7 @@ class DrawModel extends JPanel {
         if(score < 0) score = 0;
 
         //これは料理が提供された瞬間の方がいいかも知れない
+        //それな てかこれ失敗したときだからtrueにならんくね　Kome
         for(int i=0; i<3; i++){
             if(orders[i].orderName == order.orderName){
                 removeOrder(i);
