@@ -92,33 +92,6 @@ class DrawModel extends JPanel {
         //player.move(dx, dy, grid, player);
         player.move(dx, dy, grid);
     }
-    // 特定の位置に障害物を設定
-    /*
-    public void setObstacleAtPosition(int x, int y) {
-        if (x >= 0 && x < xsize && y >= 0 && y < ysize) {
-            //grid[x][y].obstacle = true;
-        }
-    }
-    
-    //特定の位置に画像IDを設定
-    public void setImageAtPosition(int x, int y, int id) {
-        if (x >= 0 && x < xsize && y >= 0 && y < ysize) {
-            imageGrid[x][y] = id;
-            setObstacleAtPosition(x, y); //<-これはなくていいかもしれない
-        }
-    }
-
-    //画像ID配列を取得
-    public int[][] getImageGrid() {
-        return imageGrid;
-    }
-
-    public void deleteImageAtPosition(int x, int y){
-        if (x >= 0 && x < xsize && y >= 0 && y < ysize) {
-            imageGrid[x][y] = 0;
-        }
-    }
-    */
     public void printInfo(){
         System.out.println("<デバッグ用情報>");
         // デバッグ用
@@ -155,7 +128,7 @@ class DrawModel extends JPanel {
     }
     public Order matchOrder(Plate plate) {
         for (Order order : orders) {
-            if (order != null && plate.matchesOrder(order)) {
+            if (order != null && plate.matchesOrder(order)==true) {
                 System.out.println(order.orderName + "が完成！");
                 return order;
             }
