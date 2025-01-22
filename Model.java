@@ -49,6 +49,10 @@ class DrawModel extends JPanel {
         grid[8][7].obstacle = true;
         grid[8][7].tool = 4;
         
+        //カウンターを設置 Yoshida
+        grid[13][0].wall = false; //元々壁だったところをカウンターにしたい
+        grid[13][0].isCounter = true;
+
         player = new Player(1, 1, this, grid);
 
         grid[3][3].obstacle = true;

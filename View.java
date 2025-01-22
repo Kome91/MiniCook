@@ -15,7 +15,7 @@ class DrawView extends JPanel {
     private Image Image8;
     private Image Image9;
     private Image Image10;
-    //private Image Image11;
+    // private Image Image11;
     private Image ImagePlayer;
     private Image ImagePlayer_up;
     private Image ImagePlayer_left;
@@ -23,6 +23,7 @@ class DrawView extends JPanel {
     private Image ImagePlayer_right;
     private Image imgCabTom;
     private Image imgErrorBlock;
+    private Image imgCounter;
     Player player;
     public DrawView(DrawModel m) {
         model = m;
@@ -46,6 +47,7 @@ class DrawView extends JPanel {
         ImagePlayer_right = new ImageIcon("player_right.png").getImage();
         imgCabTom = new ImageIcon("cabbage_and_tomato.png").getImage();
         imgErrorBlock = new ImageIcon("error_image.png").getImage();
+        imgCounter = new ImageIcon("counter.png").getImage();
     }
 
     protected void paintComponent(Graphics g) {
@@ -64,6 +66,11 @@ class DrawView extends JPanel {
                     g.setColor(Color.DARK_GRAY);
                 }
                 g.fillRect(i * cellSize, j * cellSize, cellSize, cellSize);
+
+                //カウンターの画像を描画 //Yoshida
+                if(grid[i][j].isCounter == true){
+                    g.drawImage(imgCounter, i * cellSize, j * cellSize, cellSize, cellSize, this);
+                }
 
                 if(grid[i][j].isPlatePlaced == true){ //皿は食材の土台にあるべきなので、皿のみの特殊描画処理
                     System.out.println("皿の描画を試みました");
@@ -250,5 +257,12 @@ class DrawView extends JPanel {
         else if(kyabetu==0 && tomato==2 && cucumber == 0) return Image9; //未加工キャベツ
         else if(kyabetu == 1 && tomato ==  1 && cucumber == 0) return imgCabTom;
         return imgErrorBlock;
+    }
+
+    // setPlateImageはこうしらどうでしょうか？
+    private Image setPlateImage2(Plate targetPlate){
+        Food food1 = targetPlate.foods[0]; 
+        Food food2 = targetPlate.foods[1]; 
+        Food food3 = targetPlate.foods[2]; 
     }
 }
