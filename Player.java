@@ -100,23 +100,6 @@ class Player {
             }
         }
 
-        //統合前コードです Kome
-        /*
-        if (food == null) {  // 何も持っていない場合
-            if(frontGrid.foodBox == true){ //目の前のマスが食材ボックスだったら
-                if(frontGrid.tool == 2) this.food = new Food(1,0,0,true);
-                else if(frontGrid.tool == 4) this.food = new Food(0,1,0,true);
-            }
-            else if (frontGrid.hasFood()) {  // 現在のマスに食材がある場合
-                food = frontGrid.food;  // 食材を拾う
-                frontGrid.food = null;  // マスから食材を消す
-                //model.deleteImageAtPosition(frontGrid.x, frontGrid.y); // 画像を削除
-                System.out.println("食材を持ち上げました！");
-            } else {
-                System.out.println("ここには食材がありません。");
-            }
-        }
-        */
     }
 
     public void put(){
@@ -134,12 +117,13 @@ class Player {
             plate = null; //プレイヤーは皿を離す
         }
         //皿を持ってて、目の前はツールマスではなくカウンターでもない、目の前に食材がある
-        if((hasPlate) && frontGrid.tool==0 && frontGrid.isCounter==false && frontGrid.food!=null){
+        else if((hasPlate) && frontGrid.tool==0 && frontGrid.isCounter==false && frontGrid.food!=null){
             plate.add(frontGrid.food); //まず最初に自分のplateにfoodを追加する。
             frontGrid.isPlatePlaced = true;
             frontGrid.plate = plate;
             plate = null;
             hasPlate = false;
+            frontGrid.food = null;
         }
         /* else */if(hasPlate==true && frontGrid.isCounter==true) { //いま皿を持っていて かつ 目の前がカウンター
             System.out.println("カウンターに提供します。");
@@ -160,13 +144,11 @@ class Player {
                 frontGrid.plate.add(food);
                 food = null;
                 Order currentOrder = model.matchOrder(frontGrid.plate);
-                //model.setImageAtPosition(frontGrid.x, frontGrid.y, frontGrid.plate.getImageByFood(currentOrder));
                 System.out.println("皿に食材を追加しました！");
                 frontGrid.plate.printPlate();
             }else if (!frontGrid.hasFood() && frontGrid.tool == 0) {  // 現在のマスが空いている場合 かつ そのマスがツールマスではない 
                 frontGrid.food = food;  // 食材を置く
                 food = null;  // 手持ちを空にする
-                //model.setImageAtPosition(frontGrid.x, frontGrid.y, frontGrid.food.getImageId()); // 新しい位置に食材画像を設定
                 System.out.println("皿がないマスに対して食材を置きました！");
             }
             //こちら統合前コードになります 皿がないときにそもそも食材の結合をしないようにすれば良いから要らんかも Kome
@@ -180,14 +162,6 @@ class Player {
                 if(frontGrid.hasFood() == true) System.out.println("ここには既に食材があります！");
                 if(frontGrid.tool != 0) System.out.printf("ここはツールなので食材は置けません");
             }
-            //こちら統合前コードになります Kome
-            /*
-            else if(frontGrid.hasFood()==true && frontGrid.tool == 0){ //目の間に食材あり かつ 目の前がツールマスではない
-                frontGrid.food.addFood(this.food);
-                food = null; //手持ちを空にする
-                //model.setImageAtPosition(frontGrid.x, frontGrid.y, frontGrid.food.getImageId());
-            }
-            */
         }
     }
 }

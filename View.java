@@ -96,31 +96,6 @@ class DrawView extends JPanel {
                     selectedImage = setToolImage(grid[i][j].tool);
                 }
                 */
-
-                /*
-                switch (imageGrid[i][j]) {
-                    case 1:
-                        selectedImage = Image1; break;
-                    case 2:
-                        selectedImage = Image2; break;
-                    case 3:
-                        selectedImage = Image3; break;
-                    case 4:
-                        selectedImage = Image4; break;
-                    case 5:
-                        selectedImage = Image5; break;
-                    case 6:
-                        selectedImage = Image6; break;
-                    case 7:
-                        selectedImage = Image7; break;
-                    case 8:
-                        selectedImage = Image8; break;
-                    case 9:
-                        selectedImage = Image9; break;
-                    case 10:
-                        selectedImage = Image10; break;
-                }
-                */
                 if (selectedImage != null) {
                     g.drawImage(selectedImage, i * cellSize, j * cellSize, cellSize, cellSize, this);
                 }
@@ -234,8 +209,9 @@ class DrawView extends JPanel {
     private Image setPlateImage(Plate targetPlate){
         Food food[] = new Food[3];
         int kyabetu = 0; //そのプレートにおいてそれぞれの食材がどうなっているか
-        int tomato = 0;
+        int tomato = 0; //0:存在しない 1:生 2:カット
         int cucumber = 0;
+        //plateに乗っている具材情報を取得
         for(int i = 0; i < 3; i++){
             food[i] = targetPlate.get(i);
             if(food[i] == null){  break; }//これ以上の食材はないのでbreak
@@ -243,7 +219,9 @@ class DrawView extends JPanel {
             else if(food[i].foodName == "Tomato") tomato = food[i].foodStatus;
             //else if(food[i].foodName == "cucumber") cucumber = food[i].foodStatus;
         }
+
         //System.out.printf("(%d, %d, %d)\n", kyabetu, tomato, cucumber);
+        //取得した具材情報を利用してImageにセットする画像を返す。
         if(kyabetu==1 && tomato==0 && cucumber == 0) return Image1; //未加工キャベツ
         else if(kyabetu==0 && tomato==1 && cucumber == 0) return Image8; //未加工トマト
         else if(kyabetu==2 && tomato==0 && cucumber == 0) return Image5; //カットキャベツ
