@@ -172,6 +172,27 @@ class DrawView extends JPanel {
             g.drawImage(heldFoodImage, player.x * cellSize + offsetX, player.y * cellSize + offsetY , foodSize, foodSize, this);
         }
 
+        //この注文描画処理の部分で問題がある？みたいです。画面が真っ白になってしまうので他の動作確認を行う場合はコメントアウトしておいてください。
+        //注文を描画
+        Image orderImage = null;
+        for(int i=0; i<3; i++){
+            Order currentOrder = model.getOrder(i);
+            System.out.println(currentOrder.orderName +"を描画します。"); //デバッグ用
+            orderImage = setOrderImage(currentOrder);
+            System.out.println("注文の領域を描画します。"); //デバッグ用
+            if(orderImage != null){
+                g.setColor(Color.BLUE);
+                g.fillRect(i*3*cellSize, 9 * cellSize, 3*(cellSize-2), 60);
+                System.out.println("青い領域を描画しました。"); //デバッグ用
+                g.drawImage(orderImage, i*2*cellSize, 9*cellSize, cellSize-2, cellSize-2, this);
+                System.out.println(currentOrder.orderName +"の画像を貼りました。"); //デバッグ用
+                for(int j=0; j<3; j++){
+                    g.fillRect((i*3*cellSize)+j*cellSize, 10 * (cellSize)+2, (cellSize-6), 50);
+                    System.out.println("食材の領域を描画しました。"); //デバッグ用
+                }
+            }
+        }
+
         //統合前コードです。うまく結合できた気がする Kome
         /*
         // プレイヤーが食材を持っている場合、プレイヤーの上に食材の画像を重ねて描画
@@ -254,15 +275,17 @@ class DrawView extends JPanel {
         if(kyabetu==1 && tomato==0 && cucumber == 0) return Image1; //未加工キャベツ
         else if(kyabetu==0 && tomato==1 && cucumber == 0) return Image8; //未加工トマト
         else if(kyabetu==2 && tomato==0 && cucumber == 0) return Image5; //カットキャベツ
-        else if(kyabetu==0 && tomato==2 && cucumber == 0) return Image9; //未加工キャベツ
-        else if(kyabetu == 1 && tomato ==  1 && cucumber == 0) return imgCabTom;
+        else if(kyabetu==0 && tomato==2 && cucumber == 0) return Image9; //カットキャベツ
+        else if(kyabetu == 2 && tomato == 2 && cucumber == 0) return imgCabTom; //キャベツ & トマト
         return imgErrorBlock;
     }
 
-    // setPlateImageはこうしらどうでしょうか？
-    /*private Image setPlateImage2(Plate targetPlate){
-        Food food1 = targetPlate.foods[0]; 
-        Food food2 = targetPlate.foods[1]; 
-        Food food3 = targetPlate.foods[2]; 
-    }*/
+    private Image setOrderImage(Order order){
+        System.out.println(order.orderName +"の画像を取得します。"); //デバッグ用
+        if("salad".equals(order.orderName)){
+            System.out.println(order.orderName +"の画像を取得しました。"); //デバッグ用
+            return imgCabTom;
+        } 
+        else return null;
+    }
 }

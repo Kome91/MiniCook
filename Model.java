@@ -166,21 +166,9 @@ class DrawModel extends JPanel {
         }
         return null;
     }
-    public String[] getOrders() {
-        String[] orderDescriptions = new String[3];
-        for (int i = 0; i < 3; i++) {
-            if (orders[i] != null) {
-                orderDescriptions[i] = "Order " + (i + 1) + ": " + orders[i].orderName; // 料理名を表示
-            } else {
-                orderDescriptions[i] = "Order " + (i + 1) + ": (empty)"; // 注文がない場合
-            }
-        }
-        /*// デバッグ用に追加
-        for (String desc : orderDescriptions) {
-            System.out.println(desc);
-        }*/
-
-        return orderDescriptions;
+    public Order getOrder(int index) {
+        if(index < orders.length || index >= 0)return orders[index];
+        else return null;
     }
     public void scoreUp(Order order){
         switch(order.orderName){

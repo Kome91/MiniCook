@@ -32,7 +32,7 @@ class Player {
         //System.out.printf("移動が試みられました\n");
         //障害物と重ならないように(障害物である場合、移動を棄却する)
         if (newX >= 0 && newX < grid.length && newY >= 0 && newY < grid[0].length) {
-            if (!grid[newX][newY].wall && !grid[newX][newY].obstacle/*&& (newX != x || newY != y)*/) {
+            if (!grid[newX][newY].wall && !grid[newX][newY].obstacle && !grid[newX][newY].isCounter/*&& (newX != x || newY != y)*/) {
                 x = newX;
                 y = newY;
             }else{
@@ -187,6 +187,7 @@ class Player {
                 frontGrid.plate.add(food);
                 food = null;
                 Order currentOrder = model.matchOrder(frontGrid.plate);
+                
                 //model.setImageAtPosition(frontGrid.x, frontGrid.y, frontGrid.plate.getImageByFood(currentOrder));
                 System.out.println("皿に食材を追加しました！");
                 frontGrid.plate.printPlate();

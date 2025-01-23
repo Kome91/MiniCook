@@ -260,9 +260,9 @@ class Plate {
         for(int i=0; i<3; i++){
             if(foods[i] != null) {
                 switch(foods[i].foodStatus){
-                    case 0: state = "raw"; break;
-                    case 1: state = "cut"; break;
-                    case 2: state = "grilled"; break;
+                    case 1: state = "raw"; break;
+                    case 2: state = "cut"; break;
+                    case 3: state = "grilled"; break;
                 }
                 System.out.print(foods[i].foodName+"("+ state + ")" + "　");
             }
@@ -334,11 +334,11 @@ class Order {
             this.timeLimit = 45;
 
             this.ingredient1 = new Kyabetu();
-            this.ingredient1.foodStatus = 1;
+            this.ingredient1.foodStatus = 2;
             this.ingredient1.isOnPlate = true;
 
             this.ingredient2 = new Tomato();
-            this.ingredient2.foodStatus = 1;
+            this.ingredient2.foodStatus = 2;
             this.ingredient2.isOnPlate = true;
 
             this.ingredient3 = null;
