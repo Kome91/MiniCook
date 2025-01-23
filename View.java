@@ -177,10 +177,10 @@ class DrawView extends JPanel {
         Image orderImage = null;
         for(int i=0; i<3; i++){
             Order currentOrder = model.getOrder(i);
-            System.out.println(currentOrder.orderName +"を描画します。"); //デバッグ用
-            orderImage = setOrderImage(currentOrder);
-            System.out.println("注文の領域を描画します。"); //デバッグ用
             if(orderImage != null){
+                System.out.println(currentOrder.orderName +"を描画します。"); //デバッグ用
+                orderImage = setOrderImage(currentOrder);
+                System.out.println("注文の領域を描画します。"); //デバッグ用
                 g.setColor(Color.BLUE);
                 g.fillRect(i*3*cellSize, 9 * cellSize, 3*(cellSize-2), 60);
                 System.out.println("青い領域を描画しました。"); //デバッグ用
