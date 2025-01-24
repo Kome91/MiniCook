@@ -11,11 +11,11 @@ class DrawModel extends JPanel {
     private Food food;
     //private int[][] imageGrid; // 各マスの画像IDを管理する2次元配列
     public int score;
-    private static DrawModel instance;
+    //private static DrawModel instance;
     private Order[] orders; //orderを入れる配列
 
     public DrawModel() {
-        System.out.println("DrawModel instance: " + this);
+        //System.out.println("DrawModel instance: " + this);
         orders = new Order[3];
         orders[0] = null;
         orders[1] = null;
@@ -32,20 +32,14 @@ class DrawModel extends JPanel {
             }
         }
         grid[5][5].food = new Kyabetu();  // (5,5)の位置に食材を配置 Yoshida
-        //grid[5][5].food = new Food(1,0,0,true);  // (5,5)の位置にキャベツを配置 Kome
-        //imageGrid[5][5] = 1;
 
         grid[5][7].food = new Tomato(); // (5,7)の位置にトマトを配置 Yoshida
-        //grid[5][7].food = new Food(0,1,0,true); // (5,7)の位置にトマトを配置 Kome
-        //imageGrid[5][7] = 8;
 
         grid[7][7].foodBox = 1; //(7,7)にキャベツボックスを配置 Yoshida
-        //grid[7][7].foodBox = true; //(7,7)にキャベツボックスを配置 Kome
         grid[7][7].obstacle = true;
         grid[7][7].tool = 2;
 
         grid[8][7].foodBox = 2; //(8,7)にトマトボックスを配置 Yoshida
-        //grid[8][7].foodBox = true; //(8,7)にトマトボックスを配置 Kome
         grid[8][7].obstacle = true;
         grid[8][7].tool = 4;
         
@@ -65,12 +59,14 @@ class DrawModel extends JPanel {
         grid[0][6].tool = 3;
     }
 
+    /*
     public static DrawModel getInstance() { //現在使い方がわかっておりません Kome
         if (instance == null) {
             instance = new DrawModel();
         }
         return instance;
     }
+    */
 
     public Grid[][] getGrid() {
         return grid;
@@ -93,7 +89,6 @@ class DrawModel extends JPanel {
     }
 
     public void movePlayer(int dx, int dy) {
-        //player.move(dx, dy, grid, player);
         player.move(dx, dy, grid);
     }
     public void printInfo(){
@@ -147,7 +142,7 @@ class DrawModel extends JPanel {
         switch(order.orderName){
             case "salad" : score += 30;
         }
-
+        System.out.println("scoreUp()が呼ばれました");
         //これは料理が提供された瞬間の方がいいかも知れない
         for(int i=0; i<3; i++){
             if(orders[i].orderName == order.orderName){

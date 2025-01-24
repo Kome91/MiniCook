@@ -10,7 +10,6 @@ class MiniCook extends JFrame {
     public MiniCook() {
         System.out.printf("\n---Start---\n\n"); //見やすいように Kome
         model = new DrawModel();
-        //model = DrawModel.getInstance();
         view = new DrawView(model);
         cont = new DrawController(model, view);
         view.addKeyListener(cont); // キーリスナーを設定

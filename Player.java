@@ -106,11 +106,6 @@ class Player {
         Grid currentGrid = grid[x][y];
         Grid frontGrid = getFrontGrid();
         
-        //デバッグ用
-        /*if(frontGrid.isCounter == true){ //目の前がカウンターだったら
-            System.out.println("目の前はカウンターです。");
-        }else System.out.println("目の前はカウンターではありません。");*/
-
          //皿を持っていて 目の前がツールマスではなくカウンターでもない、目の前に食材なし
         if((hasPlate) && frontGrid.tool==0 && frontGrid.isCounter==false && frontGrid.food==null) {
             hasPlate = false; //皿を捨てる(置く)

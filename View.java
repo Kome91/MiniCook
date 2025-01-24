@@ -58,7 +58,6 @@ class DrawView extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         int[] size = model.getFieldSize();
-        //int[][] imageGrid = model.getImageGrid();
         int cellSize = model.getCellSize();
 
         for (int i = 0; i < size[0]; i++) {
