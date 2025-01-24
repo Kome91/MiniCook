@@ -1,5 +1,5 @@
 MiniCookのリポジトリです。  
-Yoshidaブランチです  
+Komeブランチです
 
 25/01/17 20:01  
 　cut()メソッドに関して、food.canCut==trueなのを確認してから  
