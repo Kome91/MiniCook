@@ -10,7 +10,7 @@ class DrawModel extends JPanel {
     private Player player;
     private Food food;
     //private int[][] imageGrid; // 各マスの画像IDを管理する2次元配列
-    private int score;
+    public int score;
     private static DrawModel instance;
     private Order[] orders; //orderを入れる配列
 

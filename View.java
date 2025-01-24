@@ -24,6 +24,11 @@ class DrawView extends JPanel {
     private Image imgCabTom;
     private Image imgErrorBlock;
     Player player;
+    int headerBlank = 150;
+    int fotterBlank = 300;
+    private String text = "sample_text";
+    private Font textFont = new Font("Arial", Font.BOLD, 24);
+    private Color textColor = Color.RED;
     public DrawView(DrawModel m) {
         model = m;
         this.setFocusable(true);
@@ -63,11 +68,11 @@ class DrawView extends JPanel {
                 } else {
                     g.setColor(Color.DARK_GRAY);
                 }
-                g.fillRect(i * cellSize, j * cellSize, cellSize, cellSize);
+                g.fillRect(i * cellSize, j * cellSize  + headerBlank, cellSize, cellSize);
 
                 if(grid[i][j].isPlatePlaced == true){ //皿は食材の土台にあるべきなので、皿のみの特殊描画処理
                     System.out.println("皿の描画を試みました");
-                    g.drawImage(Image7, i * cellSize, j * cellSize, cellSize, cellSize, this);
+                    g.drawImage(Image7, i * cellSize, j * cellSize + headerBlank, cellSize, cellSize, this);
                 }else{
                     
                 }
@@ -97,7 +102,7 @@ class DrawView extends JPanel {
                 }
                 */
                 if (selectedImage != null) {
-                    g.drawImage(selectedImage, i * cellSize, j * cellSize, cellSize, cellSize, this);
+                    g.drawImage(selectedImage, i * cellSize, j * cellSize + headerBlank, cellSize, cellSize, this);
                 }
             }
         }
@@ -108,7 +113,7 @@ class DrawView extends JPanel {
             case 3: ImagePlayer = ImagePlayer_down; break;
             case 4: ImagePlayer = ImagePlayer_right; break;
         }
-        g.drawImage(ImagePlayer,player.x * cellSize, player.y * cellSize, cellSize, cellSize, this);
+        g.drawImage(ImagePlayer,player.x * cellSize, player.y * cellSize + headerBlank, cellSize, cellSize, this);
 
         if(player.hasPlate == true){ //プレイヤーが皿を持っていたら
             //皿と画像の比率を調整
@@ -119,7 +124,7 @@ class DrawView extends JPanel {
             else if(player.direction == 2) offsetX -= cellSize / 2;
             else if(player.direction == 3) offsetY += cellSize / 2;
             else if(player.direction == 4) offsetX += cellSize / 2;
-            g.drawImage(Image7, player.x * cellSize + offsetX, player.y * cellSize + offsetY , foodSize, foodSize, this);
+            g.drawImage(Image7, player.x * cellSize + offsetX, player.y * cellSize + offsetY  + headerBlank, foodSize, foodSize, this);
         }
         Image heldFoodImage = null;
         if(player.hasPlate == true && player.plate.hasAnyFood() == true){ //食材ありの皿を持ってたら
@@ -137,7 +142,16 @@ class DrawView extends JPanel {
             else if(player.direction == 2) offsetX -= cellSize / 2;
             else if(player.direction == 3) offsetY += cellSize / 2;
             else if(player.direction == 4) offsetX += cellSize / 2;
-            g.drawImage(heldFoodImage, player.x * cellSize + offsetX, player.y * cellSize + offsetY , foodSize, foodSize, this);
+            g.drawImage(heldFoodImage, player.x * cellSize + offsetX, player.y * cellSize + offsetY + headerBlank, foodSize, foodSize, this);
+        }
+
+        //UIの描画
+
+        if (true) {
+            Graphics2D g2d = (Graphics2D) g;
+            g2d.setFont(textFont);
+            g2d.setColor(textColor);
+            g2d.drawString("score : "+Integer.toString(model.score), 850, 750);
         }
 
         //統合前コードです。うまく結合できた気がする Kome
