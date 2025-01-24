@@ -74,7 +74,7 @@ class DrawView extends JPanel {
 
                 //カウンターの画像を描画 //Yoshida
                 if(grid[i][j].isCounter == true){
-                    g.drawImage(imgCounter, i * cellSize, j * cellSize, cellSize, cellSize, this);
+                    g.drawImage(imgCounter, i * cellSize, j * cellSize + headerBlank, cellSize, cellSize, this);
                 }
 
                 if(grid[i][j].isPlatePlaced == true){ //皿は食材の土台にあるべきなので、皿のみの特殊描画処理
@@ -99,15 +99,6 @@ class DrawView extends JPanel {
                     selectedImage = setToolImage(grid[i][j].tool);
                 }
 
-                //統合前コードです Kome
-                /*
-                if(grid[i][j].food != null){ //食材の描画です
-                    int[] receivedInfo = grid[i][j].food.getInfo(); //そのマスのFood情報を受け取る;
-                    selectedImage = setFoodImage(receivedInfo);
-                }else if(grid[i][j].tool != 0){ //そのマスが何かしらのツールだった場合にツールの描画
-                    selectedImage = setToolImage(grid[i][j].tool);
-                }
-                */
                 if (selectedImage != null) {
                     g.drawImage(selectedImage, i * cellSize, j * cellSize + headerBlank, cellSize, cellSize, this);
                 }
@@ -161,7 +152,6 @@ class DrawView extends JPanel {
             g2d.drawString("score : "+Integer.toString(model.score), 850, 750);
         }
 
-        //この注文描画処理の部分で問題がある？みたいです。画面が真っ白になってしまうので他の動作確認を行う場合はコメントアウトしておいてください。
         //注文を描画
         Image orderImage = null;
         for(int i=0; i<3; i++){
@@ -169,47 +159,14 @@ class DrawView extends JPanel {
             if(currentOrder != null){
                 orderImage = setOrderImage(currentOrder);
                 g.setColor(Color.BLUE);
-                g.fillRect(i*3*cellSize, 9 * cellSize, 3*(cellSize-2), 60);
-                g.drawImage(orderImage, cellSize + i*3*cellSize, 9*cellSize, cellSize-2, cellSize-2, this);
+                g.fillRect(i*3*cellSize, 9 * cellSize + headerBlank, 3*(cellSize-2), 60);
+                g.drawImage(orderImage, cellSize + i*3*cellSize, 9*cellSize + headerBlank, cellSize-2, cellSize-2, this);
                 for(int j=0; j<3; j++){
-                    g.fillRect((i*3*cellSize)+j*cellSize, 10 * (cellSize)+2, (cellSize-6), 50);
+                    g.fillRect((i*3*cellSize)+j*cellSize, 10 * (cellSize)+2 + headerBlank, (cellSize-6), 50);
                 }
                 //int limitationTime = currentOrder;
             }
         }
-
-        //統合前コードです。うまく結合できた気がする Kome
-        /*
-        // プレイヤーが食材を持っている場合、プレイヤーの上に食材の画像を重ねて描画
-        if (player.getFood() != null) {
-            Image heldFoodImage = null;
-            switch (player.getFood().cabbage) { //食材の状況によって画像の分岐をする
-                case 1:
-                    heldFoodImage = Image1; // 未調理の食材
-                    break;
-                case 2:
-                    heldFoodImage = Image5; // 切った状態の食材
-                    break;
-            }
-            switch (player.getFood().tomato) {
-                case 1: heldFoodImage = Image8; break;
-                case 2: heldFoodImage = Image9; break;
-            }
-
-            if (heldFoodImage != null) {
-                // 少し小さめにしてプレイヤーの上に描画
-                int foodSize = cellSize / 2;
-                int offsetX = cellSize / 4;
-                int offsetY = cellSize / 4;
-                if(player.direction == 1) offsetY -= cellSize / 2;
-                else if(player.direction == 2) offsetX -= cellSize / 2;
-                else if(player.direction == 3) offsetY += cellSize / 2;
-                else if(player.direction == 4) offsetX += cellSize / 2;
-                g.drawImage(heldFoodImage, player.x * cellSize + offsetX, player.y * cellSize + offsetY , foodSize, foodSize, this);
-                
-            }
-        }
-        */
     }
     private Image setFoodImage(int[] info){
         if(info[0]==1 && info[1]==0 && info[2] == 0) return Image1; //未加工キャベツ
@@ -258,7 +215,6 @@ class DrawView extends JPanel {
             //else if(food[i].foodName == "cucumber") cucumber = food[i].foodStatus;
         }
 
-        //System.out.printf("(%d, %d, %d)\n", kyabetu, tomato, cucumber);
         //取得した具材情報を利用してImageにセットする画像を返す。
         if(kyabetu==1 && tomato==0 && cucumber == 0) return Image1; //未加工キャベツ
         else if(kyabetu==0 && tomato==1 && cucumber == 0) return Image8; //未加工トマト
