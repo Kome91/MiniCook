@@ -31,7 +31,7 @@ class Player {
         int newY = y + dy;
         //障害物と重ならないように(障害物である場合、移動を棄却する)
         if (newX >= 0 && newX < grid.length && newY >= 0 && newY < grid[0].length) {
-            if (!grid[newX][newY].wall && !grid[newX][newY].obstacle/*&& (newX != x || newY != y)*/) {
+            if (!grid[newX][newY].wall && !grid[newX][newY].obstacle && !grid[newX][newY].isCounter/*&& (newX != x || newY != y)*/) {
                 x = newX;
                 y = newY;
             }else{
@@ -105,9 +105,11 @@ class Player {
     public void put(){
         Grid currentGrid = grid[x][y];
         Grid frontGrid = getFrontGrid();
-        if(frontGrid.isCounter == true){ //目の前がカウンターだったら
+        
+        //デバッグ用
+        /*if(frontGrid.isCounter == true){ //目の前がカウンターだったら
             System.out.println("目の前はカウンターです。");
-        }else System.out.println("目の前はカウンターではありません。");
+        }else System.out.println("目の前はカウンターではありません。");*/
 
          //皿を持っていて 目の前がツールマスではなくカウンターでもない、目の前に食材なし
         if((hasPlate) && frontGrid.tool==0 && frontGrid.isCounter==false && frontGrid.food==null) {
@@ -132,6 +134,15 @@ class Player {
             plate = null;
             frontGrid.isPlatePlaced =true;
             Order currentOrder = model.matchOrder(frontGrid.plate);
+            if(currentOrder == null){// 料理が未完成の場合
+                System.out.println("提供できません。");
+                //提供できないから、皿が自分の手に返却される
+                hasPlate = true;
+                plate = frontGrid.plate;
+                frontGrid.plate = null;
+                frontGrid.isPlatePlaced = false;
+                return;
+            }
             System.out.println(currentOrder.orderName + "が提供されました！");
             if(currentOrder.isCompleted(frontGrid.plate) == true){
                 model.scoreUp(currentOrder);

@@ -15,7 +15,7 @@ class DrawView extends JPanel {
     private Image Image8;
     private Image Image9;
     private Image Image10;
-    //private Image Image11;
+    // private Image Image11;
     private Image ImagePlayer;
     private Image ImagePlayer_up;
     private Image ImagePlayer_left;
@@ -23,6 +23,7 @@ class DrawView extends JPanel {
     private Image ImagePlayer_right;
     private Image imgCabTom;
     private Image imgErrorBlock;
+    private Image imgCounter;
     Player player;
     int headerBlank = 150;
     int fotterBlank = 300;
@@ -51,6 +52,7 @@ class DrawView extends JPanel {
         ImagePlayer_right = new ImageIcon("player_right.png").getImage();
         imgCabTom = new ImageIcon("cabbage_and_tomato.png").getImage();
         imgErrorBlock = new ImageIcon("error_image.png").getImage();
+        imgCounter = new ImageIcon("counter.png").getImage();
     }
 
     protected void paintComponent(Graphics g) {
@@ -69,6 +71,11 @@ class DrawView extends JPanel {
                     g.setColor(Color.DARK_GRAY);
                 }
                 g.fillRect(i * cellSize, j * cellSize  + headerBlank, cellSize, cellSize);
+
+                //カウンターの画像を描画 //Yoshida
+                if(grid[i][j].isCounter == true){
+                    g.drawImage(imgCounter, i * cellSize, j * cellSize, cellSize, cellSize, this);
+                }
 
                 if(grid[i][j].isPlatePlaced == true){ //皿は食材の土台にあるべきなので、皿のみの特殊描画処理
                     System.out.println("皿の描画を試みました");
@@ -152,6 +159,23 @@ class DrawView extends JPanel {
             g2d.setFont(textFont);
             g2d.setColor(textColor);
             g2d.drawString("score : "+Integer.toString(model.score), 850, 750);
+        }
+
+        //この注文描画処理の部分で問題がある？みたいです。画面が真っ白になってしまうので他の動作確認を行う場合はコメントアウトしておいてください。
+        //注文を描画
+        Image orderImage = null;
+        for(int i=0; i<3; i++){
+            Order currentOrder = model.getOrder(i);
+            if(currentOrder != null){
+                orderImage = setOrderImage(currentOrder);
+                g.setColor(Color.BLUE);
+                g.fillRect(i*3*cellSize, 9 * cellSize, 3*(cellSize-2), 60);
+                g.drawImage(orderImage, cellSize + i*3*cellSize, 9*cellSize, cellSize-2, cellSize-2, this);
+                for(int j=0; j<3; j++){
+                    g.fillRect((i*3*cellSize)+j*cellSize, 10 * (cellSize)+2, (cellSize-6), 50);
+                }
+                //int limitationTime = currentOrder;
+            }
         }
 
         //統合前コードです。うまく結合できた気がする Kome
@@ -239,8 +263,17 @@ class DrawView extends JPanel {
         if(kyabetu==1 && tomato==0 && cucumber == 0) return Image1; //未加工キャベツ
         else if(kyabetu==0 && tomato==1 && cucumber == 0) return Image8; //未加工トマト
         else if(kyabetu==2 && tomato==0 && cucumber == 0) return Image5; //カットキャベツ
-        else if(kyabetu==0 && tomato==2 && cucumber == 0) return Image9; //未加工キャベツ
-        else if(kyabetu == 1 && tomato ==  1 && cucumber == 0) return imgCabTom;
+        else if(kyabetu==0 && tomato==2 && cucumber == 0) return Image9; //カットキャベツ
+        else if(kyabetu == 2 && tomato == 2 && cucumber == 0) return imgCabTom; //キャベツ & トマト
         return imgErrorBlock;
+    }
+
+    private Image setOrderImage(Order order){
+        System.out.println(order.orderName +"の画像を取得します。"); //デバッグ用
+        if("salad".equals(order.orderName)){
+            System.out.println(order.orderName +"の画像を取得しました。"); //デバッグ用
+            return imgCabTom;
+        } 
+        else return null;
     }
 }
