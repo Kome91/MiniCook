@@ -158,6 +158,7 @@ class Player {
             frontGrid.plate = plate;
             plate = null;
             hasPlate = false;
+            frontGrid.food = null;
         }
         /* else */if(hasPlate==true && frontGrid.isCounter==true) { //いま皿を持っていて かつ 目の前がカウンター
             System.out.println("カウンターに提供します。");

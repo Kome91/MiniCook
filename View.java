@@ -177,19 +177,15 @@ class DrawView extends JPanel {
         Image orderImage = null;
         for(int i=0; i<3; i++){
             Order currentOrder = model.getOrder(i);
-            if(orderImage != null){
-                System.out.println(currentOrder.orderName +"を描画します。"); //デバッグ用
+            if(currentOrder != null){
                 orderImage = setOrderImage(currentOrder);
-                System.out.println("注文の領域を描画します。"); //デバッグ用
                 g.setColor(Color.BLUE);
                 g.fillRect(i*3*cellSize, 9 * cellSize, 3*(cellSize-2), 60);
-                System.out.println("青い領域を描画しました。"); //デバッグ用
-                g.drawImage(orderImage, i*2*cellSize, 9*cellSize, cellSize-2, cellSize-2, this);
-                System.out.println(currentOrder.orderName +"の画像を貼りました。"); //デバッグ用
+                g.drawImage(orderImage, cellSize + i*3*cellSize, 9*cellSize, cellSize-2, cellSize-2, this);
                 for(int j=0; j<3; j++){
                     g.fillRect((i*3*cellSize)+j*cellSize, 10 * (cellSize)+2, (cellSize-6), 50);
-                    System.out.println("食材の領域を描画しました。"); //デバッグ用
                 }
+                //int limitationTime = currentOrder;
             }
         }
 
