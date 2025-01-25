@@ -10,85 +10,15 @@ class Grid {
     Plate plate = null; //各グリッドはPlateという食材をいくつか持つクラスを持つ
     public boolean isPlatePlaced = false; //そのマスにさらがおかれているか
     public int foodBox = 0; //フードボックスがキャベツなら1、トマトなら2...みたいな感じ(ボックスが無ければ0) Yoshida
-    //public boolean foodBox = false; //フードボックスだった場合にtrueになる Kome
     public boolean plateBox = false; //皿ボックスだった場合trueになる
     public int tool = 0; //0はツールではない, 1は包丁, 2はキャベツボックス, 3は皿ボックス, 4:トマトボックス
     boolean isCounter; //そのマスがカウンターではないか
 
-    public Grid(int x, int y) {
-        this.x = x;
-        this.y = y;
-    }
+    public Grid(int x, int y) { this.x = x; this.y = y; }
 
-    public boolean hasFood(){
-        return food != null;
-    }
+    public boolean hasFood() { return food != null; }
 }
-//このクラスは一括で食材を管理しようとしたものです
-/*class Food {
-    public int cabbage = 0; // 0:未所持 1:カット 2:
-    public int tomato = 0;
-    public int cucumber = 0;
-    public boolean canCut = false;
-    public boolean canHeat = false;
-    public boolean isOnPlate = false;
-    public Food(int cabbage, int tomato, int cucumber, boolean canCut){
-        this.cabbage = cabbage;
-        this.tomato = tomato;
-        this.cucumber = cucumber;
-        this.canCut = canCut;
-    }
-    public void cut(){
-        if(cabbage == 1 && tomato == 0 && cucumber == 0) cabbage = 2;
-        else if(cabbage == 0 && tomato == 1 && cucumber == 0) tomato = 2;
-        else if(cabbage == 0 && tomato == 0 && cucumber == 1) cucumber = 2;
-    }
-    public int getImageId(){ //ステータスから適切な画像idをさくせいする
-        System.out.println("この関数はもう呼ばれないはずです");
-        if(cabbage==0 && tomato==0 && cucumber==0){
-            System.out.println("エラーです。このような状態にはなりません");
-            return 0;
-        }else if(cabbage==1 && tomato==0 && cucumber==0){
-            System.out.println("未加工キャベツのImgIdが取得されました");
-            return 1;
-        }else if(cabbage==2 && tomato==0 && cucumber==0){
-            System.out.println("カットキャベツのImgIdが取得されました");
-            return 5;
-        }else if(cabbage==0 && tomato==1 && cucumber==0){
-            System.out.println("未加工トマトのImgIdが取得されました");
-            return 8;
-        }else if(cabbage==1 && tomato==1 && cucumber==0){
-            System.out.println("未加工トマト+未加工キャベツのImgIdが取得されました");
-            return 0;
-        }else{
-            System.err.println("回答になりえない状態になっています");
-            return 0;
-        }
-    }
-    public void addFood(Food plusFood){ //食材に対して食材を置こうとしたときの処理
-        System.out.printf("受け取ったフードの内容は(%d,%d,%d)です\n", plusFood.cabbage, plusFood.tomato, plusFood.cucumber);
-        if(this.cabbage==0 || plusFood.cabbage==0){
-            System.out.printf("キャベツの結合を行います\n");
-            this.cabbage = this.cabbage + plusFood.cabbage;
-        }
-        if(this.tomato==0 || plusFood.tomato==0){
-            System.out.printf("トマトの結合を行います\n");
-            this.tomato = this.tomato + plusFood.tomato;
-        }
-        if(this.cucumber==0 || plusFood.cucumber==0){
-            System.out.printf("きゅうりの結合を行います\n");
-            this.cucumber = this.cucumber + plusFood.cucumber;
-        }
-        System.out.printf("最終的な結果として(%d,%d,%d)となりました\n", this.cabbage, this.tomato, this.cucumber);
-    }
-    
-    public int[] getInfo(){ //情報を渡す関数
-        int info[] = {this.cabbage, this.tomato, this.cucumber};
-        return info;
-    }
-    
-}
-*/
+
 abstract class Food { //継承させる前提のabstractクラス
     public int foodStatus; //食材のステータスの変数、何もしてなければ0になる カットしてたら1
     public boolean canCut; //その食材がカット可能ならtrue
@@ -117,18 +47,6 @@ class Kyabetu extends Food{
     public int getFoodStatus(){ //そのフードの状態を返す
         return foodStatus;
     }
-
-    //画像をid管理式から別のものに変更したため、不必要になりました。
-    /*
-    public int getImageIdFromStatus(){
-        if(foodStatus == 0) return 1;
-        else if(foodStatus == 1) return 5;
-        else{
-            System.out.println("エラーです");
-            return 0;
-        }
-    }
-    */
 }
 
 //Foodクラスを継承したTomatoクラスです
@@ -139,18 +57,6 @@ class Tomato extends Food{
     public int getFoodStatus(){ //そのフードの状態を返す
         return foodStatus;
     }
-
-    //画像をid管理式から別のものに変更したため、不必要になりました。
-    /*
-    public int getImageIdFromStatus(){
-        if(foodStatus == 0) return 8;
-        else if(foodStatus == 1) return 9;
-        else{
-            System.out.println("エラーです");
-            return 0;
-        }
-    }
-    */
 }
 
 class Plate {
@@ -233,27 +139,6 @@ class Plate {
     }
     */
 
-    public int getImageByProgress() {
-        // 食材が何かしらの状態にある場合、それに応じた画像IDを返す
-        int progress = 0;  // 進行状態を示すための変数
-    
-        // 料理の状態に応じて進行状況を設定
-        if (foods[0] != null && foods[0].foodStatus == 1) progress++; // 例えば、最初の食材が切られている
-        if (foods[1] != null && foods[1].foodStatus == 1) progress++; // 2番目の食材も切られているかどうか
-        if (foods[2] != null && foods[2].foodStatus == 1) progress++; // 3番目の食材も切られているかどうか
-    
-        // 料理の途中経過によって画像IDを返す
-        if (progress == 3) {
-            return 10;  // すべての食材が揃って完成
-        } else if (progress == 2) {
-            return 9;  // 2つの食材が準備完了
-        } else if (progress == 1) {
-            return 8;  // 1つの食材が準備完了
-        } else {
-            return 7;  // 何も準備ができていない状態
-        }
-    }
-    
     public void printPlate(){
         String state = "";
         System.out.print("現在、皿の上には：");
@@ -308,7 +193,6 @@ class Plate {
         System.out.println("料理は完成しています。");
         return true;
     }
-
 
 }
 

@@ -25,6 +25,11 @@ class DrawView extends JPanel {
     private Image imgErrorBlock;
     private Image imgCounter;
     Player player;
+    int headerBlank = 150;
+    int fotterBlank = 300;
+    private String text = "sample_text";
+    private Font textFont = new Font("Arial", Font.BOLD, 24);
+    private Color textColor = Color.RED;
     public DrawView(DrawModel m) {
         model = m;
         this.setFocusable(true);
@@ -53,7 +58,6 @@ class DrawView extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         int[] size = model.getFieldSize();
-        //int[][] imageGrid = model.getImageGrid();
         int cellSize = model.getCellSize();
 
         for (int i = 0; i < size[0]; i++) {
@@ -65,16 +69,16 @@ class DrawView extends JPanel {
                 } else {
                     g.setColor(Color.DARK_GRAY);
                 }
-                g.fillRect(i * cellSize, j * cellSize, cellSize, cellSize);
+                g.fillRect(i * cellSize, j * cellSize  + headerBlank, cellSize, cellSize);
 
                 //カウンターの画像を描画 //Yoshida
                 if(grid[i][j].isCounter == true){
-                    g.drawImage(imgCounter, i * cellSize, j * cellSize, cellSize, cellSize, this);
+                    g.drawImage(imgCounter, i * cellSize, j * cellSize + headerBlank, cellSize, cellSize, this);
                 }
 
                 if(grid[i][j].isPlatePlaced == true){ //皿は食材の土台にあるべきなので、皿のみの特殊描画処理
                     System.out.println("皿の描画を試みました");
-                    g.drawImage(Image7, i * cellSize, j * cellSize, cellSize, cellSize, this);
+                    g.drawImage(Image7, i * cellSize, j * cellSize + headerBlank, cellSize, cellSize, this);
                 }else{
                     
                 }
@@ -94,42 +98,8 @@ class DrawView extends JPanel {
                     selectedImage = setToolImage(grid[i][j].tool);
                 }
 
-                //統合前コードです Kome
-                /*
-                if(grid[i][j].food != null){ //食材の描画です
-                    int[] receivedInfo = grid[i][j].food.getInfo(); //そのマスのFood情報を受け取る;
-                    selectedImage = setFoodImage(receivedInfo);
-                }else if(grid[i][j].tool != 0){ //そのマスが何かしらのツールだった場合にツールの描画
-                    selectedImage = setToolImage(grid[i][j].tool);
-                }
-                */
-
-                /*
-                switch (imageGrid[i][j]) {
-                    case 1:
-                        selectedImage = Image1; break;
-                    case 2:
-                        selectedImage = Image2; break;
-                    case 3:
-                        selectedImage = Image3; break;
-                    case 4:
-                        selectedImage = Image4; break;
-                    case 5:
-                        selectedImage = Image5; break;
-                    case 6:
-                        selectedImage = Image6; break;
-                    case 7:
-                        selectedImage = Image7; break;
-                    case 8:
-                        selectedImage = Image8; break;
-                    case 9:
-                        selectedImage = Image9; break;
-                    case 10:
-                        selectedImage = Image10; break;
-                }
-                */
                 if (selectedImage != null) {
-                    g.drawImage(selectedImage, i * cellSize, j * cellSize, cellSize, cellSize, this);
+                    g.drawImage(selectedImage, i * cellSize, j * cellSize + headerBlank, cellSize, cellSize, this);
                 }
             }
         }
@@ -140,7 +110,7 @@ class DrawView extends JPanel {
             case 3: ImagePlayer = ImagePlayer_down; break;
             case 4: ImagePlayer = ImagePlayer_right; break;
         }
-        g.drawImage(ImagePlayer,player.x * cellSize, player.y * cellSize, cellSize, cellSize, this);
+        g.drawImage(ImagePlayer,player.x * cellSize, player.y * cellSize + headerBlank, cellSize, cellSize, this);
 
         if(player.hasPlate == true){ //プレイヤーが皿を持っていたら
             //皿と画像の比率を調整
@@ -151,7 +121,7 @@ class DrawView extends JPanel {
             else if(player.direction == 2) offsetX -= cellSize / 2;
             else if(player.direction == 3) offsetY += cellSize / 2;
             else if(player.direction == 4) offsetX += cellSize / 2;
-            g.drawImage(Image7, player.x * cellSize + offsetX, player.y * cellSize + offsetY , foodSize, foodSize, this);
+            g.drawImage(Image7, player.x * cellSize + offsetX, player.y * cellSize + offsetY  + headerBlank, foodSize, foodSize, this);
         }
         Image heldFoodImage = null;
         if(player.hasPlate == true && player.plate.hasAnyFood() == true){ //食材ありの皿を持ってたら
@@ -169,62 +139,33 @@ class DrawView extends JPanel {
             else if(player.direction == 2) offsetX -= cellSize / 2;
             else if(player.direction == 3) offsetY += cellSize / 2;
             else if(player.direction == 4) offsetX += cellSize / 2;
-            g.drawImage(heldFoodImage, player.x * cellSize + offsetX, player.y * cellSize + offsetY , foodSize, foodSize, this);
+            g.drawImage(heldFoodImage, player.x * cellSize + offsetX, player.y * cellSize + offsetY + headerBlank, foodSize, foodSize, this);
         }
 
-        //この注文描画処理の部分で問題がある？みたいです。画面が真っ白になってしまうので他の動作確認を行う場合はコメントアウトしておいてください。
+        //UIの描画
+
+        if (true) {
+            Graphics2D g2d = (Graphics2D) g;
+            g2d.setFont(textFont);
+            g2d.setColor(textColor);
+            g2d.drawString("score : "+Integer.toString(model.score), 850, 750);
+        }
+
         //注文を描画
         Image orderImage = null;
         for(int i=0; i<3; i++){
             Order currentOrder = model.getOrder(i);
-            if(orderImage != null){
-                System.out.println(currentOrder.orderName +"を描画します。"); //デバッグ用
+            if(currentOrder != null){
                 orderImage = setOrderImage(currentOrder);
-                System.out.println("注文の領域を描画します。"); //デバッグ用
                 g.setColor(Color.BLUE);
-                g.fillRect(i*3*cellSize, 9 * cellSize, 3*(cellSize-2), 60);
-                System.out.println("青い領域を描画しました。"); //デバッグ用
-                g.drawImage(orderImage, i*2*cellSize, 9*cellSize, cellSize-2, cellSize-2, this);
-                System.out.println(currentOrder.orderName +"の画像を貼りました。"); //デバッグ用
+                g.fillRect(i*3*cellSize, 9 * cellSize + headerBlank, 3*(cellSize-2), 60);
+                g.drawImage(orderImage, cellSize + i*3*cellSize, 9*cellSize + headerBlank, cellSize-2, cellSize-2, this);
                 for(int j=0; j<3; j++){
-                    g.fillRect((i*3*cellSize)+j*cellSize, 10 * (cellSize)+2, (cellSize-6), 50);
-                    System.out.println("食材の領域を描画しました。"); //デバッグ用
+                    g.fillRect((i*3*cellSize)+j*cellSize, 10 * (cellSize)+2 + headerBlank, (cellSize-6), 50);
                 }
+                //int limitationTime = currentOrder;
             }
         }
-
-        //統合前コードです。うまく結合できた気がする Kome
-        /*
-        // プレイヤーが食材を持っている場合、プレイヤーの上に食材の画像を重ねて描画
-        if (player.getFood() != null) {
-            Image heldFoodImage = null;
-            switch (player.getFood().cabbage) { //食材の状況によって画像の分岐をする
-                case 1:
-                    heldFoodImage = Image1; // 未調理の食材
-                    break;
-                case 2:
-                    heldFoodImage = Image5; // 切った状態の食材
-                    break;
-            }
-            switch (player.getFood().tomato) {
-                case 1: heldFoodImage = Image8; break;
-                case 2: heldFoodImage = Image9; break;
-            }
-
-            if (heldFoodImage != null) {
-                // 少し小さめにしてプレイヤーの上に描画
-                int foodSize = cellSize / 2;
-                int offsetX = cellSize / 4;
-                int offsetY = cellSize / 4;
-                if(player.direction == 1) offsetY -= cellSize / 2;
-                else if(player.direction == 2) offsetX -= cellSize / 2;
-                else if(player.direction == 3) offsetY += cellSize / 2;
-                else if(player.direction == 4) offsetX += cellSize / 2;
-                g.drawImage(heldFoodImage, player.x * cellSize + offsetX, player.y * cellSize + offsetY , foodSize, foodSize, this);
-                
-            }
-        }
-        */
     }
     private Image setFoodImage(int[] info){
         if(info[0]==1 && info[1]==0 && info[2] == 0) return Image1; //未加工キャベツ
@@ -262,8 +203,9 @@ class DrawView extends JPanel {
     private Image setPlateImage(Plate targetPlate){
         Food food[] = new Food[3];
         int kyabetu = 0; //そのプレートにおいてそれぞれの食材がどうなっているか
-        int tomato = 0;
+        int tomato = 0; //0:存在しない 1:生 2:カット
         int cucumber = 0;
+        //plateに乗っている具材情報を取得
         for(int i = 0; i < 3; i++){
             food[i] = targetPlate.get(i);
             if(food[i] == null){  break; }//これ以上の食材はないのでbreak
@@ -271,7 +213,8 @@ class DrawView extends JPanel {
             else if(food[i].foodName == "Tomato") tomato = food[i].foodStatus;
             //else if(food[i].foodName == "cucumber") cucumber = food[i].foodStatus;
         }
-        //System.out.printf("(%d, %d, %d)\n", kyabetu, tomato, cucumber);
+
+        //取得した具材情報を利用してImageにセットする画像を返す。
         if(kyabetu==1 && tomato==0 && cucumber == 0) return Image1; //未加工キャベツ
         else if(kyabetu==0 && tomato==1 && cucumber == 0) return Image8; //未加工トマト
         else if(kyabetu==2 && tomato==0 && cucumber == 0) return Image5; //カットキャベツ

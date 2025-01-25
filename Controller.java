@@ -16,6 +16,7 @@ class DrawController implements KeyListener {
         System.out.println("DrawModel in Controller: " + model);
 
         model.generateOrder();
+        view.repaint();
 
         //こんな文法あるんだね。知らんかった Kome
         timer = new Timer(30*1000, new ActionListener() {
