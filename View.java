@@ -171,11 +171,13 @@ class DrawView extends JPanel {
             if(currentOrder != null){
                 orderImage = setOrderImage(currentOrder);
                 g.setColor(Color.BLUE);
-                g.fillRect(i*3*cellSize, 9 * cellSize + headerBlank, 3*(cellSize-2), 60);
-                g.drawImage(orderImage, cellSize + i*3*cellSize, 9*cellSize + headerBlank, cellSize-2, cellSize-2, this);
+                //g.fillRect(i*3*cellSize, 9 * cellSize + headerBlank, 3*(cellSize-2), 60);
+                g.fillRect(i*3*cellSize, 0, 3*(cellSize-2), 60);
+                //g.drawImage(orderImage, cellSize + i*3*cellSize, 9*cellSize + headerBlank, cellSize-2, cellSize-2, this);
+                g.drawImage(orderImage, cellSize + i*3*cellSize, 0, cellSize-2, cellSize-2, this);
                 for(int j=0; j<3; j++){
                     //g.fillRect((i*3*cellSize)+j*cellSize, 10 * (cellSize)+2 + headerBlank, (cellSize-6), 50);
-                    g.fillRect((i*3*cellSize)+j*cellSize, cellSize, (cellSize-6), 50);
+                    g.fillRect((i*3*cellSize)+j*cellSize, cellSize+3, (cellSize-6), 50);
                 }
                 //int limitationTime = currentOrder;
             }
