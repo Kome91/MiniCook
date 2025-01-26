@@ -5,16 +5,21 @@ import java.awt.event.*;
 class Player {
     public int x; //プレイヤーのx座標
     public int y; //プレイヤーのy座標
+    public double xAnim; //アニメーション用の座標変数
+    public double yAnim;
     private Food food;
     public Plate plate;
     public boolean hasPlate;
     private DrawModel model;
+    private double playerSpeed = 0.2;
     public int direction; //プレイヤーの向きWASDの順で1(上),2(左),3(下),4(右)
     private Grid[][] grid;
 
     public Player(int x, int y, DrawModel model, Grid[][] grid) {
         this.x = x;
         this.y = y;
+        this.xAnim = x;
+        this.yAnim = y;
         this.food = null;
         this.plate = null;
         this.model = model;
@@ -25,6 +30,7 @@ class Player {
     public int getX() { return x; }
     public int getY() { return y; }
     public Food getFood() { return food; }
+    public double getPlayerSpeed() { return playerSpeed; }
 
     public void move(int dx, int dy, Grid[][] grid) {
         int newX = x + dx;

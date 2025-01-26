@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.event.*;
 
 class DrawView extends JPanel {
+    private Timer drawTimer60fps; //60Hzでpaintcomponent()を呼び出すために使う Kome
     protected DrawModel model;
     Grid[][] grid;
     private Image Image1;
@@ -27,6 +28,7 @@ class DrawView extends JPanel {
     Player player;
     int headerBlank = 150;
     int fotterBlank = 300;
+    double playerSpeed;
     private String text = "sample_text";
     private Font textFont = new Font("Arial", Font.BOLD, 24);
     private Color textColor = Color.RED;
@@ -35,6 +37,10 @@ class DrawView extends JPanel {
         this.setFocusable(true);
         player = model.getPlayer();
         grid = model.getGrid();
+        //60fpsでの描画を開始
+        drawTimer60fps = new Timer(1000 / 60, e -> repaint());
+        drawTimer60fps.start();
+        playerSpeed = player.getPlayerSpeed();
         //画像読み込み
         Image1=new ImageIcon("kyabetu.png").getImage();
         Image2=new ImageIcon("houtyou.png").getImage();
@@ -110,7 +116,14 @@ class DrawView extends JPanel {
             case 3: ImagePlayer = ImagePlayer_down; break;
             case 4: ImagePlayer = ImagePlayer_right; break;
         }
-        g.drawImage(ImagePlayer,player.x * cellSize, player.y * cellSize + headerBlank, cellSize, cellSize, this);
+        //アニメーション処理
+        if(Math.abs(player.x - player.xAnim) <= playerSpeed) player.xAnim = player.x;
+        else if(player.x > player.xAnim) player.xAnim += playerSpeed;
+        else if(player.x < player.xAnim) player.xAnim -= playerSpeed;
+        if(Math.abs(player.y - player.yAnim) <= playerSpeed) player.yAnim = player.y;
+        else if(player.y > player.yAnim) player.yAnim += playerSpeed;
+        else if(player.y < player.yAnim) player.yAnim -= playerSpeed;
+        g.drawImage(ImagePlayer,(int)(player.xAnim*cellSize), (int)(player.yAnim*cellSize) + headerBlank, cellSize, cellSize, this);
 
         if(player.hasPlate == true){ //プレイヤーが皿を持っていたら
             //皿と画像の比率を調整
