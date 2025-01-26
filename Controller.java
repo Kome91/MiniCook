@@ -6,7 +6,7 @@ class DrawController implements KeyListener {
     protected DrawModel model;
     protected DrawView view;
     protected Player player;
-    protected Timer timer;
+    protected Timer orderTimer;
 
     public DrawController(DrawModel m, DrawView v) {
         model = m;
@@ -19,15 +19,15 @@ class DrawController implements KeyListener {
         view.repaint();
 
         //こんな文法あるんだね。知らんかった Kome
-        timer = new Timer(30*1000, new ActionListener() {
+        orderTimer = new Timer(30*1000, new ActionListener() {
             public void actionPerformed(ActionEvent e){
                 model.generateOrder();
                 view.repaint();
                 System.out.println("新しい注文が追加されました！");
             }
         });
-        timer.start();
-        System.out.println("Timer started: " + timer);
+        orderTimer.start();
+        System.out.println("Timer started: " + orderTimer);
 
     }
 
