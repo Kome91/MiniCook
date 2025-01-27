@@ -3,6 +3,11 @@ import java.awt.*;
 import java.awt.event.*;
 
 class DrawView extends JPanel {
+
+    int orderXAnim = 1000;
+    int speed = 20;
+    double easingFactor = 0.5;
+
     private Timer drawTimer60fps; //60Hzでpaintcomponent()を呼び出すために使う Kome
     protected DrawModel model;
     Grid[][] grid;
@@ -184,21 +189,40 @@ class DrawView extends JPanel {
             g2d.drawString("score : "+Integer.toString(model.score), 850, 750);
         }
 
-        //注文を描画
+        //オーダー用紙を描画
+        Image orderImage = null;
+        int xGoal[] = new int[3];
+        for(int i=0; i<3; i++){
+            Order currentOrder = model.getOrder(i);
+            if(currentOrder != null){
+                orderImage = setOrderImage(currentOrder);
+                xGoal[i] = i*3*cellSize;
+            }
+        }
+        double dx = xGoal[0] - orderXAnim;
+        orderXAnim += dx * easingFactor;
+        if (Math.abs(dx) < 0.5) {
+            orderXAnim = xGoal[0];
+        }
+        g.fillRect(orderXAnim, 0 * cellSize +20, 3*(cellSize-2), 60);
+        g.drawImage(orderImage, cellSize + orderXAnim, 0*cellSize +20, cellSize-2, cellSize-2, this);
+        /*
+        //オーダー用紙を描画
         Image orderImage = null;
         for(int i=0; i<3; i++){
             Order currentOrder = model.getOrder(i);
             if(currentOrder != null){
                 orderImage = setOrderImage(currentOrder);
                 g.setColor(Color.BLUE);
-                g.fillRect(i*3*cellSize, 9 * cellSize + headerBlank, 3*(cellSize-2), 60);
-                g.drawImage(orderImage, cellSize + i*3*cellSize, 9*cellSize + headerBlank, cellSize-2, cellSize-2, this);
+                g.fillRect(i*3*cellSize, 0 * cellSize +20, 3*(cellSize-2), 60);
+                g.drawImage(orderImage, cellSize + i*3*cellSize, 0*cellSize +20, cellSize-2, cellSize-2, this);
                 for(int j=0; j<3; j++){
-                    g.fillRect((i*3*cellSize)+j*cellSize, 10 * (cellSize)+2 + headerBlank, (cellSize-6), 50);
+                    g.fillRect((i*3*cellSize)+j*cellSize, 1 * (cellSize)+2 +20, (cellSize-6), 50);
                 }
                 //int limitationTime = currentOrder;
             }
         }
+        */
     }
     private Image setFoodImage(int[] info){
         if(info[0]==1 && info[1]==0 && info[2] == 0) return Image1; //未加工キャベツ
