@@ -29,6 +29,7 @@ class DrawView extends JPanel {
     int headerBlank = 150;
     int fotterBlank = 300;
     double playerSpeed;
+    //public boolean moving = true;
     private String text = "sample_text";
     private Font textFont = new Font("Arial", Font.BOLD, 24);
     private Color textColor = Color.RED;
@@ -89,7 +90,6 @@ class DrawView extends JPanel {
                     
                 }
 
-                
                 //食材画像を描画
                 Image selectedImage = null;
                 if(grid[i][j].plate == null && grid[i][j].food != null){ //そのマスはplateをもっていなく かつ そのマスにはしょくざいがある とき
@@ -117,12 +117,32 @@ class DrawView extends JPanel {
             case 4: ImagePlayer = ImagePlayer_right; break;
         }
         //アニメーション処理
-        if(Math.abs(player.x - player.xAnim) <= playerSpeed) player.xAnim = player.x;
-        else if(player.x > player.xAnim) player.xAnim += playerSpeed;
-        else if(player.x < player.xAnim) player.xAnim -= playerSpeed;
-        if(Math.abs(player.y - player.yAnim) <= playerSpeed) player.yAnim = player.y;
-        else if(player.y > player.yAnim) player.yAnim += playerSpeed;
-        else if(player.y < player.yAnim) player.yAnim -= playerSpeed;
+        if(Math.abs(player.x - player.xAnim) <= playerSpeed){
+            player.xAnim = player.x;
+            player.moving = false;
+        }
+        else if(player.x > player.xAnim){
+            player.xAnim += playerSpeed;
+            player.moving = true;
+            System.out.println("movingはtrueです");
+        } 
+        else if(player.x < player.xAnim){
+            player.xAnim -= playerSpeed;
+            player.moving = true;
+        }
+
+        if(Math.abs(player.y - player.yAnim) <= playerSpeed){
+            player.yAnim = player.y;
+            player.moving = (player.moving || false);
+        }
+        else if(player.y > player.yAnim){
+            player.yAnim += playerSpeed;
+            player.moving = true;
+        }
+        else if(player.y < player.yAnim){
+            player.yAnim -= playerSpeed;
+            player.moving = true;
+        }
         g.drawImage(ImagePlayer,(int)(player.xAnim*cellSize), (int)(player.yAnim*cellSize) + headerBlank, cellSize, cellSize, this);
 
         if(player.hasPlate == true){ //プレイヤーが皿を持っていたら
@@ -237,9 +257,9 @@ class DrawView extends JPanel {
     }
 
     private Image setOrderImage(Order order){
-        System.out.println(order.orderName +"の画像を取得します。"); //デバッグ用
+        //System.out.println(order.orderName +"の画像を取得します。"); //デバッグ用
         if("salad".equals(order.orderName)){
-            System.out.println(order.orderName +"の画像を取得しました。"); //デバッグ用
+            //System.out.println(order.orderName +"の画像を取得しました。"); //デバッグ用
             return imgCabTom;
         } 
         else return null;

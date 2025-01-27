@@ -14,6 +14,7 @@ class Player {
     private double playerSpeed = 0.2;
     public int direction; //プレイヤーの向きWASDの順で1(上),2(左),3(下),4(右)
     private Grid[][] grid;
+    public boolean moving = false;
 
     public Player(int x, int y, DrawModel model, Grid[][] grid) {
         this.x = x;
@@ -33,16 +34,18 @@ class Player {
     public double getPlayerSpeed() { return playerSpeed; }
 
     public void move(int dx, int dy, Grid[][] grid) {
-        int newX = x + dx;
-        int newY = y + dy;
-        //障害物と重ならないように(障害物である場合、移動を棄却する)
-        if (newX >= 0 && newX < grid.length && newY >= 0 && newY < grid[0].length) {
-            if (!grid[newX][newY].wall && !grid[newX][newY].obstacle && !grid[newX][newY].isCounter/*&& (newX != x || newY != y)*/) {
-                x = newX;
-                y = newY;
-            }else{
-                if(grid[newX][newY].wall) System.out.printf("wallに激突しました\n");
-                if(grid[newX][newY].obstacle) System.out.printf("obstacleに激突しました\n");
+        if(moving == false){ //プレイやー移動中は移動したくない
+            int newX = x + dx;
+            int newY = y + dy;
+            //障害物と重ならないように(障害物である場合、移動を棄却する)
+            if (newX >= 0 && newX < grid.length && newY >= 0 && newY < grid[0].length) {
+                if (!grid[newX][newY].wall && !grid[newX][newY].obstacle && !grid[newX][newY].isCounter/*&& (newX != x || newY != y)*/) {
+                    x = newX;
+                    y = newY;
+                }else{
+                    if(grid[newX][newY].wall) System.out.printf("wallに激突しました\n");
+                    if(grid[newX][newY].obstacle) System.out.printf("obstacleに激突しました\n");
+                }
             }
         }
     }
