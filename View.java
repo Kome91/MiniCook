@@ -89,7 +89,6 @@ class DrawView extends JPanel {
                 }
 
                 if(grid[i][j].isPlatePlaced == true){ //皿は食材の土台にあるべきなので、皿のみの特殊描画処理
-                    System.out.println("皿の描画を試みました");
                     g.drawImage(Image7, i * cellSize, j * cellSize + headerBlank, cellSize, cellSize, this);
                 }else{
                     

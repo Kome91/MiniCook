@@ -13,8 +13,6 @@ class DrawController implements KeyListener {
         view = v;
         player = model.getPlayer(); //ここでplayerを取得しておく
 
-        System.out.println("DrawModel in Controller: " + model);
-
         model.generateOrder();
         view.repaint();
 

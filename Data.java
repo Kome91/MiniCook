@@ -75,6 +75,7 @@ class Plate {
 
     public void add(Food food) {
         for (int i = 0; i < foods.length; i++) {
+            if(foods[i] != null && foods[i].foodName == food.foodName) { continue; }
             if (foods[i] == null) {
                 foods[i] = food;
                 System.out.println(food.foodName + " を皿に追加しました。");

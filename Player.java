@@ -11,7 +11,7 @@ class Player {
     public Plate plate;
     public boolean hasPlate;
     private DrawModel model;
-    private double playerSpeed = 0.2;
+    private double playerSpeed = 0.4;
     public int direction; //プレイヤーの向きWASDの順で1(上),2(左),3(下),4(右)
     private Grid[][] grid;
     public boolean moving = false;
