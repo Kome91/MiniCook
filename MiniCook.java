@@ -12,6 +12,8 @@ class MiniCook extends JFrame {
         model = new DrawModel();
         view = new DrawView(model);
         cont = new DrawController(model, view);
+        model.getPlayer().setController(cont);
+        view.setController(cont);
         view.addKeyListener(cont); // キーリスナーを設定
 
         this.setBackground(Color.white);

@@ -11,10 +11,12 @@ class Player {
     public Plate plate;
     public boolean hasPlate;
     private DrawModel model;
+    private DrawController cont;
     private double playerSpeed = 0.4;
     public int direction; //プレイヤーの向きWASDの順で1(上),2(左),3(下),4(右)
     private Grid[][] grid;
     public boolean moving = false;
+    public int actionCharge = 0;
 
     public Player(int x, int y, DrawModel model, Grid[][] grid) {
         this.x = x;
@@ -32,6 +34,7 @@ class Player {
     public int getY() { return y; }
     public Food getFood() { return food; }
     public double getPlayerSpeed() { return playerSpeed; }
+    public void setController(DrawController cont) { this.cont = cont; }
 
     public void move(int dx, int dy, Grid[][] grid) {
         if(moving == false){ //プレイやー移動中は移動したくない

@@ -7,6 +7,7 @@ class DrawController implements KeyListener {
     protected DrawView view;
     protected Player player;
     protected Timer orderTimer;
+    public boolean spacePushing =false;
 
     public DrawController(DrawModel m, DrawView v) {
         model = m;
@@ -17,7 +18,7 @@ class DrawController implements KeyListener {
         view.repaint();
 
         //こんな文法あるんだね。知らんかった Kome
-        orderTimer = new Timer(30*1000, new ActionListener() {
+        orderTimer = new Timer(5*1000, new ActionListener() {
             public void actionPerformed(ActionEvent e){
                 model.generateOrder();
                 view.repaint();
@@ -55,7 +56,8 @@ class DrawController implements KeyListener {
                 player.direction = 4;
                 break;
             case KeyEvent.VK_SPACE: //スペースキーでaction
-                player.action();
+                spacePushing =true;
+                //player.action();
                 break;
             case KeyEvent.VK_J: //Jキーで拾う
                 player.pick_up(); 
@@ -80,7 +82,13 @@ class DrawController implements KeyListener {
         }
     }
     @Override
-    public void keyReleased(KeyEvent e) {}
+    public void keyReleased(KeyEvent e) {
+        switch (e.getKeyCode()) {
+            case KeyEvent.VK_SPACE: // スペースキーを離したら false にする
+                spacePushing = false;
+                break;
+        }
+    }
 
     @Override
     public void keyTyped(KeyEvent e) {}
