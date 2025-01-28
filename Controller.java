@@ -77,8 +77,8 @@ class DrawController implements KeyListener {
         view.repaint();
     }
     public void stopOrderTimer() {
-        if (timer != null) {
-            timer.stop();
+        if (orderTimer != null) {
+            orderTimer.stop();
         }
     }
     @Override
