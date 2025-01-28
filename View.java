@@ -71,7 +71,7 @@ class DrawView extends JPanel {
         super.paintComponent(g);
         int[] size = model.getFieldSize();
         int cellSize = model.getCellSize();
-
+        
         for (int i = 0; i < size[0]; i++) {
             for (int j = 0; j < size[1]; j++) {
                 if (grid[i][j].wall) {
@@ -133,7 +133,6 @@ class DrawView extends JPanel {
         else if(player.x > player.xAnim){
             player.xAnim += playerSpeed;
             player.moving = true;
-            System.out.println("movingはtrueです");
         } 
         else if(player.x < player.xAnim){
             player.xAnim -= playerSpeed;
