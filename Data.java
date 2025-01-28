@@ -192,7 +192,9 @@ class Order {
             this.ingredient2.foodStatus = 2;
             this.ingredient2.isOnPlate = true;
 
-            this.ingredient3 = null;
+            this.ingredient3 = new Cucumber();
+            this.ingredient3.foodStatus = 2;
+            this.ingredient3.isOnPlate = true;
         }
 
         // 制限時間後に削除するタイマーを設定

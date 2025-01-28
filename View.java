@@ -102,7 +102,7 @@ class DrawView extends JPanel {
         imgTomatoCut = new ImageIcon("img/tomato_cut.png").getImage();
 
         imgCucumberBox = new ImageIcon("img/cucumber_box.png").getImage();
-        imgCucumber = new ImageIcon("img/cucumber_box.png").getImage();
+        imgCucumber = new ImageIcon("img/cucumber.png").getImage();
         imgCucumberCut = new ImageIcon("img/cucumber_box.png").getImage();
 
         imgCabTom = new ImageIcon("img/cabbage_and_tomato.png").getImage();
@@ -172,7 +172,7 @@ class DrawView extends JPanel {
                 Image selectedImage = null;
                 if(grid[i][j].plate == null && grid[i][j].food != null){ //そのマスはplateをもっていなく かつ そのマスにはしょくざいがある とき
                     //つまり皿の描画はなくFoodだけの描画の場合です。
-                    selectedImage = setFoodImage2(grid[i][j].food);
+                    selectedImage = setFoodImage(grid[i][j].food);
                 }else if(grid[i][j].plate != null && grid[i][j].plate.hasAnyFood() == true){ //皿があって食材がおいてある場合
                     selectedImage = setPlateImage(grid[i][j].plate);
                 }
@@ -244,7 +244,7 @@ class DrawView extends JPanel {
             heldFoodImage = setPlateImage(player.plate);
         }
         else if(player.getFood() != null){ //単体の食材を持っていたら
-            heldFoodImage = setFoodImage2(player.getFood());
+            heldFoodImage = setFoodImage(player.getFood());
         }
         if (heldFoodImage != null) {
             // 少し小さめにしてプレイヤーの上に描画
@@ -294,7 +294,7 @@ class DrawView extends JPanel {
                     
                 }
                 if(1 <= order.timeAnim) {
-                    if(60 <= order.timeAnim){
+                    if(30 <= order.timeAnim){
                         dx = order.subOrderPosY - order.subOrderPosYAnim;
                         order.subOrderPosYAnim += easingFactor * dx;
                         if(Math.abs(dx) < 1.0){ 
@@ -320,9 +320,9 @@ class DrawView extends JPanel {
                         if(order.ingredient3 != null){
                             g.setColor(new Color(174, 207, 227));
                             g.fillRect((int)order.posAnim+8+(cellSize-6)*2, sOPYA, 50, 90);
-                            g.drawImage(setCorrectRaw(order.ingredient1), (int)order.posAnim+(cellSize-6)*2 + 10, sOPYA+10, 42,42,this);
-                            if(setCorrectMethod(order.ingredient2)!=null){
-                                g.drawImage(setCorrectMethod(order.ingredient2), (int)order.posAnim+(cellSize-6)*2 + 10, sOPYA+50, 42,42,this);
+                            g.drawImage(setCorrectRaw(order.ingredient3), (int)order.posAnim+(cellSize-6)*2 + 10, sOPYA+10, 42,42,this);
+                            if(setCorrectMethod(order.ingredient3)!=null){
+                                g.drawImage(setCorrectMethod(order.ingredient3), (int)order.posAnim+(cellSize-6)*2 + 10, sOPYA+50, 42,42,this);
                             }
                         }
                     }else{
@@ -384,7 +384,7 @@ class DrawView extends JPanel {
         if(foodInfo.foodStatus == 2) return imgKnifeBlack;
         else return null;
     }
-    private Image setFoodImage2(Food foodInfo){
+    private Image setFoodImage(Food foodInfo){
         // switch文にしてもいいかもね
         if(foodInfo.foodName == "cabbage"){
             if(foodInfo.foodStatus == 1) return imgCabbage;
@@ -450,7 +450,7 @@ class DrawView extends JPanel {
 
         for(int i=0; i<3; i++){
             if(ing[i] != null){
-                ingredients[i] = setFoodImage2(ing[i]); 
+                ingredients[i] = setFoodImage(ing[i]); 
                 g.drawImage(ingredients[i], x*cellSize+offset*i+offsetX, y*cellSize+headerBlank+offsetY, size, size, this);
             }
         }
