@@ -38,27 +38,34 @@ abstract class Food { //継承させる前提のabstractクラス
     }
 }
 
-//Foodクラスを継承したKyabetuクラスです
-class Kyabetu extends Food{
-    public Kyabetu(){
-        super(1, true, false, false, "Kyabetu");
+//Foodクラスを継承したCabbageクラスです
+class Cabbage extends Food{
+    public Cabbage(){
+        super(1, true, false, false, "cabbage");
     }
 
     public int getFoodStatus(){ //そのフードの状態を返す
         return foodStatus;
     }
 }
-
 //Foodクラスを継承したTomatoクラスです
 class Tomato extends Food{
     public Tomato(){
-        super(1, true, false, false, "Tomato");
+        super(1, true, false, false, "tomato");
     }
     public int getFoodStatus(){ //そのフードの状態を返す
         return foodStatus;
     }
 }
-
+//Foodクラスを継承したcucumberクラスです
+class Cucumber extends Food{
+    public Cucumber(){
+        super(1, true, false, false, "cucumber");
+    }
+    public int getFoodStatus(){ //そのフードの状態を返す
+        return foodStatus;
+    }
+}
 class Plate {
     Food[] foods;
     public Plate(){
@@ -90,56 +97,6 @@ class Plate {
         else return foods[i];
     }
 
-    //これっている?
-    /*
-    public int getImageByFood(Order currentOrder) {
-        if (currentOrder == null) {
-            System.out.println("Order が null です。");
-            return 7; // 空の皿の画像IDを返す
-        }
-
-        boolean[] matchedIngredients = new boolean[3];
-    
-        Food[] requiredIngredients = {currentOrder.ingredient1, currentOrder.ingredient2, currentOrder.ingredient3};
-    
-        // Plateの食材とOrderの食材を比較
-        for (int i = 0; i < foods.length; i++) {
-            for (int j = 0; j < requiredIngredients.length; j++) {
-                if (requiredIngredients[j] == null){
-                    matchedIngredients[j] = true;
-                    break;
-                }
-                if (!matchedIngredients[j] && foods[i] != null && requiredIngredients[j] != null) {
-                    if (foods[i].getClass() == requiredIngredients[j].getClass() &&
-                        foods[i].foodStatus == requiredIngredients[j].foodStatus) {
-                        matchedIngredients[j] = true;
-                        break;
-                    }
-                }
-            }
-        }
-    
-        // 全ての食材が揃っていれば完成画像IDを返す
-        boolean isComplete = true;
-        for (boolean matched : matchedIngredients) {
-            if (requiredIngredients != null && !matched) {
-                System.out.println(currentOrder.orderName+"は未完成です！");
-                isComplete = false;
-                break;
-            }
-        }
-    
-        if (isComplete) {
-            if("salad".equals(currentOrder.orderName))return 10; // 完成品の画像ID（例）
-            else return 10;
-        } else if (foods[0] == null && foods[1] == null && foods[2] == null) {
-            return 7; // 空の皿の画像ID
-        } else {
-            return 7; // 未完成の画像ID
-        }
-    }
-    */
-
     public void printPlate(){
         String state = "";
         System.out.print("現在、皿の上には：");
@@ -150,7 +107,7 @@ class Plate {
                     case 2: state = "cut"; break;
                     case 3: state = "grilled"; break;
                 }
-                System.out.print(foods[i].foodName+"("+ state + ")" + "　");
+                System.out.print(foods[i].foodName+"("+ state + ")" + " ");
             }
         }
         System.out.print("\n");
@@ -227,7 +184,7 @@ class Order {
             System.out.println("Order created: " + this.orderName);
             this.timeLimit = 30;
 
-            this.ingredient1 = new Kyabetu();
+            this.ingredient1 = new Cabbage();
             this.ingredient1.foodStatus = 2;
             this.ingredient1.isOnPlate = true;
 

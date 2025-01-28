@@ -31,9 +31,11 @@ class DrawModel extends JPanel {
                 }
             }
         }
-        grid[5][5].food = new Kyabetu();  // (5,5)の位置に食材を配置 Yoshida
+        grid[5][5].food = new Cabbage();  // (5,5)の位置に食材を配置 Yoshida
 
         grid[5][7].food = new Tomato(); // (5,7)の位置にトマトを配置 Yoshida
+
+        grid[5][8].food = new Cucumber();
 
         grid[7][7].foodBox = 1; //(7,7)にキャベツボックスを配置 Yoshida
         grid[7][7].obstacle = true;
@@ -42,6 +44,10 @@ class DrawModel extends JPanel {
         grid[8][7].foodBox = 2; //(8,7)にトマトボックスを配置 Yoshida
         grid[8][7].obstacle = true;
         grid[8][7].tool = 4;
+
+        grid[9][7].foodBox = 3; //(9,7)にきゅうりボックスを配置 heiwa
+        grid[9][7].obstacle = true;
+        grid[9][7].tool = 5;
         
         //カウンターを設置 Yoshida
         grid[13][0].wall = false; //元々壁だったところをカウンターにしたい

@@ -17,24 +17,25 @@ class DrawView extends JPanel {
     protected DrawModel model;
     private DrawController cont;
     Grid[][] grid;
-    private Image Image1;
-    private Image Image2;
-    private Image Image3;
-    private Image Image4;
-    private Image Image5;
-    private Image Image6;
-    private Image Image7;
-    private Image Image8;
-    private Image Image9;
-    private Image Image10;
-    // private Image Image11;
     private Image ImagePlayer;
-    private Image ImagePlayer_up;
-    private Image ImagePlayer_left;
-    private Image ImagePlayer_down;
-    private Image ImagePlayer_right;
-    private Image imgCabTom;
+    private Image imgPlayerUp;
+    private Image imgPlayerLeft;
+    private Image imgPlayerDown;
+    private Image imgPlayerRight;
     private Image imgErrorBlock;
+    private Image imgKnife;
+    private Image imgPlateBox;
+    private Image imgPlate;
+    private Image imgCabbageBox;
+    private Image imgCabbage;
+    private Image imgCabbageCut;
+    private Image imgTomatoBox;
+    private Image imgTomato;
+    private Image imgTomatoCut;
+    private Image imgCucumberBox;
+    private Image imgCucumber;
+    private Image imgCucumberCut;
+    private Image imgCabTom;
     private Image imgCounter;
     private Image orderPaper;
     private Image imgKnifeBlack;
@@ -82,25 +83,33 @@ class DrawView extends JPanel {
         */
         playerSpeed = player.getPlayerSpeed();
         //画像読み込み
-        Image1=new ImageIcon("kyabetu.png").getImage();
-        Image2=new ImageIcon("houtyou.png").getImage();
-        Image3=new ImageIcon("kansei.png").getImage();
-        Image4=new ImageIcon("kyabetuBox.png").getImage();
-        Image5 = new ImageIcon("CutKyabetu.png").getImage();
-        Image6 = new ImageIcon("PlateBox.png").getImage();
-        Image7 = new ImageIcon("Plate.png").getImage();
-        Image8 = new ImageIcon("Tomato.png").getImage();
-        Image9 = new ImageIcon("cut_tomato.png").getImage();
-        Image10 = new ImageIcon("TomatoBox.png").getImage();
-        ImagePlayer_up = new ImageIcon("player_up.png").getImage();
-        ImagePlayer_left = new ImageIcon("player_left.png").getImage();
-        ImagePlayer_down = new ImageIcon("player_down.png").getImage();
-        ImagePlayer_right = new ImageIcon("player_right.png").getImage();
-        imgCabTom = new ImageIcon("cabbage_and_tomato.png").getImage();
-        imgErrorBlock = new ImageIcon("error_image.png").getImage();
-        imgCounter = new ImageIcon("counter.png").getImage();
-        orderPaper = new ImageIcon("order_paper_test.png").getImage();
-        imgKnifeBlack = new ImageIcon("Knife_black.png").getImage();
+        imgPlayerUp = new ImageIcon("img/player_up.png").getImage();
+        imgPlayerLeft = new ImageIcon("img/player_left.png").getImage();
+        imgPlayerDown = new ImageIcon("img/player_down.png").getImage();
+        imgPlayerRight = new ImageIcon("img/player_right.png").getImage();
+        imgErrorBlock = new ImageIcon("img/error_image.png").getImage();
+
+        imgKnife=new ImageIcon("img/knife.png").getImage();
+        imgPlateBox = new ImageIcon("img/plate_box.png").getImage();
+        imgPlate = new ImageIcon("img/plate.png").getImage();
+
+        imgCabbageBox=new ImageIcon("img/cabbage_box.png").getImage();
+        imgCabbage=new ImageIcon("img/cabbage.png").getImage();
+        imgCabbageCut = new ImageIcon("img/cabbage_cut.png").getImage();
+
+        imgTomatoBox = new ImageIcon("img/tomato_box.png").getImage();
+        imgTomato = new ImageIcon("img/tomato.png").getImage();
+        imgTomatoCut = new ImageIcon("img/tomato_cut.png").getImage();
+
+        imgCucumberBox = new ImageIcon("img/cucumber_box.png").getImage();
+        imgCucumber = new ImageIcon("img/cucumber_box.png").getImage();
+        imgCucumberCut = new ImageIcon("img/cucumber_box.png").getImage();
+
+        imgCabTom = new ImageIcon("img/cabbage_and_tomato.png").getImage();
+
+        imgCounter = new ImageIcon("img/counter.png").getImage();
+        orderPaper = new ImageIcon("img/order_paper_test.png").getImage();
+        imgKnifeBlack = new ImageIcon("img/knife_black.png").getImage();
     }
     public void setController(DrawController cont) { this.cont = cont; }
 
@@ -154,7 +163,7 @@ class DrawView extends JPanel {
                 }
 
                 if(grid[i][j].isPlatePlaced == true){ //皿は食材の土台にあるべきなので、皿のみの特殊描画処理
-                    g.drawImage(Image7, i * cellSize, j * cellSize + headerBlank, cellSize, cellSize, this);
+                    g.drawImage(imgPlate, i * cellSize, j * cellSize + headerBlank, cellSize, cellSize, this);
                 }else{
                     
                 }
@@ -186,10 +195,10 @@ class DrawView extends JPanel {
         
         // プレイヤーを描画
         switch(player.direction){
-            case 1: ImagePlayer = ImagePlayer_up; break;
-            case 2: ImagePlayer = ImagePlayer_left; break;
-            case 3: ImagePlayer = ImagePlayer_down; break;
-            case 4: ImagePlayer = ImagePlayer_right; break;
+            case 1: ImagePlayer = imgPlayerUp; break;
+            case 2: ImagePlayer = imgPlayerLeft; break;
+            case 3: ImagePlayer = imgPlayerDown; break;
+            case 4: ImagePlayer = imgPlayerRight; break;
         }
         //アニメーション処理
         if(Math.abs(player.x - player.xAnim) <= playerSpeed){
@@ -228,7 +237,7 @@ class DrawView extends JPanel {
             else if(player.direction == 2) offsetX -= cellSize / 2;
             else if(player.direction == 3) offsetY += cellSize / 2;
             else if(player.direction == 4) offsetX += cellSize / 2;
-            g.drawImage(Image7, player.x * cellSize + offsetX, player.y * cellSize + offsetY  + headerBlank, foodSize, foodSize, this);
+            g.drawImage(imgPlate, player.x * cellSize + offsetX, player.y * cellSize + offsetY  + headerBlank, foodSize, foodSize, this);
         }
         Image heldFoodImage = null;
         if(player.hasPlate == true && player.plate.hasAnyFood() == true){ //食材ありの皿を持ってたら
@@ -354,29 +363,21 @@ class DrawView extends JPanel {
             g.fillRect(x, y, (int)(width*ratio), height);
         }
     }
-    private Image setFoodImage(int[] info){
-        if(info[0]==1 && info[1]==0 && info[2] == 0) return Image1; //未加工キャベツ
-        else if(info[0]==0 && info[1]==1 && info[2] == 0) return Image8; //未加工トマト
-        else if(info[0]==2 && info[1]==0 && info[2] == 0) return Image5; //カットキャベツ
-        else if(info[0]==0 && info[1]==2 && info[2] == 0) return Image9; //未加工キャベツ
-        else if(info[0]==0 && info[1]==1 && info[2] == 0) return Image8; //未加工キャベツ
-        else if(info[0] == 1 && info[1] ==  1){
-            return imgCabTom;
-        }
-        return imgErrorBlock;
-    }
+
     private Image setToolImage(int toolId){
         switch(toolId){
-            case 1: return Image2;
-            case 2: return Image4;
-            case 3: return Image6;
-            case 4: return Image10;
+            case 1: return imgKnife;
+            case 2: return imgCabbageBox;
+            case 3: return imgPlateBox;
+            case 4: return imgTomatoBox;
+            case 5: return imgCucumberBox;
         }
         return imgErrorBlock;
     }
     private Image setCorrectRaw(Food foodInfo){
-        if(foodInfo.foodName == "Kyabetu") return Image1;
-        else if(foodInfo.foodName == "Tomato") return Image5;
+        if(foodInfo.foodName == "cabbage") return imgCabbage;
+        else if(foodInfo.foodName == "tomato") return imgTomato;
+        else if(foodInfo.foodName == "cucumber") return imgCucumber;
         else return imgErrorBlock;
     }
     private Image setCorrectMethod(Food foodInfo){
@@ -385,37 +386,42 @@ class DrawView extends JPanel {
     }
     private Image setFoodImage2(Food foodInfo){
         // switch文にしてもいいかもね
-        if(foodInfo.foodName == "Kyabetu"){
-            if(foodInfo.foodStatus == 1) return Image1;
-            else if(foodInfo.foodStatus == 2) return Image5;
+        if(foodInfo.foodName == "cabbage"){
+            if(foodInfo.foodStatus == 1) return imgCabbage;
+            else if(foodInfo.foodStatus == 2) return imgCabbageCut;
             else return imgErrorBlock;
-        }else if(foodInfo.foodName == "Tomato"){
-            if(foodInfo.foodStatus == 1) return Image8;
-            else if(foodInfo.foodStatus == 2) return Image9;
+        }else if(foodInfo.foodName == "tomato"){
+            if(foodInfo.foodStatus == 1) return imgTomato;
+            else if(foodInfo.foodStatus == 2) return imgTomatoCut;
+            else return imgErrorBlock;
+        }else if(foodInfo.foodName == "cucumber"){
+            if(foodInfo.foodStatus == 1) return imgCucumber;
+            else if(foodInfo.foodStatus == 2) return imgCucumberCut;
             else return imgErrorBlock;
         }
         return imgErrorBlock;
     }
     private Image setPlateImage(Plate targetPlate){
         Food food[] = new Food[3];
-        int kyabetu = 0; //そのプレートにおいてそれぞれの食材がどうなっているか
+        int cabbage = 0; //そのプレートにおいてそれぞれの食材がどうなっているか
         int tomato = 0; //0:存在しない 1:生 2:カット
         int cucumber = 0;
         //plateに乗っている具材情報を取得
         for(int i = 0; i < 3; i++){
             food[i] = targetPlate.get(i);
             if(food[i] == null){  break; }//これ以上の食材はないのでbreak
-            if(food[i].foodName == "Kyabetu") kyabetu = food[i].foodStatus;
-            else if(food[i].foodName == "Tomato") tomato = food[i].foodStatus;
-            //else if(food[i].foodName == "cucumber") cucumber = food[i].foodStatus;
+            if(food[i].foodName == "cabbage") cabbage = food[i].foodStatus;
+            else if(food[i].foodName == "tomato") tomato = food[i].foodStatus;
+            else if(food[i].foodName == "cucumber") cucumber = food[i].foodStatus;
         }
-
         //取得した具材情報を利用してImageにセットする画像を返す。
-        if(kyabetu==1 && tomato==0 && cucumber == 0) return Image1; //未加工キャベツ
-        else if(kyabetu==0 && tomato==1 && cucumber == 0) return Image8; //未加工トマト
-        else if(kyabetu==2 && tomato==0 && cucumber == 0) return Image5; //カットキャベツ
-        else if(kyabetu==0 && tomato==2 && cucumber == 0) return Image9; //カットキャベツ
-        else if(kyabetu == 2 && tomato == 2 && cucumber == 0) return imgCabTom; //キャベツ & トマト
+        if(cabbage==1 && tomato==0 && cucumber == 0) return imgCabbage; //未加工キャベツ
+        else if(cabbage==0 && tomato==1 && cucumber == 0) return imgTomato; //未加工トマト
+        else if(cabbage==0 && tomato==0 && cucumber == 1) return imgCucumber; //未加工きゅうり
+        else if(cabbage==2 && tomato==0 && cucumber == 0) return imgCabbageCut; //カットキャベツ
+        else if(cabbage==0 && tomato==2 && cucumber == 0) return imgTomatoCut; //カットトマト
+        else if(cabbage==0 && tomato==0 && cucumber == 2) return imgCucumberCut; //カットキュウリ
+        else if(cabbage == 1 && tomato ==  1 && cucumber == 0) return imgCabTom;
         return imgErrorBlock;
     }
 

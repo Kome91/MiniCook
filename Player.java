@@ -96,12 +96,15 @@ class Player {
         }
         else if (food == null) {  // 何も持っていない場合
             if(frontGrid.foodBox == 1){ //目の前のマスがキャベツボックスだったら
-                this.food = new Kyabetu();
+                this.food = new Cabbage();
                 System.out.println("キャベツボックスから取得しました！");
             }
             else if(frontGrid.foodBox == 2){ //目の前のマスがトマトボックスだったら
                 this.food = new Tomato();
                 System.out.println("トマトボックスから取得しました！");
+            }else if(frontGrid.foodBox == 3){ //目の前のマスがトマトボックスだったら
+                this.food = new Cucumber();
+                System.out.println("きゅうりボックスから取得しました！");
             }
             else if (frontGrid.hasFood()) {  // 現在のマスに食材がある場合
                 food = frontGrid.food;  // 食材を拾う
