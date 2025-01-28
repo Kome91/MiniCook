@@ -112,6 +112,10 @@ class DrawView extends JPanel {
                 if (selectedImage != null) {
                     g.drawImage(selectedImage, i * cellSize, j * cellSize + headerBlank, cellSize, cellSize, this);
                 }
+
+                if(grid[i][j].isPlatePlaced && grid[i][j].plate.hasAnyFood()){
+                    setIngredientsImage(cellSize, grid[i][j].x, grid[i][j].y, 0, 0, grid[i][j].plate, g);
+                }
             }
         }
         // プレイヤーを描画
@@ -179,6 +183,15 @@ class DrawView extends JPanel {
             else if(player.direction == 4) offsetX += cellSize / 2;
             g.drawImage(heldFoodImage, player.x * cellSize + offsetX, player.y * cellSize + offsetY + headerBlank, foodSize, foodSize, this);
         }
+        if(player.hasPlate == true && player.plate.hasAnyFood()){
+            int offsetX = cellSize / 4;
+            int offsetY = cellSize / 4;
+            if(player.direction == 1) {offsetX = 0; offsetY -= cellSize *2/ 3;}
+            else if(player.direction == 2) {offsetX -= cellSize *2/ 3; offsetY = 0;}
+            else if(player.direction == 3) {offsetX = 0; offsetY += cellSize ;}
+            else if(player.direction == 4) {offsetX += cellSize / 3; offsetY = 0;}
+            setIngredientsImage(cellSize, player.x, player.y, offsetX, offsetY, player.plate, g);
+        }
 
         //UIの描画
 
@@ -218,6 +231,13 @@ class DrawView extends JPanel {
                 g.drawImage(orderImage, cellSize + i*3*cellSize, 0*cellSize +20, cellSize-2, cellSize-2, this);
                 for(int j=0; j<3; j++){
                     g.fillRect((i*3*cellSize)+j*cellSize, 1 * (cellSize)+2 +20, (cellSize-6), 50);
+                //g.fillRect(i*3*cellSize, 9 * cellSize + headerBlank, 3*(cellSize-2), 60);
+                g.fillRect(i*3*cellSize, 0, 3*(cellSize-2), 60);
+                //g.drawImage(orderImage, cellSize + i*3*cellSize, 9*cellSize + headerBlank, cellSize-2, cellSize-2, this);
+                g.drawImage(orderImage, cellSize + i*3*cellSize, 0, cellSize-2, cellSize-2, this);
+                for(int j=0; j<3; j++){
+                    //g.fillRect((i*3*cellSize)+j*cellSize, 10 * (cellSize)+2 + headerBlank, (cellSize-6), 50);
+                    g.fillRect((i*3*cellSize)+j*cellSize, cellSize+3, (cellSize-6), 50);
                 }
                 //int limitationTime = currentOrder;
             }
@@ -287,5 +307,27 @@ class DrawView extends JPanel {
             return imgCabTom;
         } 
         else return null;
+    }
+
+    // Imageを返すわけではなく、この関数を呼び出せば画像を貼れる Yoshida
+    // paintComponentに書いても良かったけど煩雑になりそうだったので関数化しました。引数が多くてすいません。
+    private void setIngredientsImage(int cellSize, int x, int y, int offsetX, int offsetY, Plate plate, Graphics g){
+        Image ingredients[] = new Image[3];
+        Food ing[] = new Food[3];
+        int size = cellSize/4;
+        int offset = 20;
+        for(int i=0; i<3; i++){
+            if(plate.foods[i] != null){
+                ing[i] = plate.foods[i];
+                //ing[i].foodStatus = 1; //生の状態を表示したい(調理した食材を皿に置いて、1歩あると画像が生になってしまうのでコメントアウトしてます。)
+            }
+        }
+
+        for(int i=0; i<3; i++){
+            if(ing[i] != null){
+                ingredients[i] = setFoodImage2(ing[i]); 
+                g.drawImage(ingredients[i], x*cellSize+offset*i+offsetX, y*cellSize+headerBlank+offsetY, size, size, this);
+            }
+        }
     }
 }
