@@ -39,6 +39,8 @@ class DrawView extends JPanel {
     private Image imgCounter;
     private Image orderPaper;
     private Image imgKnifeBlack;
+    private Image imgFloor;
+
     Player player;
     int headerBlank = 150;
     int fotterBlank = 300;
@@ -110,6 +112,10 @@ class DrawView extends JPanel {
         imgCounter = new ImageIcon("img/counter.png").getImage();
         orderPaper = new ImageIcon("img/order_paper_test.png").getImage();
         imgKnifeBlack = new ImageIcon("img/knife_black.png").getImage();
+
+
+        imgFloor = new ImageIcon("img/floor.jpg").getImage();
+
     }
     public void setController(DrawController cont) { this.cont = cont; }
 
@@ -127,12 +133,16 @@ class DrawView extends JPanel {
             for (int j = 0; j < size[1]; j++) {
                 if (grid[i][j].wall) {
                     g2d.setColor(Color.GRAY);
+                    g2d.fillRect(i * cellSize, j * cellSize + headerBlank, cellSize, cellSize);
                 } else if (grid[i][j].obstacle) {
                     g2d.setColor(Color.RED);
+                    g2d.fillRect(i * cellSize, j * cellSize + headerBlank, cellSize, cellSize);
                 } else {
                     g2d.setColor(Color.DARK_GRAY);
+                    g2d.drawImage(imgCabbage, i * cellSize, j * cellSize + headerBlank, cellSize, cellSize, this);
+                    //g2d.fillRect(i * cellSize, j * cellSize + headerBlank, cellSize, cellSize);
                 }
-                g2d.fillRect(i * cellSize, j * cellSize + headerBlank, cellSize, cellSize);
+                
             }
         }
     
@@ -143,20 +153,26 @@ class DrawView extends JPanel {
         super.paintComponent(g);
         int[] size = model.getFieldSize();
         int cellSize = model.getCellSize();
-        g.drawImage(backgroundImage, 0, 0, this);
+        //g.drawImage(backgroundImage, 0, 0, this);
+        g.setColor(Color.lightGray);
+        g.fillRect(0, 0, 960, 900);
         for (int i = 0; i < size[0]; i++) {
             for (int j = 0; j < size[1]; j++) {
                 //generateBackGround()によってまとめました
-                /*
+                
                 if (grid[i][j].wall) {
                     g.setColor(Color.GRAY);
+                    g.fillRect(i * cellSize, j * cellSize + headerBlank, cellSize, cellSize);
                 } else if (grid[i][j].obstacle) {
                     g.setColor(Color.RED);
+                    g.fillRect(i * cellSize, j * cellSize + headerBlank, cellSize, cellSize);
                 } else {
                     g.setColor(Color.DARK_GRAY);
+                    g.drawImage(imgFloor, i * cellSize, j * cellSize + headerBlank, cellSize, cellSize, this);
+                    //g2d.fillRect(i * cellSize, j * cellSize + headerBlank, cellSize, cellSize);
                 }
-                g.fillRect(i * cellSize, j * cellSize  + headerBlank, cellSize, cellSize);
-                */
+                
+            
                 //カウンターの画像を描画 //Yoshida
                 if(grid[i][j].isCounter == true){
                     g.drawImage(imgCounter, i * cellSize, j * cellSize + headerBlank, cellSize, cellSize, this);
