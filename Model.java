@@ -12,11 +12,11 @@ class DrawModel extends JPanel {
     //private int[][] imageGrid; // 各マスの画像IDを管理する2次元配列
     public int score;
     //private static DrawModel instance;
-    private Order[] orders; //orderを入れる配列
+    public Order[] orders; //orderを入れる配列
 
     public DrawModel() {
         //System.out.println("DrawModel instance: " + this);
-        orders = new Order[3];
+        orders = new Order[5];
         orders[0] = null;
         orders[1] = null;
         orders[2] = null;
@@ -31,9 +31,11 @@ class DrawModel extends JPanel {
                 }
             }
         }
-        grid[5][5].food = new Kyabetu();  // (5,5)の位置に食材を配置 Yoshida
+        grid[5][5].food = new Cabbage();  // (5,5)の位置に食材を配置 Yoshida
 
         grid[5][7].food = new Tomato(); // (5,7)の位置にトマトを配置 Yoshida
+
+        grid[5][8].food = new Cucumber();
 
         grid[7][7].foodBox = 1; //(7,7)にキャベツボックスを配置 Yoshida
         grid[7][7].obstacle = true;
@@ -42,6 +44,10 @@ class DrawModel extends JPanel {
         grid[8][7].foodBox = 2; //(8,7)にトマトボックスを配置 Yoshida
         grid[8][7].obstacle = true;
         grid[8][7].tool = 4;
+
+        grid[9][7].foodBox = 3; //(9,7)にきゅうりボックスを配置 heiwa
+        grid[9][7].obstacle = true;
+        grid[9][7].tool = 5;
         
         //カウンターを設置 Yoshida
         grid[13][0].wall = false; //元々壁だったところをカウンターにしたい
@@ -114,7 +120,7 @@ class DrawModel extends JPanel {
         }
     } */
     public void generateOrder() {
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < orders.length; i++) {
             if (orders[i] == null) {
                 System.out.println("orders[" + i + "] はnullです 新しいオーダーを生成します");
                 orders[i] = new Order("salad", i , this);
@@ -144,14 +150,16 @@ class DrawModel extends JPanel {
         }
         System.out.println("scoreUp()が呼ばれました");
         //これは料理が提供された瞬間の方がいいかも知れない
-        for(int i=0; i<3; i++){
-            if(orders[i].orderName == order.orderName){
+        for(int i=0; i<orders.length; i++){
+            //if(orders[i].orderName == order.orderName) 
+            if(orders[i] == order){ //こっちのほうが重複した料理があったときに対応できる
                 removeOrder(i);
                 return;
             }
         }
     }
     public void scoreDown(Order order){
+        System.out.println("socreDown() called");
         if(score == 0) return;
         switch(order.orderName){
             case "salad" : score -= 30;
@@ -160,7 +168,7 @@ class DrawModel extends JPanel {
 
         //これは料理が提供された瞬間の方がいいかも知れない
         //それな てかこれ失敗したときだからtrueにならんくね　Kome
-        for(int i=0; i<3; i++){
+        for(int i=0; i<orders.length; i++){
             if(orders[i].orderName == order.orderName){
                 removeOrder(i);
                 return;
@@ -168,11 +176,23 @@ class DrawModel extends JPanel {
         }
     }
     public void removeOrder(int i){
+        System.out.println("get =" + i);
         if (i >= 0 && i < orders.length && orders[i] != null) {
             orders[i].cancelTimer(); // タイマーの停止
             System.out.println("注文 " + orders[i].orderName + " を削除します。");
             orders[i] = null;
+            formatOrder();
         }
     }
-
+    private void formatOrder(){ //orderを前に詰めていくメソッド
+        for(int s = 0; s < orders.length - 1; s++){
+            for(int t = s; t < orders.length - 1; t++){
+                if(orders[t] == null) {
+                    orders[t] = orders[t+1];
+                    if(orders[t] != null) { orders[t].orderIndex = t; }
+                    orders[t+1] = null;
+                }
+            }
+        }
+    }
 }

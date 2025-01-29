@@ -5,16 +5,24 @@ import java.awt.event.*;
 class Player {
     public int x; //プレイヤーのx座標
     public int y; //プレイヤーのy座標
+    public double xAnim; //アニメーション用の座標変数
+    public double yAnim;
     private Food food;
     public Plate plate;
     public boolean hasPlate;
     private DrawModel model;
+    private DrawController cont;
+    private double playerSpeed = 0.4;
     public int direction; //プレイヤーの向きWASDの順で1(上),2(左),3(下),4(右)
     private Grid[][] grid;
+    public boolean moving = false;
+    public int actionCharge = 0;
 
     public Player(int x, int y, DrawModel model, Grid[][] grid) {
         this.x = x;
         this.y = y;
+        this.xAnim = x;
+        this.yAnim = y;
         this.food = null;
         this.plate = null;
         this.model = model;
@@ -25,18 +33,22 @@ class Player {
     public int getX() { return x; }
     public int getY() { return y; }
     public Food getFood() { return food; }
+    public double getPlayerSpeed() { return playerSpeed; }
+    public void setController(DrawController cont) { this.cont = cont; }
 
     public void move(int dx, int dy, Grid[][] grid) {
-        int newX = x + dx;
-        int newY = y + dy;
-        //障害物と重ならないように(障害物である場合、移動を棄却する)
-        if (newX >= 0 && newX < grid.length && newY >= 0 && newY < grid[0].length) {
-            if (!grid[newX][newY].wall && !grid[newX][newY].obstacle && !grid[newX][newY].isCounter/*&& (newX != x || newY != y)*/) {
-                x = newX;
-                y = newY;
-            }else{
-                if(grid[newX][newY].wall) System.out.printf("wallに激突しました\n");
-                if(grid[newX][newY].obstacle) System.out.printf("obstacleに激突しました\n");
+        if(moving == false){ //プレイやー移動中は移動したくない
+            int newX = x + dx;
+            int newY = y + dy;
+            //障害物と重ならないように(障害物である場合、移動を棄却する)
+            if (newX >= 0 && newX < grid.length && newY >= 0 && newY < grid[0].length) {
+                if (!grid[newX][newY].wall && !grid[newX][newY].obstacle && !grid[newX][newY].isCounter/*&& (newX != x || newY != y)*/) {
+                    x = newX;
+                    y = newY;
+                }else{
+                    if(grid[newX][newY].wall) System.out.printf("wallに激突しました\n");
+                    if(grid[newX][newY].obstacle) System.out.printf("obstacleに激突しました\n");
+                }
             }
         }
     }
@@ -84,12 +96,15 @@ class Player {
         }
         else if (food == null) {  // 何も持っていない場合
             if(frontGrid.foodBox == 1){ //目の前のマスがキャベツボックスだったら
-                this.food = new Kyabetu();
+                this.food = new Cabbage();
                 System.out.println("キャベツボックスから取得しました！");
             }
             else if(frontGrid.foodBox == 2){ //目の前のマスがトマトボックスだったら
                 this.food = new Tomato();
                 System.out.println("トマトボックスから取得しました！");
+            }else if(frontGrid.foodBox == 3){ //目の前のマスがトマトボックスだったら
+                this.food = new Cucumber();
+                System.out.println("きゅうりボックスから取得しました！");
             }
             else if (frontGrid.hasFood()) {  // 現在のマスに食材がある場合
                 food = frontGrid.food;  // 食材を拾う
