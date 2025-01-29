@@ -46,6 +46,11 @@ class DrawView extends JPanel {
 
 
     private ScheduledExecutorService executor;
+    private int frameCount = 0; // フレーム数をカウント
+    private double fps = 0.0; // 計算したFPSを格納
+    private long lastTime = System.nanoTime(); // 前回の時間
+    private static final long FPS_UPDATE_INTERVAL = 100_000_000; // 100ms（ナノ秒）
+
 
 
     //public boolean moving = true;
@@ -60,10 +65,28 @@ class DrawView extends JPanel {
         grid = model.getGrid();
         generateBackground();
         //60fpsでの描画を開始
+        
         executor = Executors.newScheduledThreadPool(1);
         executor.scheduleAtFixedRate(() -> {
             SwingUtilities.invokeLater(this::repaint); // Swingスレッドで描画
         }, 0, 16, TimeUnit.MILLISECONDS);
+        
+        executor = Executors.newScheduledThreadPool(1);
+        executor.scheduleAtFixedRate(() -> {
+            long currentTime = System.nanoTime();
+            frameCount++;
+
+            // 100ms ごとに FPS を計算
+            if (currentTime - lastTime >= FPS_UPDATE_INTERVAL) {
+                fps = frameCount * 10; // 100ms でのフレーム数を1秒換算する
+                frameCount = 0; // フレーム数をリセット
+                lastTime = currentTime; // 時間を更新
+                System.out.println("FPS: " + fps); // デバッグ出力
+            }
+
+            SwingUtilities.invokeLater(this::repaint); // Swingスレッドで描画
+        }, 0, 18, TimeUnit.MILLISECONDS);
+        
 
         /*//timerを使うと60fpsからずれるらしいから変えた　Kome
         drawTimer60fps = new Timer(1, e -> {
