@@ -22,6 +22,8 @@ class MiniCook extends JFrame {
         this.add(view);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
+
+        cont.startGameTimer(); // ゲームタイマー開始
     }
 
     public static void main(String[] args) {

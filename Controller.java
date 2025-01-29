@@ -8,6 +8,7 @@ class DrawController implements KeyListener {
     protected Player player;
     protected Timer orderTimer;
     public boolean spacePushing =false;
+    private Timer gameTimer;
 
     public DrawController(DrawModel m, DrawView v) {
         model = m;
@@ -92,4 +93,34 @@ class DrawController implements KeyListener {
 
     @Override
     public void keyTyped(KeyEvent e) {}
+
+    //　以下ゲーム時間に関わるメソッド Yoshida
+    public void startGameTimer(){
+        if(gameTimer != null) return; //二重起動防止
+
+        gameTimer = new Timer(1000, new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (model.getGameTime() > 0) {
+                    model.decreaseTime();
+                    view.updateTime(model.getGameTime());
+                } else {
+                    gameTimer.stop();
+                    gameTimer = null;
+                    stopOrderTimer();//オーダータイマーも止める
+    
+                    // 現在のウィンドウを閉じてリザルト画面に移る
+                    SwingUtilities.invokeLater(() -> {
+                        JFrame currentFrame = view.getFrame(); // View に JFrame の参照を持たせて取得
+                        if (currentFrame != null) {
+                            currentFrame.dispose(); // 現在のウィンドウを閉じる
+                        }
+                        
+                        new Result().setVisible(true); // リザルト画面を開く
+                    });
+                }
+            }
+        });
+    
+        gameTimer.start(); // タイマー開始
+    }
 }

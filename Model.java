@@ -13,6 +13,7 @@ class DrawModel extends JPanel {
     public int score;
     //private static DrawModel instance;
     public Order[] orders; //orderを入れる配列
+    private int gameTime = 5/*3*60 + 30*/; //　ゲーム時間は3分30秒 Yoshida
 
     public DrawModel() {
         //System.out.println("DrawModel instance: " + this);
@@ -193,6 +194,17 @@ class DrawModel extends JPanel {
                     orders[t+1] = null;
                 }
             }
+        }
+    }
+
+    //　以下時間に関わるメソッド Yoshida
+    public int getGameTime(){
+        return gameTime;
+    }
+
+    public void decreaseTime(){
+        if(gameTime > 0){
+            gameTime--;
         }
     }
 }
