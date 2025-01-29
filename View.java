@@ -39,7 +39,8 @@ class DrawView extends JPanel {
     private Image imgCounter;
     private Image orderPaper;
     private Image imgKnifeBlack;
-    private Image imgFloor;
+    private Image imgFloor1;
+    private Image imgFloor2;
 
     Player player;
     int headerBlank = 150;
@@ -114,7 +115,8 @@ class DrawView extends JPanel {
         imgKnifeBlack = new ImageIcon("img/knife_black.png").getImage();
 
 
-        imgFloor = new ImageIcon("img/floor.jpg").getImage();
+        imgFloor1 = new ImageIcon("img/floor1.jpg").getImage();
+        imgFloor2 = new ImageIcon("img/floor2.jpg").getImage();
 
     }
     public void setController(DrawController cont) { this.cont = cont; }
@@ -168,7 +170,8 @@ class DrawView extends JPanel {
                     g.fillRect(i * cellSize, j * cellSize + headerBlank, cellSize, cellSize);
                 } else {
                     g.setColor(Color.DARK_GRAY);
-                    g.drawImage(imgFloor, i * cellSize, j * cellSize + headerBlank, cellSize, cellSize, this);
+                    if((i + j)%2 == 0){g.drawImage(imgFloor1, i * cellSize, j * cellSize + headerBlank, cellSize, cellSize, this);}
+                    else {g.drawImage(imgFloor2, i * cellSize, j * cellSize + headerBlank, cellSize, cellSize, this);}
                     //g2d.fillRect(i * cellSize, j * cellSize + headerBlank, cellSize, cellSize);
                 }
                 
