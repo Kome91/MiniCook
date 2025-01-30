@@ -106,7 +106,7 @@ class DrawView extends JPanel {
 
         imgCucumberBox = new ImageIcon("img/cucumber_box.png").getImage();
         imgCucumber = new ImageIcon("img/cucumber.png").getImage();
-        imgCucumberCut = new ImageIcon("img/cucumber_box.png").getImage();
+        imgCucumberCut = new ImageIcon("img/cucumber_cut.png").getImage();
 
         imgCabTom = new ImageIcon("img/cabbage_and_tomato.png").getImage();
 
