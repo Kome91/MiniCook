@@ -72,9 +72,13 @@ class DrawView extends JPanel {
         //60fpsでの描画を開始
         
         executor = Executors.newScheduledThreadPool(1);
+        
+        /*
         executor.scheduleAtFixedRate(() -> {
             SwingUtilities.invokeLater(this::repaint); // Swingスレッドで描画
-        }, 0, 16, TimeUnit.MILLISECONDS);
+        }, 0, 50, TimeUnit.MILLISECONDS);
+        */
+        
         
         executor = Executors.newScheduledThreadPool(1);
         executor.scheduleAtFixedRate(() -> {
@@ -82,15 +86,16 @@ class DrawView extends JPanel {
             frameCount++;
 
             // 100ms ごとに FPS を計算
-            if (currentTime - lastTime >= FPS_UPDATE_INTERVAL) {
-                fps = frameCount * 10; // 100ms でのフレーム数を1秒換算する
+            if (frameCount >= 30) {
+                double timeDiff = (currentTime - lastTime) / 1_000_000.0;
+                double fps = 1000.0 * 30 / timeDiff;
                 frameCount = 0; // フレーム数をリセット
                 lastTime = currentTime; // 時間を更新
                 System.out.println("FPS: " + fps); // デバッグ出力
             }
 
             SwingUtilities.invokeLater(this::repaint); // Swingスレッドで描画
-        }, 0, 18, TimeUnit.MILLISECONDS);
+        }, 0, 16, TimeUnit.MILLISECONDS);
         
 
         /*//timerを使うと60fpsからずれるらしいから変えた　Kome
@@ -322,6 +327,7 @@ class DrawView extends JPanel {
             g2d.setFont(textFont);
             g2d.setColor(textColor);
             g2d.drawString("score : "+Integer.toString(model.score), 850, 750);
+            g2d.drawString("TimeLeft : "+Integer.toString(model.getGameTime()), 250, 750);
         }
 
         //オーダー用紙の描画
