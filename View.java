@@ -469,7 +469,7 @@ class DrawView extends JPanel {
         else if(cabbage==2 && tomato==0 && cucumber == 0) return imgCabbageCut; //カットキャベツ
         else if(cabbage==0 && tomato==2 && cucumber == 0) return imgTomatoCut; //カットトマト
         else if(cabbage==0 && tomato==0 && cucumber == 2) return imgCucumberCut; //カットキュウリ
-        else if(cabbage == 1 && tomato ==  1 && cucumber == 0) return imgCabTom;
+        else if(cabbage == 2 && tomato == 2 && cucumber == 2) return imgCabTom;
         return imgErrorBlock;
     }
 
@@ -502,5 +502,15 @@ class DrawView extends JPanel {
                 g.drawImage(ingredients[i], x*cellSize+offset*i+offsetX, y*cellSize+headerBlank+offsetY, size, size, this);
             }
         }
+    }
+
+    //時間に関するメソッド Yoshida
+    public void updateTime(int time){
+        System.out.println("残り時間："+time+"秒"); //仮のタイマー表示
+    }
+
+    // JFrame を取得するメソッド(Controllerでリザルト画面に移るときにゲームのウィンドウを閉じる時に使います) Yoshida
+    public JFrame getFrame() {
+        return (JFrame) SwingUtilities.getWindowAncestor(this);
     }
 }

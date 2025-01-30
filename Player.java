@@ -7,7 +7,7 @@ class Player {
     public int y; //プレイヤーのy座標
     public double xAnim; //アニメーション用の座標変数
     public double yAnim;
-    private Food food;
+    public Food food;
     public Plate plate;
     public boolean hasPlate;
     private DrawModel model;

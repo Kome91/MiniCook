@@ -2,37 +2,53 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 
-public class Start extends JFrame {
-    public Start(){
-        setTitle("MiniCook"); //ウィンドウのタイトルを設定
-        setSize(600,500); //ウィンドウサイズを設定
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //閉じるボタンでアプリケーションを終了
-        setLocationRelativeTo(null); //画面中央に表示
-        setLayout(new BorderLayout()); // レイアウトをボーダーレイアウトに設定
+public class Start extends JPanel {
+    private MiniCook mainApp;
+    private Font pixelFont;
 
-        // タイトルラベルの作成と設定
+    public Start(MiniCook mainApp) {
+        this.mainApp = mainApp; // MiniCook のインスタンスを保持
+
+        setLayout(new GridBagLayout()); // グリッドバッグレイアウトを使用
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.insets = new Insets(20, 0, 20, 0); // 上下の余白を設定
+
+        // フォントを読み込む
+        loadCustomFont();
+
+        // タイトルラベルの作成
         JLabel titleLabel = new JLabel("MiniCook", SwingConstants.CENTER);
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 30));// フォントの設定
-        add(titleLabel, BorderLayout.CENTER);// 画面中央にタイトルラベルを配置
+        titleLabel.setFont(pixelFont.deriveFont(100f));
+        add(titleLabel, gbc); // ラベルを追加
 
         // スタートボタンの作成
         JButton startButton = new JButton("Start");
-        startButton.setFont(new Font("Arial", Font.BOLD, 20));// ボタンのフォント設定
-
-        // ボタンのクリックイベント処理
+        startButton.setFont(pixelFont.deriveFont(80f));
         startButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                dispose(); // スタート画面を閉じる
-                MiniCook.main(null); // MiniCook のメインメソッドを実行
+                mainApp.startGame(); // MiniCook の startGame() を呼び出し
             }
         });
-        add(startButton, BorderLayout.SOUTH);// ボタンを画面下部に配置
+
+        gbc.gridy = 1; // ボタンを2行目に配置
+        add(startButton, gbc); // ボタンを追加
     }
 
-    // メインメソッド：スタート画面を表示
-    public static void main(String[] args) {
-        new Start().setVisible(true);
+    private void loadCustomFont() {
+        try {
+            File fontFile = new File("font/ByteBounce.ttf"); // フォントのパス
+            pixelFont = Font.createFont(Font.TRUETYPE_FONT, fontFile);
+        } catch (IOException | FontFormatException e) {
+            e.printStackTrace();
+            pixelFont = new Font("Monospaced", Font.PLAIN, 24); // フォールバック用フォント
+        }
     }
 }

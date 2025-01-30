@@ -2,43 +2,52 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 
-public class Result extends JFrame {
-    public Result(){
-        setTitle("Result"); // ウィンドウのタイトルを設定
-        setSize(600,500); // ウィンドウサイズを設定
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // 閉じるボタンでアプリケーションを終了
-        setLocationRelativeTo(null); // 画面中央に表示
-        setLayout(new BorderLayout()); // レイアウトをボーダーレイアウトに設定
+public class Result extends JPanel {
+    private MiniCook mainApp;
+    private Font pixelFont;
 
-        // タイトルラベルの作成と設定
+    public Result(MiniCook mainApp) {
+        this.mainApp = mainApp; // MiniCook のインスタンスを保持
+
+        setLayout(new GridBagLayout()); // GridBagLayout を使用
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.insets = new Insets(20, 0, 20, 0); // 上下の余白を設定
+
+        // フォントを読み込む
+        loadCustomFont();
+        
+        // タイトルラベルの作成
         JLabel titleLabel = new JLabel("Result", SwingConstants.CENTER);
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 30)); // フォントの設定
-        add(titleLabel, BorderLayout.CENTER); // 画面中央にタイトルラベルを配置
+        titleLabel.setFont(pixelFont.deriveFont(100f));
+        add(titleLabel, gbc); // ラベルを追加
 
-        // ボタンパネルの作成（横並び配置）
+        // ボタンパネルの作成（横並び）
         JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 10)); // 横並びにする（間隔20px）
+        buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 10));
 
-        // リスタートボタンの作成
-        JButton restartButton = new JButton("もう一度");
-        restartButton.setFont(new Font("Arial", Font.BOLD, 20)); // ボタンのフォント設定
+        // リスタートボタン
+        JButton restartButton = new JButton("Restart");
+        restartButton.setFont(pixelFont.deriveFont(50f));
         restartButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                dispose(); // 現在のリザルト画面を閉じる
-                MiniCook.main(null); // MiniCook のメインメソッドを実行
+                mainApp.restartGame(); // ゲームをリスタート
             }
         });
 
-        // 終了ボタンの作成
-        JButton closeButton = new JButton("終了する");
-        closeButton.setFont(new Font("Arial", Font.BOLD, 20)); // ボタンのフォント設定
+        // 終了ボタン
+        JButton closeButton = new JButton("Close");
+        closeButton.setFont(pixelFont.deriveFont(50f));
         closeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                dispose();  // 現在のウィンドウを閉じる
-                System.exit(0); // アプリケーションを終了する
+                System.exit(0); // アプリを終了
             }
         });
 
@@ -46,11 +55,18 @@ public class Result extends JFrame {
         buttonPanel.add(restartButton);
         buttonPanel.add(closeButton);
 
-        // ボタンパネルを画面下部に追加
-        add(buttonPanel, BorderLayout.SOUTH);
+        // ボタンパネルの配置設定
+        gbc.gridy = 1;
+        add(buttonPanel, gbc); // ボタンパネルを追加
     }
 
-    //時間切れになった時に以下を他のファイル(ModelかController)で呼び出して下さい
-    //new Result().setVisible(true);
-    
+    private void loadCustomFont() {
+        try {
+            File fontFile = new File("font/ByteBounce.ttf"); // フォントのパス
+            pixelFont = Font.createFont(Font.TRUETYPE_FONT, fontFile);
+        } catch (IOException | FontFormatException e) {
+            e.printStackTrace();
+            pixelFont = new Font("Monospaced", Font.PLAIN, 24); // フォールバック用フォント
+        }
+    }
 }

@@ -8,26 +8,14 @@ class DrawController implements KeyListener {
     protected Player player;
     protected Timer orderTimer;
     public boolean spacePushing =false;
+    private Timer gameTimer;
+    private MiniCook mainApp;
 
-    public DrawController(DrawModel m, DrawView v) {
+    public DrawController(DrawModel m, DrawView v, MiniCook app) {
         model = m;
         view = v;
         player = model.getPlayer(); //ここでplayerを取得しておく
-
-        model.generateOrder();
-        view.repaint();
-
-        //こんな文法あるんだね。知らんかった Kome
-        orderTimer = new Timer(5*1000, new ActionListener() {
-            public void actionPerformed(ActionEvent e){
-                model.generateOrder();
-                view.repaint();
-                System.out.println("新しい注文が追加されました！");
-            }
-        });
-        orderTimer.start();
-        System.out.println("Timer started: " + orderTimer);
-
+        mainApp = app;
     }
 
     @Override
@@ -78,6 +66,11 @@ class DrawController implements KeyListener {
     }
     public void stopOrderTimer() {
         if (orderTimer != null) {
+            for(int i=0; i<model.orders.length; i++){
+                if(model.orders[i] != null){
+                    model.orders[i].cancelTimer();
+                }
+            }
             orderTimer.stop();
         }
     }
@@ -92,4 +85,44 @@ class DrawController implements KeyListener {
 
     @Override
     public void keyTyped(KeyEvent e) {}
+
+    //　以下ゲーム時間に関わるメソッド Yoshida
+    public void startGame(){
+        //スタート画面、ゲーム画面、リザルト画面を同一ウィンドウで表示する都合上、このメソッド内でオーダータイマーとゲームタイマーを管理 Yoshida
+        model.generateOrder();
+        view.repaint();
+
+        //こんな文法あるんだね。知らんかった Kome
+        orderTimer = new Timer(5*1000, new ActionListener() {
+            public void actionPerformed(ActionEvent e){
+                model.generateOrder();
+                view.repaint();
+                System.out.println("新しい注文が追加されました！");
+            }
+        });
+        orderTimer.start();
+        System.out.println("Timer started: " + orderTimer);
+        
+        if(gameTimer != null) return; //二重起動防止
+
+        gameTimer = new Timer(1000, new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (model.getGameTime() > 0) {
+                    model.decreaseTime();
+                    view.updateTime(model.getGameTime());
+                } else {
+                    gameTimer.stop();
+                    gameTimer = null;
+                    stopOrderTimer();//オーダータイマーも止める
+    
+                    // ゲーム終了時に Result 画面を表示
+                    System.out.println("リザルト画面に切り替えます。"); //デバッグ用
+                    mainApp.showResult();
+                    
+                }
+            }
+        });
+    
+        gameTimer.start(); // タイマー開始
+    }
 }
