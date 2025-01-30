@@ -75,6 +75,10 @@ class Player {
             //food.cut();
             System.out.printf("食材を切りました\n");
             return;
+        }else if(frontGrid.tool == 9 && food.canHeat == true){//toolどこだ?9であってる?heiwa
+            food.foodStatus = 3; //これで切ったこととなるのだ Kome
+            System.out.printf("食材をゆでました\n");
+            return;
         }
     }
 
@@ -102,10 +106,23 @@ class Player {
             else if(frontGrid.foodBox == 2){ //目の前のマスがトマトボックスだったら
                 this.food = new Tomato();
                 System.out.println("トマトボックスから取得しました！");
-            }else if(frontGrid.foodBox == 3){ //目の前のマスがトマトボックスだったら
+            }else if(frontGrid.foodBox == 3){ //目の前のマスがきゅうりボックスだったら
                 this.food = new Cucumber();
                 System.out.println("きゅうりボックスから取得しました！");
+            }else if(frontGrid.foodBox == 4){ //目の前のマスが米ボックスだったら
+                this.food = new Rice();
+                System.out.println("ライスボックスから取得しました！");
+            }else if(frontGrid.foodBox == 5){ //目の前のマスがまぐろボックスだったら
+                this.food = new Tuna();
+                System.out.println("マグロボックスから取得しました！");
+            }else if(frontGrid.foodBox == 6){ //目の前のマスがいかボックスだったら
+                this.food = new Squid();
+                System.out.println("イカボックスから取得しました！");
+            }else if(frontGrid.foodBox == 7){ //目の前のマスがのりボックスだったら
+                this.food = new Seaweed();
+                System.out.println("のりボックスから取得しました！");
             }
+            
             else if (frontGrid.hasFood()) {  // 現在のマスに食材がある場合
                 food = frontGrid.food;  // 食材を拾う
                 frontGrid.food = null;  // マスから食材を消す

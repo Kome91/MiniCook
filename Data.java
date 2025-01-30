@@ -64,6 +64,42 @@ class Cucumber extends Food{
         return foodStatus;
     }
 }
+//Foodクラスを継承したriceクラスです
+class Rice extends Food{
+    public Rice(){
+        super(1, false, true, false, "rice");
+    }
+    public int getFoodStatus(){ //そのフードの状態を返す
+        return foodStatus;
+    }
+}
+//Foodクラスを継承したtunaクラスです
+class Tuna extends Food{
+    public Tuna(){
+        super(1, true, false, false, "tuna");
+    }
+    public int getFoodStatus(){ //そのフードの状態を返す
+        return foodStatus;
+    }
+}
+//Foodクラスを継承したsquidクラスです
+class Squid extends Food{
+    public Squid(){
+        super(1, true, false, false, "squid");
+    }
+    public int getFoodStatus(){ //そのフードの状態を返す
+        return foodStatus;
+    }
+}
+//Foodクラスを継承したseaweedクラスです
+class Seaweed extends Food{
+    public Seaweed(){
+        super(1, false, false, true, "seaweed");
+    }
+    public int getFoodStatus(){ //そのフードの状態を返す
+        return foodStatus;
+    }
+}
 class Plate {
     Food[] foods;
     public Plate(){
@@ -194,6 +230,81 @@ class Order {
             this.ingredient3.foodStatus = 2;
             this.ingredient3.isOnPlate = true;
         }
+        if("tekkamaki".equals(orderName)){
+            System.out.println("Order created: " + this.orderName);
+            this.timeLimit = 30;
+
+            this.ingredient1 = new Rice();
+            this.ingredient1.foodStatus = 3;
+            this.ingredient1.isOnPlate = true;
+
+            this.ingredient2 = new Tuna();
+            this.ingredient2.foodStatus = 2;
+            this.ingredient2.isOnPlate = true;
+
+            this.ingredient3 = new Seaweed();
+            this.ingredient3.foodStatus = 1;
+            this.ingredient3.isOnPlate = true;
+        }
+        if("kappamaki".equals(orderName)){
+            System.out.println("Order created: " + this.orderName);
+            this.timeLimit = 30;
+
+            this.ingredient1 = new Rice();
+            this.ingredient1.foodStatus = 3;
+            this.ingredient1.isOnPlate = true;
+
+            this.ingredient2 = new Cucumber();
+            this.ingredient2.foodStatus = 2;
+            this.ingredient2.isOnPlate = true;
+
+            this.ingredient3 = new Seaweed();
+            this.ingredient3.foodStatus = 1;
+            this.ingredient3.isOnPlate = true;
+        }
+        if("tunanigiri".equals(orderName)){
+            System.out.println("Order created: " + this.orderName);
+            this.timeLimit = 30;
+
+            this.ingredient1 = new Rice();
+            this.ingredient1.foodStatus = 3;
+            this.ingredient1.isOnPlate = true;
+
+            this.ingredient2 = new Tuna();
+            this.ingredient2.foodStatus = 2;
+            this.ingredient2.isOnPlate = true;
+
+        }
+        if("ikanigiri".equals(orderName)){
+            System.out.println("Order created: " + this.orderName);
+            this.timeLimit = 30;
+
+            this.ingredient1 = new Rice();
+            this.ingredient1.foodStatus = 3;
+            this.ingredient1.isOnPlate = true;
+
+            this.ingredient2 = new Squid();
+            this.ingredient2.foodStatus = 2;
+            this.ingredient2.isOnPlate = true;
+
+        }
+        if("kaisendon".equals(orderName)){
+            System.out.println("Order created: " + this.orderName);
+            this.timeLimit = 30;
+
+            this.ingredient1 = new Rice();
+            this.ingredient1.foodStatus = 3;
+            this.ingredient1.isOnPlate = true;
+
+            this.ingredient2 = new Tuna();
+            this.ingredient2.foodStatus = 2;
+            this.ingredient2.isOnPlate = true;
+
+            this.ingredient3 = new Squid();
+            this.ingredient3.foodStatus = 2;
+            this.ingredient3.isOnPlate = true;
+        }
+ 
 
         // 制限時間後に削除するタイマーを設定
         expirationTimer = new Timer(timeLimit * 1000, new ActionListener() {

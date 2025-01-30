@@ -24,6 +24,7 @@ class DrawView extends JPanel {
     private Image imgPlayerRight;
     private Image imgErrorBlock;
     private Image imgKnife;
+    private Image imgBoil;
     private Image imgPlateBox;
     private Image imgPlate;
     private Image imgCabbageBox;
@@ -143,6 +144,7 @@ class DrawView extends JPanel {
         imgErrorBlock = new ImageIcon("img/error_image.png").getImage();
 
         imgKnife=new ImageIcon("img/knife.png").getImage();
+        imgBoil=new ImageIcon("img/boil.png").getImage();
         imgPlateBox = new ImageIcon("img/plate_box2.png").getImage();
         imgPlate = new ImageIcon("img/plate.png").getImage();
 
@@ -477,6 +479,7 @@ class DrawView extends JPanel {
             case 7: return imgTunaBox;
             case 8: return imgSquidBox;
             case 9: return imgSeaweedBox;
+            case 10: return imgBoil;
 
 
         }
@@ -495,6 +498,7 @@ class DrawView extends JPanel {
     }
     private Image setCorrectMethod(Food foodInfo){
         if(foodInfo.foodStatus == 2) return imgKnifeBlack;
+        else if(foodInfo.foodStatus == 3)return imgBoilBlack;
         else return null;
     }
     private Image setFoodImage(Food foodInfo){
@@ -511,6 +515,25 @@ class DrawView extends JPanel {
             if(foodInfo.foodStatus == 1) return imgCucumber;
             else if(foodInfo.foodStatus == 2) return imgCucumberCut;
             else return imgErrorBlock;
+        }else if(foodInfo.foodName == "rice"){
+            if(foodInfo.foodStatus == 1) return imgRice;
+            else if(foodInfo.foodStatus == 3) return imgRiceBoil;//boilは3?heiwa
+            else return imgErrorBlock;
+        }else if(foodInfo.foodName == "tuna"){
+            if(foodInfo.foodStatus == 1) return imgTuna;
+            else if(foodInfo.foodStatus == 2) return imgTunaCut;
+            else return imgErrorBlock;
+        }else if(foodInfo.foodName == "squid"){
+            if(foodInfo.foodStatus == 1) return imgSquid;
+            else if(foodInfo.foodStatus == 2) return imgSquidCut;
+            else return imgErrorBlock;
+        }else if(foodInfo.foodName == "cucumber"){
+            if(foodInfo.foodStatus == 1) return imgCucumber;
+            else if(foodInfo.foodStatus == 2) return imgCucumberCut;
+            else return imgErrorBlock;
+        }else if(foodInfo.foodName == "seaweed"){
+            if(foodInfo.foodStatus == 1) return imgSeaweed;
+            else return imgErrorBlock;
         }
         return imgErrorBlock;
     }
@@ -525,7 +548,11 @@ class DrawView extends JPanel {
             if(food[i] == null){  break; }//これ以上の食材はないのでbreak
             if(food[i].foodName == "cabbage") cabbage = food[i].foodStatus;
             else if(food[i].foodName == "tomato") tomato = food[i].foodStatus;
-            else if(food[i].foodName == "cucumber") cucumber = food[i].foodStatus;
+            else if(food[i].foodName == "ruce") cucumber = food[i].foodStatus;
+            else if(food[i].foodName == "tuna") cucumber = food[i].foodStatus;
+            else if(food[i].foodName == "squid") cucumber = food[i].foodStatus;
+            else if(food[i].foodName == "seaweed") cucumber = food[i].foodStatus;
+
         }
         //取得した具材情報を利用してImageにセットする画像を返す。
         if(cabbage==1 && tomato==0 && cucumber == 0) return imgCabbage; //未加工キャベツ
@@ -538,6 +565,9 @@ class DrawView extends JPanel {
         else if(cabbage == 2 && tomato == 0 && cucumber == 2) return imgCabCuc;//キャベツキュウリ
         else if(cabbage == 0 && tomato == 2 && cucumber == 2) return imgTomCuc;//トマトキュウリ
         else if(cabbage == 2 && tomato == 2 && cucumber == 2) return imgCabTomCuc;//キャベツトマトキュウリ
+
+        //else if(rice == 0 && tuna == 0 && seaweed== 0) return imgRicTunSea;//ライスツナノリ
+
         return imgErrorBlock;
     }
 
