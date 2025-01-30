@@ -41,6 +41,8 @@ class DrawView extends JPanel {
     private Image imgKnifeBlack;
     private Image imgFloor1;
     private Image imgFloor2;
+    private Image imgFloor3;
+    private Image imgTable;
 
     Player player;
     int headerBlank = 150;
@@ -117,6 +119,9 @@ class DrawView extends JPanel {
 
         imgFloor1 = new ImageIcon("img/floor1.jpg").getImage();
         imgFloor2 = new ImageIcon("img/floor2.jpg").getImage();
+        imgFloor3 = new ImageIcon("img/floor3.png").getImage();
+
+        imgTable = new ImageIcon("img/table.png").getImage();
 
     }
     public void setController(DrawController cont) { this.cont = cont; }
@@ -164,14 +169,15 @@ class DrawView extends JPanel {
                 
                 if (grid[i][j].wall) {
                     g.setColor(Color.GRAY);
-                    g.fillRect(i * cellSize, j * cellSize + headerBlank, cellSize, cellSize);
+                    //g.fillRect(i * cellSize, j * cellSize + headerBlank, cellSize, cellSize);
+                    g.drawImage(imgTable, i * cellSize, j * cellSize + headerBlank, cellSize, cellSize, this);
                 } else if (grid[i][j].obstacle) {
                     g.setColor(Color.RED);
                     g.fillRect(i * cellSize, j * cellSize + headerBlank, cellSize, cellSize);
                 } else {
                     g.setColor(Color.DARK_GRAY);
-                    if((i + j)%2 == 0){g.drawImage(imgFloor1, i * cellSize, j * cellSize + headerBlank, cellSize, cellSize, this);}
-                    else {g.drawImage(imgFloor2, i * cellSize, j * cellSize + headerBlank, cellSize, cellSize, this);}
+                    if((i + j)%2 == 0){g.drawImage(imgFloor3, i * cellSize, j * cellSize + headerBlank, cellSize, cellSize, this);}
+                    else {g.drawImage(imgFloor3, i * cellSize, j * cellSize + headerBlank, cellSize, cellSize, this);}
                     //g2d.fillRect(i * cellSize, j * cellSize + headerBlank, cellSize, cellSize);
                 }
                 
