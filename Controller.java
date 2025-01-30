@@ -66,6 +66,11 @@ class DrawController implements KeyListener {
     }
     public void stopOrderTimer() {
         if (orderTimer != null) {
+            for(int i=0; i<model.orders.length; i++){
+                if(model.orders[i] != null){
+                    model.orders[i].cancelTimer();
+                }
+            }
             orderTimer.stop();
         }
     }

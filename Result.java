@@ -9,12 +9,17 @@ public class Result extends JPanel {
     public Result(MiniCook mainApp) {
         this.mainApp = mainApp; // MiniCook のインスタンスを保持
 
-        setLayout(new BorderLayout());
+        setLayout(new GridBagLayout()); // GridBagLayout を使用
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.insets = new Insets(20, 0, 20, 0); // 上下の余白を設定
 
         // タイトルラベルの作成
         JLabel titleLabel = new JLabel("Result", SwingConstants.CENTER);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 30));
-        add(titleLabel, BorderLayout.CENTER);
+        add(titleLabel, gbc); // ラベルを追加
 
         // ボタンパネルの作成（横並び）
         JPanel buttonPanel = new JPanel();
@@ -43,6 +48,9 @@ public class Result extends JPanel {
         // パネルにボタンを追加
         buttonPanel.add(restartButton);
         buttonPanel.add(closeButton);
-        add(buttonPanel, BorderLayout.SOUTH);
+
+        // ボタンパネルの配置設定
+        gbc.gridy = 1;
+        add(buttonPanel, gbc); // ボタンパネルを追加
     }
 }
