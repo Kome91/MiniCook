@@ -39,6 +39,11 @@ class DrawView extends JPanel {
     private Image imgCounter;
     private Image orderPaper;
     private Image imgKnifeBlack;
+    private Image imgFloor1;
+    private Image imgFloor2;
+    private Image imgFloor3;
+    private Image imgTable;
+
     Player player;
     int headerBlank = 150;
     int fotterBlank = 300;
@@ -126,13 +131,21 @@ class DrawView extends JPanel {
 
         imgCucumberBox = new ImageIcon("img/cucumber_box.png").getImage();
         imgCucumber = new ImageIcon("img/cucumber.png").getImage();
-        imgCucumberCut = new ImageIcon("img/cucumber_box.png").getImage();
+        imgCucumberCut = new ImageIcon("img/cucumber_cut.png").getImage();
 
         imgCabTom = new ImageIcon("img/cabbage_and_tomato.png").getImage();
 
         imgCounter = new ImageIcon("img/counter.png").getImage();
         orderPaper = new ImageIcon("img/order_paper_test.png").getImage();
         imgKnifeBlack = new ImageIcon("img/knife_black.png").getImage();
+
+
+        imgFloor1 = new ImageIcon("img/floor1.jpg").getImage();
+        imgFloor2 = new ImageIcon("img/floor2.jpg").getImage();
+        imgFloor3 = new ImageIcon("img/floor3.png").getImage();
+
+        imgTable = new ImageIcon("img/table.png").getImage();
+
     }
     public void setController(DrawController cont) { this.cont = cont; }
 
@@ -150,12 +163,16 @@ class DrawView extends JPanel {
             for (int j = 0; j < size[1]; j++) {
                 if (grid[i][j].wall) {
                     g2d.setColor(Color.GRAY);
+                    g2d.fillRect(i * cellSize, j * cellSize + headerBlank, cellSize, cellSize);
                 } else if (grid[i][j].obstacle) {
                     g2d.setColor(Color.RED);
+                    g2d.fillRect(i * cellSize, j * cellSize + headerBlank, cellSize, cellSize);
                 } else {
                     g2d.setColor(Color.DARK_GRAY);
+                    g2d.drawImage(imgCabbage, i * cellSize, j * cellSize + headerBlank, cellSize, cellSize, this);
+                    //g2d.fillRect(i * cellSize, j * cellSize + headerBlank, cellSize, cellSize);
                 }
-                g2d.fillRect(i * cellSize, j * cellSize + headerBlank, cellSize, cellSize);
+                
             }
         }
     
@@ -166,20 +183,28 @@ class DrawView extends JPanel {
         super.paintComponent(g);
         int[] size = model.getFieldSize();
         int cellSize = model.getCellSize();
-        g.drawImage(backgroundImage, 0, 0, this);
+        //g.drawImage(backgroundImage, 0, 0, this);
+        g.setColor(Color.lightGray);
+        g.fillRect(0, 0, 960, 900);
         for (int i = 0; i < size[0]; i++) {
             for (int j = 0; j < size[1]; j++) {
                 //generateBackGround()によってまとめました
-                /*
+                
                 if (grid[i][j].wall) {
                     g.setColor(Color.GRAY);
+                    //g.fillRect(i * cellSize, j * cellSize + headerBlank, cellSize, cellSize);
+                    g.drawImage(imgTable, i * cellSize, j * cellSize + headerBlank, cellSize, cellSize, this);
                 } else if (grid[i][j].obstacle) {
                     g.setColor(Color.RED);
+                    g.fillRect(i * cellSize, j * cellSize + headerBlank, cellSize, cellSize);
                 } else {
                     g.setColor(Color.DARK_GRAY);
+                    if((i + j)%2 == 0){g.drawImage(imgFloor3, i * cellSize, j * cellSize + headerBlank, cellSize, cellSize, this);}
+                    else {g.drawImage(imgFloor3, i * cellSize, j * cellSize + headerBlank, cellSize, cellSize, this);}
+                    //g2d.fillRect(i * cellSize, j * cellSize + headerBlank, cellSize, cellSize);
                 }
-                g.fillRect(i * cellSize, j * cellSize  + headerBlank, cellSize, cellSize);
-                */
+                
+            
                 //カウンターの画像を描画 //Yoshida
                 if(grid[i][j].isCounter == true){
                     g.drawImage(imgCounter, i * cellSize, j * cellSize + headerBlank, cellSize, cellSize, this);
