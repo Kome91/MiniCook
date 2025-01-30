@@ -86,7 +86,7 @@ class DrawView extends JPanel {
                 fps = frameCount * 10; // 100ms でのフレーム数を1秒換算する
                 frameCount = 0; // フレーム数をリセット
                 lastTime = currentTime; // 時間を更新
-                System.out.println("FPS: " + fps); // デバッグ出力
+                //System.out.println("FPS: " + fps); // デバッグ出力
             }
 
             SwingUtilities.invokeLater(this::repaint); // Swingスレッドで描画
