@@ -2,9 +2,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 
 public class Result extends JPanel {
     private MiniCook mainApp;
+    private Font pixelFont;
 
     public Result(MiniCook mainApp) {
         this.mainApp = mainApp; // MiniCook のインスタンスを保持
@@ -16,9 +19,12 @@ public class Result extends JPanel {
         gbc.anchor = GridBagConstraints.CENTER;
         gbc.insets = new Insets(20, 0, 20, 0); // 上下の余白を設定
 
+        // フォントを読み込む
+        loadCustomFont();
+        
         // タイトルラベルの作成
         JLabel titleLabel = new JLabel("Result", SwingConstants.CENTER);
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 30));
+        titleLabel.setFont(pixelFont.deriveFont(100f));
         add(titleLabel, gbc); // ラベルを追加
 
         // ボタンパネルの作成（横並び）
@@ -27,7 +33,7 @@ public class Result extends JPanel {
 
         // リスタートボタン
         JButton restartButton = new JButton("Restart");
-        restartButton.setFont(new Font("Arial", Font.BOLD, 20));
+        restartButton.setFont(pixelFont.deriveFont(50f));
         restartButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -37,7 +43,7 @@ public class Result extends JPanel {
 
         // 終了ボタン
         JButton closeButton = new JButton("Close");
-        closeButton.setFont(new Font("Arial", Font.BOLD, 20));
+        closeButton.setFont(pixelFont.deriveFont(50f));
         closeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -52,5 +58,15 @@ public class Result extends JPanel {
         // ボタンパネルの配置設定
         gbc.gridy = 1;
         add(buttonPanel, gbc); // ボタンパネルを追加
+    }
+
+    private void loadCustomFont() {
+        try {
+            File fontFile = new File("font/ByteBounce.ttf"); // フォントのパス
+            pixelFont = Font.createFont(Font.TRUETYPE_FONT, fontFile);
+        } catch (IOException | FontFormatException e) {
+            e.printStackTrace();
+            pixelFont = new Font("Monospaced", Font.PLAIN, 24); // フォールバック用フォント
+        }
     }
 }
