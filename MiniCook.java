@@ -39,7 +39,12 @@ class MiniCook extends JFrame {
         JPanel gamePanel = new JPanel(new BorderLayout());
         gamePanel.add(view, BorderLayout.CENTER);
         gamePanel.addKeyListener(cont);
-        gamePanel.setFocusable(true);
+        //gamePanel.setFocusable(true);
+
+        // キーリスナーを view に設定（gamePanel ではなく view にする）
+        view.setFocusable(true);
+        view.addKeyListener(cont);
+
         cardPanel.add(gamePanel, "game");
 
         add(cardPanel);
@@ -50,6 +55,9 @@ class MiniCook extends JFrame {
     public void startGame() {
         cardLayout.show(cardPanel, "game");
         cont.startGame();
+
+        // キーボード入力を受け取るためにフォーカスを設定
+        view.requestFocusInWindow();
     }
 
     // ゲーム終了時にリザルト画面を表示する
@@ -62,6 +70,7 @@ class MiniCook extends JFrame {
     public void restartGame() {
         //model.reset(); // ゲームデータをリセット（必要なら実装）
         startGame(); // ゲームを開始
+        view.requestFocusInWindow(); // フォーカスを確実に設定
     }
 
     public static void main(String[] args) {
