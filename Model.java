@@ -9,7 +9,6 @@ class DrawModel extends JPanel {
     protected Grid[][] grid;
     private Player player;
     private Food food;
-    //private int[][] imageGrid; // 各マスの画像IDを管理する2次元配列
     public int score;
     //private static DrawModel instance;
     public Order[] orders; //orderを入れる配列
@@ -67,15 +66,6 @@ class DrawModel extends JPanel {
         grid[0][6].tool = 3;
     }
 
-    /*
-    public static DrawModel getInstance() { //現在使い方がわかっておりません Kome
-        if (instance == null) {
-            instance = new DrawModel();
-        }
-        return instance;
-    }
-    */
-
     public Grid[][] getGrid() {
         return grid;
     }
@@ -112,15 +102,6 @@ class DrawModel extends JPanel {
         }
     }
 
-    /*public void generateOrder(){
-        for(int i=0; i<3; i++){
-            if(orders[i] == null){// 配列ordersの空いてるところに新しい注文を入れる
-                orders[i] = new Order("salad"); //ここの料理名はあとで乱数で決めたりする予定。とりあえずサラダ
-                System.out.println("注文" + (i+1) + "：" + orders[i].orderName);
-                break;
-            }
-        }
-    } */
     public void generateOrder() {
         for (int i = 0; i < orders.length; i++) {
             if (orders[i] == null) {
@@ -218,7 +199,6 @@ class DrawModel extends JPanel {
             orders[i] = null;
         }
         //grid = new Grid[xsize][ysize];
-        //imageGrid = new int[xsize][ysize];
         for (int i = 0; i < xsize; i++) {
             for (int j = 0; j < ysize; j++) {
                 //grid[i][j] = new Grid(i, j);

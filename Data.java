@@ -28,8 +28,6 @@ abstract class Food { //継承させる前提のabstractクラス
     public abstract int getFoodStatus();
 
     public Food(int foodStatus, boolean canCut, boolean canHeat, boolean isOnPlate, String foodName){
-        //ここにFoodのスペルが正しいか調べる処理を入れないと、エグいバグを生む気がします Kome
-        //↑いや、そもそもコンストラクタでしか、代入しないから別に問題ないわ Kome
         this.foodStatus = foodStatus;
         this.canCut = canCut;
         this.canHeat = canHeat;
