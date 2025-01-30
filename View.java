@@ -46,9 +46,17 @@ class DrawView extends JPanel {
     private Image imgFloor2;
     private Image imgFloor3;
     private Image imgTable;
+    private Image imgSampleSalad;
+
+    private Image imgA;
+    private Image imgB;
+    private Image imgC;
+    private Image imgF1;
+    private Image imgF2;
+    
 
     Player player;
-    int headerBlank = 200;
+    int headerBlank = 220;
     int fotterBlank = 300;
     double playerSpeed;
 
@@ -152,8 +160,15 @@ class DrawView extends JPanel {
         imgFloor1 = new ImageIcon("img/floor1.jpg").getImage();
         imgFloor2 = new ImageIcon("img/floor2.jpg").getImage();
         imgFloor3 = new ImageIcon("img/floor3.png").getImage();
+        imgA = new ImageIcon("img/test/B.png").getImage();
+        imgB = new ImageIcon("img/test/D.png").getImage();
+        imgC = new ImageIcon("img/test/C.jpg").getImage();
+        imgF1 = new ImageIcon("img/test/F1.png").getImage();
+        imgF2 = new ImageIcon("img/test/F2.png").getImage();
 
         imgTable = new ImageIcon("img/table.png").getImage();
+        
+        imgSampleSalad = new ImageIcon("img/salad.png").getImage();
 
     }
     public void setController(DrawController cont) { this.cont = cont; }
@@ -200,16 +215,20 @@ class DrawView extends JPanel {
                 //generateBackGround()によってまとめました
                 
                 if (grid[i][j].wall) {
-                    g.setColor(Color.GRAY);
-                    //g.fillRect(i * cellSize, j * cellSize + headerBlank, cellSize, cellSize);
-                    g.drawImage(imgTable, i * cellSize, j * cellSize + headerBlank, cellSize, cellSize, this);
+                    if((i == 0 || i == size[0]-1) && j != size[1]-1){
+                        g.drawImage(imgA, i * cellSize, j * cellSize + headerBlank, cellSize, cellSize, this);
+                    }else{
+                        g.drawImage(imgB, i * cellSize, j * cellSize + headerBlank, cellSize, cellSize, this);
+                    }
+
+                    //g.drawImage(imgTable, i * cellSize, j * cellSize + headerBlank, cellSize, cellSize, this);
                 } else if (grid[i][j].obstacle) {
                     g.setColor(Color.RED);
                     g.fillRect(i * cellSize, j * cellSize + headerBlank, cellSize, cellSize);
                 } else {
                     g.setColor(Color.DARK_GRAY);
-                    if((i + j)%2 == 0){g.drawImage(imgFloor1, i * cellSize, j * cellSize + headerBlank, cellSize, cellSize, this);}
-                    else {g.drawImage(imgFloor1, i * cellSize, j * cellSize + headerBlank, cellSize, cellSize, this);}
+                    if((i + j)%2 == 0){g.drawImage(imgF1, i * cellSize, j * cellSize + headerBlank, cellSize, cellSize, this);}
+                    else {g.drawImage(imgF2, i * cellSize, j * cellSize + headerBlank, cellSize, cellSize, this);}
                     //g2d.fillRect(i * cellSize, j * cellSize + headerBlank, cellSize, cellSize);
                 }
                 
@@ -330,8 +349,8 @@ class DrawView extends JPanel {
             Graphics2D g2d = (Graphics2D) g;
             g2d.setFont(customFont);
             g2d.setColor(textColor);
-            g2d.drawString("score : "+Integer.toString(model.score), 850, 750);
-            g2d.drawString("TimeLeft : "+Integer.toString(model.getGameTime()), 250, 750);
+            g2d.drawString("score : "+Integer.toString(model.score), 650, 850);
+            g2d.drawString("TimeLeft : "+Integer.toString(model.getGameTime()), 150, 850);
         }
 
         //オーダー用紙の描画
@@ -391,7 +410,8 @@ class DrawView extends JPanel {
                 //g.fillRect((int)order.posAnim, 0 * cellSize +20, 3*(cellSize-2), 60);
                 g.drawImage(orderPaper, (int)order.posAnim, 0 * cellSize +20, 160, 136, this);
                 drawGauge(g, "down", (int)(order.posAnim)+9, 60, 142, 20, order.getRemainingTime()/order.timeLimit);
-                g.drawImage(orderImage, 53 + (int)order.posAnim, 70, cellSize+5, cellSize+5, this);
+                //g.drawImage(orderImage, 53 + (int)order.posAnim, 70, cellSize+5, cellSize+5, this);
+                g.drawImage(imgSampleSalad, 48 + (int)order.posAnim, 72, cellSize+15, cellSize+15, this);//プレビューのためです Kome
                 
             }
         }
