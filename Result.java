@@ -21,7 +21,7 @@ public class Result extends JPanel {
         buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 10));
 
         // リスタートボタン
-        JButton restartButton = new JButton("もう一度");
+        JButton restartButton = new JButton("Restart");
         restartButton.setFont(new Font("Arial", Font.BOLD, 20));
         restartButton.addActionListener(new ActionListener() {
             @Override
@@ -31,7 +31,7 @@ public class Result extends JPanel {
         });
 
         // 終了ボタン
-        JButton closeButton = new JButton("終了する");
+        JButton closeButton = new JButton("Close");
         closeButton.setFont(new Font("Arial", Font.BOLD, 20));
         closeButton.addActionListener(new ActionListener() {
             @Override

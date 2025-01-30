@@ -13,14 +13,15 @@ class DrawModel extends JPanel {
     public int score;
     //private static DrawModel instance;
     public Order[] orders; //orderを入れる配列
-    private int gameTime = 30/*3*60 + 30*/; //　ゲーム時間は3分30秒 Yoshida
+    private int gameTime;
 
     public DrawModel() {
         //System.out.println("DrawModel instance: " + this);
+        gameTime = 10/*3*60 + 30*/; //　ゲーム時間は3分30秒 Yoshida
         orders = new Order[5];
-        orders[0] = null;
-        orders[1] = null;
-        orders[2] = null;
+        for(int i=0; i<5; i++){
+            orders[i] = null;
+        }
         grid = new Grid[xsize][ysize];
         //imageGrid = new int[xsize][ysize];
         for (int i = 0; i < xsize; i++) {
@@ -206,5 +207,67 @@ class DrawModel extends JPanel {
         if(gameTime > 0){
             gameTime--;
         }
+    }
+
+    public void reset() {
+        //System.out.println("DrawModel instance: " + this);
+        gameTime = 10/*3*60 + 30*/;
+        score = 0;
+        for(int i=0; i<5; i++){
+            //orders[i].cancelTimer();  
+            orders[i] = null;
+        }
+        //grid = new Grid[xsize][ysize];
+        //imageGrid = new int[xsize][ysize];
+        for (int i = 0; i < xsize; i++) {
+            for (int j = 0; j < ysize; j++) {
+                //grid[i][j] = new Grid(i, j);
+                //imageGrid[i][j] = '\0';
+                grid[i][j].food = null;
+                grid[i][j].plate = null;
+                grid[i][j].isPlatePlaced = false;
+                if (i == 0 || j == 0 || i == xsize - 1 || j == ysize - 1) {
+                    grid[i][j].wall = true; // 外周を壁に設定
+                }
+            }
+        }
+        grid[5][5].food = new Cabbage();  // (5,5)の位置に食材を配置 Yoshida
+
+        grid[5][7].food = new Tomato(); // (5,7)の位置にトマトを配置 Yoshida
+
+        grid[5][8].food = new Cucumber();
+
+        grid[7][7].foodBox = 1; //(7,7)にキャベツボックスを配置 Yoshida
+        grid[7][7].obstacle = true;
+        grid[7][7].tool = 2;
+
+        grid[8][7].foodBox = 2; //(8,7)にトマトボックスを配置 Yoshida
+        grid[8][7].obstacle = true;
+        grid[8][7].tool = 4;
+
+        grid[9][7].foodBox = 3; //(9,7)にきゅうりボックスを配置 heiwa
+        grid[9][7].obstacle = true;
+        grid[9][7].tool = 5;
+        
+        //カウンターを設置 Yoshida
+        grid[13][0].wall = false; //元々壁だったところをカウンターにしたい
+        grid[13][0].isCounter = true;
+
+        //player = new Player(1, 1, this, grid);
+        player.x = 1;
+        player.y = 1;
+        player.direction = 1;
+        player.food = null;
+        player.plate = null;
+        player.hasPlate = false;
+
+        grid[3][3].obstacle = true;
+        grid[3][4].obstacle = true;
+        grid[3][5].obstacle = true;
+
+        grid[0][3].tool = 1;
+
+        grid[0][6].plateBox = true;
+        grid[0][6].tool = 3;
     }
 }

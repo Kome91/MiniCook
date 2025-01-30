@@ -62,7 +62,7 @@ class MiniCook extends JFrame {
 
     // リザルト画面からもう一度プレイ
     public void restartGame() {
-        //model.reset(); // ゲームデータをリセット（必要なら実装）
+        model.reset(); // ゲームデータをリセット（必要なら実装）
         startGame(); // ゲームを開始
     }
 
