@@ -36,9 +36,34 @@ class DrawView extends JPanel {
     private Image imgCucumber;
     private Image imgCucumberCut;
     private Image imgCabTom;
+    private Image imgCabCuc;
+    private Image imgTomCuc;
+    private Image imgCabTomCuc;
+    private Image imgRiceBox;
+    private Image imgRice;
+    private Image imgRiceBoil;
+    private Image imgTunaBox;
+    private Image imgTuna;
+    private Image imgTunaCut;
+    private Image imgSquidBox;
+    private Image imgSquid;
+    private Image imgSquidCut;
+    private Image imgSeaweedBox;
+    private Image imgSeaweed;
+    private Image imgRicTun;
+    private Image imgRicSqu;
+    private Image imgRicSea;
+    private Image imgRicCucSea;
+    private Image imgRicTunSea;
+    private Image imgRicTunSqu;
+
+
+
+
     private Image imgCounter;
     private Image orderPaper;
     private Image imgKnifeBlack;
+    private Image imgBoilBlack;
     private Image imgFloor1;
     private Image imgFloor2;
     private Image imgFloor3;
@@ -118,7 +143,7 @@ class DrawView extends JPanel {
         imgErrorBlock = new ImageIcon("img/error_image.png").getImage();
 
         imgKnife=new ImageIcon("img/knife.png").getImage();
-        imgPlateBox = new ImageIcon("img/plate_box.png").getImage();
+        imgPlateBox = new ImageIcon("img/plate_box2.png").getImage();
         imgPlate = new ImageIcon("img/plate.png").getImage();
 
         imgCabbageBox=new ImageIcon("img/cabbage_box.png").getImage();
@@ -133,11 +158,40 @@ class DrawView extends JPanel {
         imgCucumber = new ImageIcon("img/cucumber.png").getImage();
         imgCucumberCut = new ImageIcon("img/cucumber_cut.png").getImage();
 
-        imgCabTom = new ImageIcon("img/cabbage_and_tomato.png").getImage();
+        imgCabTom = new ImageIcon("img/cab_tom.png").getImage();
+        imgCabCuc = new ImageIcon("img/cab_cuc.png").getImage();
+        imgTomCuc = new ImageIcon("img/tom_cuc.png").getImage();
+        imgCabTomCuc = new ImageIcon("img/cab_tom_cuc.png").getImage();
+
+        imgRiceBox = new ImageIcon("img/rice_box.png").getImage();
+        imgRice = new ImageIcon("img/rice.png").getImage();
+        imgRiceBoil = new ImageIcon("img/rice_boil.png").getImage();
+
+        imgTunaBox = new ImageIcon("img/tuna_box.png").getImage();
+        imgTuna = new ImageIcon("img/tuna.png").getImage();
+        imgTunaCut = new ImageIcon("img/tuna_cut.png").getImage();
+
+        imgSquidBox = new ImageIcon("img/squid_box.png").getImage();
+        imgSquid = new ImageIcon("img/squid.png").getImage();
+        imgSquidCut = new ImageIcon("img/squid_cut.png").getImage();
+
+        imgSeaweedBox = new ImageIcon("img/seaweed_box.png").getImage();
+        imgSeaweed = new ImageIcon("img/seaweed.png").getImage();
+
+        imgRicTun = new ImageIcon("img/ric_tun.png").getImage();
+        imgRicSqu = new ImageIcon("img/ric_squ.png").getImage();
+        imgRicSea = new ImageIcon("img/ric_sea.png").getImage();
+        imgRicCucSea = new ImageIcon("img/ric_cuc_sea.png").getImage();
+        imgRicTunSea = new ImageIcon("img/ric_tun_sea.png").getImage();
+        imgRicTunSqu = new ImageIcon("img/ric_tun_squ.png").getImage();
+
+
 
         imgCounter = new ImageIcon("img/counter.png").getImage();
         orderPaper = new ImageIcon("img/order_paper_test.png").getImage();
         imgKnifeBlack = new ImageIcon("img/knife_black.png").getImage();
+        imgBoilBlack = new ImageIcon("img/boil_black.png").getImage();
+
 
 
         imgFloor1 = new ImageIcon("img/floor1.jpg").getImage();
@@ -419,6 +473,12 @@ class DrawView extends JPanel {
             case 3: return imgPlateBox;
             case 4: return imgTomatoBox;
             case 5: return imgCucumberBox;
+            case 6: return imgRiceBox;
+            case 7: return imgTunaBox;
+            case 8: return imgSquidBox;
+            case 9: return imgSeaweedBox;
+
+
         }
         return imgErrorBlock;
     }
@@ -426,6 +486,11 @@ class DrawView extends JPanel {
         if(foodInfo.foodName == "cabbage") return imgCabbage;
         else if(foodInfo.foodName == "tomato") return imgTomato;
         else if(foodInfo.foodName == "cucumber") return imgCucumber;
+        else if(foodInfo.foodName == "rice") return imgRice;
+        else if(foodInfo.foodName == "tuna") return imgTuna;
+        else if(foodInfo.foodName == "squid") return imgSquid;
+        else if(foodInfo.foodName == "seaweed") return imgSeaweed;
+      
         else return imgErrorBlock;
     }
     private Image setCorrectMethod(Food foodInfo){
@@ -469,7 +534,10 @@ class DrawView extends JPanel {
         else if(cabbage==2 && tomato==0 && cucumber == 0) return imgCabbageCut; //カットキャベツ
         else if(cabbage==0 && tomato==2 && cucumber == 0) return imgTomatoCut; //カットトマト
         else if(cabbage==0 && tomato==0 && cucumber == 2) return imgCucumberCut; //カットキュウリ
-        else if(cabbage == 2 && tomato == 2 && cucumber == 2) return imgCabTom;
+        else if(cabbage == 2 && tomato == 2 && cucumber == 0) return imgCabTom;//キャベツトマト
+        else if(cabbage == 2 && tomato == 0 && cucumber == 2) return imgCabCuc;//キャベツキュウリ
+        else if(cabbage == 0 && tomato == 2 && cucumber == 2) return imgTomCuc;//トマトキュウリ
+        else if(cabbage == 2 && tomato == 2 && cucumber == 2) return imgCabTomCuc;//キャベツトマトキュウリ
         return imgErrorBlock;
     }
 
@@ -477,7 +545,7 @@ class DrawView extends JPanel {
         //System.out.println(order.orderName +"の画像を取得します。"); //デバッグ用
         if("salad".equals(order.orderName)){
             //System.out.println(order.orderName +"の画像を取得しました。"); //デバッグ用
-            return imgCabTom;
+            return imgCabTomCuc;
         } 
         else return null;
     }
