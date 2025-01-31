@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Random;
 
 class DrawModel extends JPanel {
     private final int xsize = 16; // グリッドの幅
@@ -78,7 +79,8 @@ class DrawModel extends JPanel {
         grid[3][4].obstacle = true;
         grid[3][5].obstacle = true;
 
-        grid[0][3].tool = 1;
+        grid[0][3].tool = 1;//ナイフ
+        grid[0][4].tool = 10;//なべ
 
         grid[0][6].plateBox = true;
         grid[0][6].tool = 3;
@@ -124,7 +126,8 @@ class DrawModel extends JPanel {
         for (int i = 0; i < orders.length; i++) {
             if (orders[i] == null) {
                 System.out.println("orders[" + i + "] はnullです 新しいオーダーを生成します");
-                orders[i] = new Order("salad", i , this);
+                
+                orders[i] = new Order("kaisendon", i , this);
                 System.out.println("生成されたオーダー: " + orders[i].orderName);
                 break;
             } else {
@@ -148,6 +151,11 @@ class DrawModel extends JPanel {
     public void scoreUp(Order order){
         switch(order.orderName){
             case "salad" : score += 30;
+            case "tekkamaki" : score += 30;
+            case "kappamaki" : score += 30;
+            case "tunanigiri" : score += 10;
+            case "ikanigiri" : score += 10;
+            case "kaisendon" : score += 30;
         }
         System.out.println("scoreUp()が呼ばれました");
         //これは料理が提供された瞬間の方がいいかも知れない
@@ -164,6 +172,11 @@ class DrawModel extends JPanel {
         if(score == 0) return;
         switch(order.orderName){
             case "salad" : score -= 30;
+            case "tekkamaki" : score -= 30;
+            case "kappamaki" : score -= 30;
+            case "tunanigiri" : score -= 10;
+            case "ikanigiri" : score -= 10;
+            case "kaisendon" : score -= 30;
         }
         if(score < 0) score = 0;
 

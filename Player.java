@@ -75,9 +75,9 @@ class Player {
             //food.cut();
             System.out.printf("食材を切りました\n");
             return;
-        }else if(frontGrid.tool == 9 && food.canHeat == true){//toolどこだ?9であってる?heiwa
-            food.foodStatus = 3; //これで切ったこととなるのだ Kome
-            System.out.printf("食材をゆでました\n");
+        }else if(frontGrid.tool == 10 && food.canHeat == true){
+            food.foodStatus = 3; 
+            System.out.printf("食材をゆでました。%sのstatusは%dです\n", food.foodName, food.foodStatus);
             return;
         }
     }
@@ -153,6 +153,8 @@ class Player {
             plate = null;
             hasPlate = false;
             frontGrid.food = null;
+            System.out.printf("デバッグ\n");
+            //plate.printPlate();
         }
         /* else */if(hasPlate==true && frontGrid.isCounter==true) { //いま皿を持っていて かつ 目の前がカウンター
             System.out.println("カウンターに提供します。");

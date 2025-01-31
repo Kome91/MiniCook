@@ -11,7 +11,7 @@ class Grid {
     public boolean isPlatePlaced = false; //そのマスにさらがおかれているか
     public int foodBox = 0; //フードボックスがキャベツなら1、トマトなら2...みたいな感じ(ボックスが無ければ0) Yoshida
     public boolean plateBox = false; //皿ボックスだった場合trueになる
-    public int tool = 0; //0はツールではない, 1は包丁, 2はキャベツボックス, 3は皿ボックス, 4:トマトボックス
+    public int tool = 0; //0はツールではない, 1は包丁, 2はキャベツボックス, 3は皿ボックス, 4:トマトボックス,5:キュウリ,6:米,7マグロ:,8:イカ,9:のり,10:なべ
     boolean isCounter; //そのマスがカウンターではないか
 
     public Grid(int x, int y) { this.x = x; this.y = y; }

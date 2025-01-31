@@ -54,6 +54,8 @@ class DrawView extends JPanel {
     private Image imgRicTun;
     private Image imgRicSqu;
     private Image imgRicSea;
+    private Image imgRicCuc;
+    private Image imgTunSqu;
     private Image imgRicCucSea;
     private Image imgRicTunSea;
     private Image imgRicTunSqu;
@@ -112,7 +114,7 @@ class DrawView extends JPanel {
                 fps = frameCount * 10; // 100ms でのフレーム数を1秒換算する
                 frameCount = 0; // フレーム数をリセット
                 lastTime = currentTime; // 時間を更新
-                System.out.println("FPS: " + fps); // デバッグ出力
+                //System.out.println("FPS: " + fps); // デバッグ出力
             }
 
             SwingUtilities.invokeLater(this::repaint); // Swingスレッドで描画
@@ -141,7 +143,9 @@ class DrawView extends JPanel {
         imgPlayerLeft = new ImageIcon("img/player_left.png").getImage();
         imgPlayerDown = new ImageIcon("img/player_down.png").getImage();
         imgPlayerRight = new ImageIcon("img/player_right.png").getImage();
-        imgErrorBlock = new ImageIcon("img/error_image.png").getImage();
+        //imgErrorBlock = new ImageIcon("img/error_image.png").getImage();
+        imgErrorBlock = new ImageIcon("img/miss.png").getImage();
+
 
         imgKnife=new ImageIcon("img/knife.png").getImage();
         imgBoil=new ImageIcon("img/boil.png").getImage();
@@ -167,7 +171,7 @@ class DrawView extends JPanel {
 
         imgRiceBox = new ImageIcon("img/rice_box.png").getImage();
         imgRice = new ImageIcon("img/rice.png").getImage();
-        imgRiceBoil = new ImageIcon("img/rice_boil.png").getImage();
+        imgRiceBoil = new ImageIcon("img/rice_boil2.png").getImage();
 
         imgTunaBox = new ImageIcon("img/tuna_box.png").getImage();
         imgTuna = new ImageIcon("img/tuna.png").getImage();
@@ -183,6 +187,8 @@ class DrawView extends JPanel {
         imgRicTun = new ImageIcon("img/ric_tun.png").getImage();
         imgRicSqu = new ImageIcon("img/ric_squ.png").getImage();
         imgRicSea = new ImageIcon("img/ric_sea.png").getImage();
+        imgRicCuc = new ImageIcon("img/ric_cuc.png").getImage();
+        imgTunSqu = new ImageIcon("img/tun_squ.png").getImage();
         imgRicCucSea = new ImageIcon("img/ric_cuc_sea.png").getImage();
         imgRicTunSea = new ImageIcon("img/ric_tun_sea.png").getImage();
         imgRicTunSqu = new ImageIcon("img/ric_tun_squ.png").getImage();
@@ -540,33 +546,85 @@ class DrawView extends JPanel {
     private Image setPlateImage(Plate targetPlate){
         Food food[] = new Food[3];
         int cabbage = 0; //そのプレートにおいてそれぞれの食材がどうなっているか
-        int tomato = 0; //0:存在しない 1:生 2:カット
+        int tomato = 0; //0:存在しない 1:生 2:カット、3:ボイル
         int cucumber = 0;
+        int rice = 0;
+        int tuna = 0;
+        int squid = 0;
+        int seaweed = 0;
+ 
+
         //plateに乗っている具材情報を取得
         for(int i = 0; i < 3; i++){
             food[i] = targetPlate.get(i);
             if(food[i] == null){  break; }//これ以上の食材はないのでbreak
             if(food[i].foodName == "cabbage") cabbage = food[i].foodStatus;
             else if(food[i].foodName == "tomato") tomato = food[i].foodStatus;
-            else if(food[i].foodName == "ruce") cucumber = food[i].foodStatus;
-            else if(food[i].foodName == "tuna") cucumber = food[i].foodStatus;
-            else if(food[i].foodName == "squid") cucumber = food[i].foodStatus;
-            else if(food[i].foodName == "seaweed") cucumber = food[i].foodStatus;
+            else if(food[i].foodName == "cucmber") cucumber = food[i].foodStatus;
+            else if(food[i].foodName == "rice") rice = food[i].foodStatus;
+            else if(food[i].foodName == "tuna") tuna = food[i].foodStatus;
+            else if(food[i].foodName == "squid") squid = food[i].foodStatus;
+            else if(food[i].foodName == "seaweed") seaweed = food[i].foodStatus;
 
         }
-        //取得した具材情報を利用してImageにセットする画像を返す。
-        if(cabbage==1 && tomato==0 && cucumber == 0) return imgCabbage; //未加工キャベツ
-        else if(cabbage==0 && tomato==1 && cucumber == 0) return imgTomato; //未加工トマト
-        else if(cabbage==0 && tomato==0 && cucumber == 1) return imgCucumber; //未加工きゅうり
-        else if(cabbage==2 && tomato==0 && cucumber == 0) return imgCabbageCut; //カットキャベツ
-        else if(cabbage==0 && tomato==2 && cucumber == 0) return imgTomatoCut; //カットトマト
-        else if(cabbage==0 && tomato==0 && cucumber == 2) return imgCucumberCut; //カットキュウリ
-        else if(cabbage == 2 && tomato == 2 && cucumber == 0) return imgCabTom;//キャベツトマト
-        else if(cabbage == 2 && tomato == 0 && cucumber == 2) return imgCabCuc;//キャベツキュウリ
-        else if(cabbage == 0 && tomato == 2 && cucumber == 2) return imgTomCuc;//トマトキュウリ
-        else if(cabbage == 2 && tomato == 2 && cucumber == 2) return imgCabTomCuc;//キャベツトマトキュウリ
-
-        //else if(rice == 0 && tuna == 0 && seaweed== 0) return imgRicTunSea;//ライスツナノリ
+        //取得した具材情報を利用してImageにセットする画像を返す。0:未所持,1:未処理,2:カット,3:ボイル,
+        
+        if(rice==0 && tuna==0 && squid==0 && seaweed==0){
+            //System.out.printf("rice = %d", rice);//デバック用
+            if(cabbage==1 && tomato==0 && cucumber == 0) return imgCabbage; //未加工キャベツ
+            else if(cabbage==0 && tomato==1 && cucumber == 0) return imgTomato; //未加工トマト
+            else if(cabbage==0 && tomato==0 && cucumber == 1) return imgCucumber; //未加工きゅうり
+            else if(cabbage==2 && tomato==0 && cucumber == 0) return imgCabbageCut; //カットキャベツ
+            else if(cabbage==0 && tomato==2 && cucumber == 0) return imgTomatoCut; //カットトマト
+            else if(cabbage==0 && tomato==0 && cucumber == 2) return imgCucumberCut; //カットキュウリ
+            else if(cabbage == 2 && tomato == 2 && cucumber == 0) return imgCabTom;//キャベツトマト
+            else if(cabbage == 2 && tomato == 0 && cucumber == 2) return imgCabCuc;//キャベツキュウリ
+            else if(cabbage == 0 && tomato == 2 && cucumber == 2) return imgTomCuc;//トマトキュウリ
+            else if(cabbage == 2 && tomato == 2 && cucumber == 2) return imgCabTomCuc;//キャベツトマトキュウリ
+        }
+        else if(cabbage==0 && tomato==0 && cucumber==0 && squid==0){
+            //System.out.print("まぐろ");//デバック用
+            if(rice == 1 && tuna == 0 && seaweed== 0) return imgRice;//加工前
+            else if(rice == 0 && tuna == 1 && seaweed== 0) return imgTuna;//
+            else if(rice == 0 && tuna == 0 && seaweed== 1) return imgSeaweed;//
+            else if(rice == 3 && tuna == 0 && seaweed== 0) return imgRiceBoil;//加工後
+            else if(rice == 0 && tuna == 2 && seaweed== 0) return imgTunaCut;//
+            else if(rice == 3 && tuna == 2 && seaweed== 0) return imgRicTun;//まぐろにぎり
+            else if(rice == 3 && tuna == 0 && seaweed== 1) return imgRicSea;//
+            else if(rice == 3 && tuna == 2 && seaweed== 1) return imgRicTunSea;//鉄火巻
+        }
+        else if(cabbage==0 && tomato==0 && cucumber==0 && tuna==0 && seaweed==0){
+            //System.out.print("いか");//デバック用
+            if(rice == 1 && squid == 0) return imgRice;//加工前
+            else if(rice == 0 && squid == 1 ) return imgSquid;//
+            else if(rice == 3 && squid == 0 ) return imgRiceBoil;//加工後
+            else if(rice == 0 && squid == 2 ) return imgSquidCut;//
+            else if(rice == 3 && squid == 2 ) return imgRicTun;//いかにぎり
+        }
+        else if(cabbage==0 && tomato==0 && cucumber==0 && seaweed==0){
+            //System.out.print("海鮮丼");//デバック用
+            if(rice == 1 && tuna == 0 && squid== 0) return imgRice;//加工前
+            else if(rice == 0 && tuna == 1 && squid== 0) return imgTuna;//
+            else if(rice == 0 && tuna == 0 && squid== 1) return imgSquid;//
+            else if(rice == 3 && tuna == 0 && squid== 0) return imgRiceBoil;//加工後
+            else if(rice == 0 && tuna == 2 && squid== 0) return imgTunaCut;//
+            else if(rice == 0 && tuna == 0 && squid== 2) return imgSquidCut;//
+            else if(rice == 3 && tuna == 2 && squid== 0) return imgRicTun;//まぐろにぎり
+            else if(rice == 3 && tuna == 0 && squid== 2) return imgRicSqu;//いかにぎり
+            else if(rice == 0 && tuna == 2 && squid== 2) return imgTunSqu;//
+            else if(rice == 3 && tuna == 2 && squid== 2) return imgRicTunSqu;//海鮮丼
+        }
+        else if(cabbage==0 && tomato==0 && tuna==0 && squid==0){
+            //System.out.print("かっぱ巻き");//デバック用
+            if(rice == 1 && cucumber == 0 && seaweed== 0) return imgRice;//加工前
+            else if(rice == 0 && cucumber == 1 && seaweed== 0) return imgCucumber;//
+            else if(rice == 0 && cucumber == 0 && seaweed== 1) return imgSeaweed;//
+            else if(rice == 3 && cucumber == 0 && seaweed== 0) return imgRiceBoil;//加工後
+            else if(rice == 0 && cucumber == 2 && seaweed== 0) return imgCucumberCut;//
+            else if(rice == 3 && cucumber == 2 && seaweed== 0) return imgRicCuc;//
+            else if(rice == 3 && cucumber == 0 && seaweed== 1) return imgRicSea;//
+            else if(rice == 3 && cucumber == 2 && seaweed== 1) return imgRicCucSea;//かっぱ巻
+        }
 
         return imgErrorBlock;
     }
@@ -576,7 +634,22 @@ class DrawView extends JPanel {
         if("salad".equals(order.orderName)){
             //System.out.println(order.orderName +"の画像を取得しました。"); //デバッグ用
             return imgCabTomCuc;
-        } 
+        }else if("tekkamaki".equals(order.orderName)){
+            //System.out.println(order.orderName +"の画像を取得しました。"); //デバッグ用
+            return imgRicTunSea;
+        }else if("kappamaki".equals(order.orderName)){
+            //System.out.println(order.orderName +"の画像を取得しました。"); //デバッグ用
+            return imgRicCucSea;
+        }else if("tunanigiri".equals(order.orderName)){
+            //System.out.println(order.orderName +"の画像を取得しました。"); //デバッグ用
+            return imgRicTun;
+        }else if("ikanigiri".equals(order.orderName)){
+            //System.out.println(order.orderName +"の画像を取得しました。"); //デバッグ用
+            return imgRicSqu;
+        }else if("kaisendon".equals(order.orderName)){
+            //System.out.println(order.orderName +"の画像を取得しました。"); //デバッグ用
+            return imgRicTunSqu;
+        }
         else return null;
     }
 
