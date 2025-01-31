@@ -13,6 +13,7 @@ class Grid {
     public boolean plateBox = false; //皿ボックスだった場合trueになる
     public int tool = 0; //0はツールではない, 1は包丁, 2はキャベツボックス, 3は皿ボックス, 4:トマトボックス,5:キュウリ,6:米,7マグロ:,8:イカ,9:のり,10:なべ
     boolean isCounter; //そのマスがカウンターではないか
+    public float cookingGauge = 0; //ご飯を炊いてる時のゲージ用　Yoshida
 
     public Grid(int x, int y) { this.x = x; this.y = y; }
 

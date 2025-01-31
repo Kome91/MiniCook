@@ -25,6 +25,7 @@ class DrawView extends JPanel {
     private Image imgErrorBlock;
     private Image imgKnife;
     private Image imgBoil;
+    private Image imgBoilRice;
     private Image imgPlateBox;
     private Image imgPlate;
     private Image imgCabbageBox;
@@ -149,6 +150,7 @@ class DrawView extends JPanel {
 
         imgKnife=new ImageIcon("img/knife.png").getImage();
         imgBoil=new ImageIcon("img/boil.png").getImage();
+        imgBoilRice=new ImageIcon("img/rice_boil.png").getImage();
         imgPlateBox = new ImageIcon("img/plate_box2.png").getImage();
         imgPlate = new ImageIcon("img/plate.png").getImage();
 
@@ -299,7 +301,6 @@ class DrawView extends JPanel {
                 if(grid[i][j].isPlatePlaced && grid[i][j].plate.hasAnyFood()){
                     setIngredientsImage(cellSize, grid[i][j].x, grid[i][j].y, 0, 0, grid[i][j].plate, g, 0);
                 }
-                
             }
         }
         
@@ -453,6 +454,23 @@ class DrawView extends JPanel {
         if(0 < player.actionCharge && player.actionCharge < 60){
             drawGauge(g, "up", (int)(player.xAnim*cellSize) + 10, (int)(player.yAnim*cellSize)+headerBlank,(int)(0.7*cellSize),8,player.actionCharge/60.0);
         }else if(player.actionCharge == 60) player.action();
+
+        for (int i = 0; i < size[0]; i++) {
+            for (int j = 0; j < size[1]; j++) {
+                if(grid[i][j].tool == 10 && grid[i][j].hasFood()){
+                    if(grid[i][j].cookingGauge < 60.0)grid[i][j].cookingGauge += 0.1;
+
+                    if(grid[i][j].cookingGauge > 0 && grid[i][j].cookingGauge < 60){
+                        drawGauge(g, "up", i*cellSize+7, j*cellSize+headerBlank-10, (int)(0.7*cellSize), 8, grid[i][j].cookingGauge/60.0);
+                    }
+                    else if(grid[i][j].cookingGauge >= 60.0){
+                        if(grid[i][j].food.foodName == "rice"){
+                            g.drawImage(setToolImage(11), i * cellSize, j * cellSize + headerBlank, cellSize, cellSize, this);
+                        }
+                    }
+                }
+            }
+        }
     }
     private void drawGauge(Graphics g, String type, int x, int y, int width, int height, double ratio){
         if(ratio > 1) { System.out.println("Warning : ゲージの割合が100%を超えています"); }
@@ -486,6 +504,7 @@ class DrawView extends JPanel {
             case 8: return imgSquidBox;
             case 9: return imgSeaweedBox;
             case 10: return imgBoil;
+            case 11: return imgBoilRice;
 
 
         }

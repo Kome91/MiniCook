@@ -67,18 +67,34 @@ class Player {
             System.out.printf("アクションができる場所ではありません\n");
             return;
         }
-        if (this.food == null) {
+        /*if (this.food == null) {
             System.out.println("食材を持っていません！");
             return;
-        }else if(frontGrid.tool == 1 && food.canCut == true){
-            food.foodStatus = 2; //これで切ったこととなるのだ Kome
-            //food.cut();
-            System.out.printf("食材を切りました\n");
-            return;
-        }else if(frontGrid.tool == 10 && food.canHeat == true){
-            food.foodStatus = 3; 
-            System.out.printf("食材をゆでました。%sのstatusは%dです\n", food.foodName, food.foodStatus);
-            return;
+        }*/
+        if(food != null){
+            if(frontGrid.tool == 1 && food.canCut == true){
+                food.foodStatus = 2; //これで切ったこととなるのだ Kome
+                //food.cut();
+                System.out.printf("食材を切りました\n");
+                return;
+            }else if(frontGrid.tool == 10 && food.canHeat == true){
+                if(!frontGrid.hasFood()){
+                    frontGrid.food = food;
+                    food = null;
+                    System.out.println("釜に米を入れました。");//デバッグ用
+                }
+                //System.out.printf("食材をゆでました。%sのstatusは%dです\n", food.foodName, food.foodStatus);
+                return;
+            }
+        }
+        
+        else if(frontGrid.tool == 10 && frontGrid.hasFood()){
+                System.out.println("炊けた米をとります。");
+                frontGrid.food.foodStatus = 3;
+                food = frontGrid.food;
+                frontGrid.food = null;
+                frontGrid.cookingGauge = 0;
+                return;
         }
     }
 
