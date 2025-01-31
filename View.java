@@ -28,6 +28,7 @@ class DrawView extends JPanel {
     private Image imgBoilRice;
     private Image imgPlateBox;
     private Image imgPlate;
+    private Image imgPan;
     private Image imgCabbageBox;
     private Image imgCabbage;
     private Image imgCabbageCut;
@@ -72,6 +73,8 @@ class DrawView extends JPanel {
     private Image imgFloor2;
     private Image imgFloor3;
     private Image imgTable;
+
+    private Image imgFire;
 
     Player player;
     int headerBlank = 150;
@@ -147,12 +150,13 @@ class DrawView extends JPanel {
         //imgErrorBlock = new ImageIcon("img/error_image.png").getImage();
         imgErrorBlock = new ImageIcon("img/miss.png").getImage();
 
-
+        //皿とツール
         imgKnife=new ImageIcon("img/knife.png").getImage();
         imgBoil=new ImageIcon("img/boil.png").getImage();
         imgBoilRice=new ImageIcon("img/rice_boil.png").getImage();
         imgPlateBox = new ImageIcon("img/plate_box2.png").getImage();
         imgPlate = new ImageIcon("img/plate.png").getImage();
+        imgPan = new ImageIcon("img/pan.png").getImage();
 
         imgCabbageBox=new ImageIcon("img/cabbage_box.png").getImage();
         imgCabbage=new ImageIcon("img/cabbage.png").getImage();
@@ -209,6 +213,8 @@ class DrawView extends JPanel {
         imgFloor3 = new ImageIcon("img/floor3.png").getImage();
 
         imgTable = new ImageIcon("img/table.png").getImage();
+
+        imgFire = new ImageIcon("img/fires.png").getImage();
 
     }
     public void setController(DrawController cont) { this.cont = cont; }
@@ -449,12 +455,17 @@ class DrawView extends JPanel {
                 
             }
         }
-        if(cont.spacePushing == true){ player.actionCharge += 1; }
+        
+        if(cont.spacePushing == true){
+            if(player.getFrontGrid().tool == 12){player.actionCharge += 0.5;} //フライパンの時は長め
+            else player.actionCharge += 1;
+        }
         else{ player.actionCharge = 0; }
         if(0 < player.actionCharge && player.actionCharge < 60){
             drawGauge(g, "up", (int)(player.xAnim*cellSize) + 10, (int)(player.yAnim*cellSize)+headerBlank,(int)(0.7*cellSize),8,player.actionCharge/60.0);
         }else if(player.actionCharge == 60) player.action();
 
+        //米炊く　Yoshida
         for (int i = 0; i < size[0]; i++) {
             for (int j = 0; j < size[1]; j++) {
                 if(grid[i][j].tool == 10 && grid[i][j].hasFood()){
@@ -471,6 +482,20 @@ class DrawView extends JPanel {
                 }
             }
         }
+
+        /*
+        // しょぼいんですけど、フライパンの火の描画です Yoshida
+        if(player.food != null && player.food.canHeat){
+            if(player.getFrontGrid().tool == 12 && cont.spacePushing == true){
+                if(player.actionCharge>0 && player.actionCharge<60){
+                    float fireScall = player.actionCharge % 30;
+                    //1行目は大きめ、2行目は小さめ
+                    //g.drawImage(imgFire, player.getFrontGrid().x * cellSize +30-(int)(fireScall), player.getFrontGrid().y * cellSize + headerBlank+55-(int)(fireScall), (int)(fireScall*cellSize/30), (int)(fireScall*cellSize/30), this);
+                    g.drawImage(imgFire, player.getFrontGrid().x * cellSize +30-(int)(fireScall/2), player.getFrontGrid().y * cellSize + headerBlank+55-(int)(fireScall/2), (int)(fireScall*cellSize/60), (int)(fireScall*cellSize/60), this);
+    
+                }
+            }
+        } */
     }
     private void drawGauge(Graphics g, String type, int x, int y, int width, int height, double ratio){
         if(ratio > 1) { System.out.println("Warning : ゲージの割合が100%を超えています"); }
@@ -505,6 +530,7 @@ class DrawView extends JPanel {
             case 9: return imgSeaweedBox;
             case 10: return imgBoil;
             case 11: return imgBoilRice;
+            case 12: return imgPan;
 
 
         }

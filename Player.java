@@ -16,7 +16,7 @@ class Player {
     public int direction; //プレイヤーの向きWASDの順で1(上),2(左),3(下),4(右)
     private Grid[][] grid;
     public boolean moving = false;
-    public int actionCharge = 0;
+    public float actionCharge = 0;
 
     public Player(int x, int y, DrawModel model, Grid[][] grid) {
         this.x = x;
@@ -93,7 +93,7 @@ class Player {
                 frontGrid.food.foodStatus = 3;
                 food = frontGrid.food;
                 frontGrid.food = null;
-                frontGrid.cookingGauge = 0;
+                frontGrid.cookingGauge = 0; //米をとったらリセット
                 return;
         }
     }

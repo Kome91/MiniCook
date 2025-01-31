@@ -79,6 +79,7 @@ class DrawModel extends JPanel {
         grid[3][4].obstacle = true;
         grid[3][5].obstacle = true;
 
+        grid[0][2].tool = 12;//フライパン
         grid[0][3].tool = 1;//ナイフ
         grid[0][4].tool = 10;//なべ
 
