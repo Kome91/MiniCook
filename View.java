@@ -657,20 +657,25 @@ class DrawView extends JPanel {
     // paintComponentに書いても良かったけど煩雑になりそうだったので関数化しました。引数が多くてすいません。
     private void setIngredientsImage(int cellSize, int x, int y, int offsetX, int offsetY, Plate plate, Graphics g){
         Image ingredients[] = new Image[3];
+        int holdStatus[] = new int[3];
         Food ing[] = new Food[3];
         int size = cellSize/4;
         int offset = 20;
         for(int i=0; i<3; i++){
             if(plate.foods[i] != null){
                 ing[i] = plate.foods[i];
-                //ing[i].foodStatus = 1; //生の状態を表示したい(調理した食材を皿に置いて、1歩あると画像が生になってしまうのでコメントアウトしてます。)
+                holdStatus[i] = plate.foods[i].foodStatus;
+                ing[i].foodStatus = 1; //生の状態を表示したい(調理した食材を皿に置いて、1歩あると画像が生になってしまうのでコメントアウトしてます。)
             }
         }
 
         for(int i=0; i<3; i++){
             if(ing[i] != null){
                 ingredients[i] = setFoodImage(ing[i]); 
+                g.setColor(Color.WHITE);
+                g.fillOval(x*cellSize+offset*i+offsetX, y*cellSize+headerBlank+offsetY, size+5, size+5);
                 g.drawImage(ingredients[i], x*cellSize+offset*i+offsetX, y*cellSize+headerBlank+offsetY, size, size, this);
+                ing[i].foodStatus = holdStatus[i];
             }
         }
     }
