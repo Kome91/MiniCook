@@ -297,7 +297,7 @@ class DrawView extends JPanel {
                 }
 
                 if(grid[i][j].isPlatePlaced && grid[i][j].plate.hasAnyFood()){
-                    setIngredientsImage(cellSize, grid[i][j].x, grid[i][j].y, 0, 0, grid[i][j].plate, g);
+                    setIngredientsImage(cellSize, grid[i][j].x, grid[i][j].y, 0, 0, grid[i][j].plate, g, 0);
                 }
                 
             }
@@ -374,7 +374,7 @@ class DrawView extends JPanel {
             else if(player.direction == 2) {offsetX -= cellSize *2/ 3; offsetY = 0;}
             else if(player.direction == 3) {offsetX = 0; offsetY += cellSize ;}
             else if(player.direction == 4) {offsetX += cellSize / 3; offsetY = 0;}
-            setIngredientsImage(cellSize, player.x, player.y, offsetX, offsetY, player.plate, g);
+            setIngredientsImage(cellSize, player.x, player.y, offsetX, offsetY, player.plate, g, player.direction);
         }
 
         //UIの描画
@@ -655,12 +655,14 @@ class DrawView extends JPanel {
 
     // Imageを返すわけではなく、この関数を呼び出せば画像を貼れる Yoshida
     // paintComponentに書いても良かったけど煩雑になりそうだったので関数化しました。引数が多くてすいません。
-    private void setIngredientsImage(int cellSize, int x, int y, int offsetX, int offsetY, Plate plate, Graphics g){
+    private void setIngredientsImage(int cellSize, int x, int y, int offsetX, int offsetY, Plate plate, Graphics g, int playerDirection){
         Image ingredients[] = new Image[3];
         int holdStatus[] = new int[3];
         Food ing[] = new Food[3];
-        int size = cellSize/4;
-        int offset = 20;
+        int size = cellSize/3;
+        int ingOffsetX = 20;
+        int ingOffsetY = 20;
+        if(playerDirection == 3){ingOffsetY = 0;}
         for(int i=0; i<3; i++){
             if(plate.foods[i] != null){
                 ing[i] = plate.foods[i];
@@ -673,8 +675,8 @@ class DrawView extends JPanel {
             if(ing[i] != null){
                 ingredients[i] = setFoodImage(ing[i]); 
                 g.setColor(Color.WHITE);
-                g.fillOval(x*cellSize+offset*i+offsetX, y*cellSize+headerBlank+offsetY, size+5, size+5);
-                g.drawImage(ingredients[i], x*cellSize+offset*i+offsetX, y*cellSize+headerBlank+offsetY, size, size, this);
+                g.fillOval(x*cellSize+ingOffsetX*i+offsetX-3, y*cellSize+headerBlank+offsetY-ingOffsetY-2, size+5, size+5);
+                g.drawImage(ingredients[i], x*cellSize+ingOffsetX*i+offsetX, y*cellSize+headerBlank+offsetY-ingOffsetY, size, size, this);
                 ing[i].foodStatus = holdStatus[i];
             }
         }
