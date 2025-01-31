@@ -25,23 +25,23 @@ class DrawController implements KeyListener {
         switch (e.getKeyCode()) {
             case KeyEvent.VK_W:
                 dy = -1;
-                model.movePlayer(dx, dy);
                 player.direction = 1; //プレイヤーの向きを変更
+                model.movePlayer(dx, dy);
                 break;
             case KeyEvent.VK_S:
                 dy = 1;
-                model.movePlayer(dx, dy);
                 player.direction = 3;
+                model.movePlayer(dx, dy);
                 break;
             case KeyEvent.VK_A:
                 dx = -1;
-                model.movePlayer(dx, dy);
                 player.direction = 2;
+                model.movePlayer(dx, dy);
                 break;
             case KeyEvent.VK_D:
                 dx = 1;
-                model.movePlayer(dx, dy);
                 player.direction = 4;
+                model.movePlayer(dx, dy);
                 break;
             case KeyEvent.VK_SPACE: //スペースキーでaction
                 spacePushing =true;
