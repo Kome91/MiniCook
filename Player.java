@@ -37,7 +37,7 @@ class Player {
     public void setController(DrawController cont) { this.cont = cont; }
 
     public void move(int dx, int dy, Grid[][] grid) {
-        if(moving == false){ //プレイやー移動中は移動したくない
+        if(moving == false && getFrontGrid().isPlatePlaced == false && getFrontGrid().hasFood() == false){ //プレイやー移動中は移動したくない
             int newX = x + dx;
             int newY = y + dy;
             //障害物と重ならないように(障害物である場合、移動を棄却する)

@@ -2,6 +2,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
 
 import java.util.concurrent.*;
 
@@ -10,7 +13,7 @@ class DrawView extends JPanel {
     //int orderXAnim = 2000;
     int speed = 20;
     double easingFactor = 0.2;
-
+    
     private BufferedImage backgroundImage = null;
 
     private Timer drawTimer60fps; //60Hzでpaintcomponent()を呼び出すために使う Kome
@@ -43,9 +46,17 @@ class DrawView extends JPanel {
     private Image imgFloor2;
     private Image imgFloor3;
     private Image imgTable;
+    private Image imgSampleSalad;
+
+    private Image imgA;
+    private Image imgB;
+    private Image imgC;
+    private Image imgF1;
+    private Image imgF2;
+    
 
     Player player;
-    int headerBlank = 150;
+    int headerBlank = 220;
     int fotterBlank = 300;
     double playerSpeed;
 
@@ -60,7 +71,7 @@ class DrawView extends JPanel {
 
     //public boolean moving = true;
     private String text = "sample_text";
-    private Font textFont = new Font("Arial", Font.BOLD, 24);
+    private Font customFont;
     private Color textColor = Color.RED;
     public DrawView(DrawModel m) {
         model = m;
@@ -68,13 +79,18 @@ class DrawView extends JPanel {
         this.setDoubleBuffered(true);
         player = model.getPlayer();
         grid = model.getGrid();
+        loadCustomFont();
         generateBackground();
         //60fpsでの描画を開始
         
         executor = Executors.newScheduledThreadPool(1);
+        
+        /*
         executor.scheduleAtFixedRate(() -> {
             SwingUtilities.invokeLater(this::repaint); // Swingスレッドで描画
-        }, 0, 16, TimeUnit.MILLISECONDS);
+        }, 0, 50, TimeUnit.MILLISECONDS);
+        */
+        
         
         executor = Executors.newScheduledThreadPool(1);
         executor.scheduleAtFixedRate(() -> {
@@ -82,15 +98,16 @@ class DrawView extends JPanel {
             frameCount++;
 
             // 100ms ごとに FPS を計算
-            if (currentTime - lastTime >= FPS_UPDATE_INTERVAL) {
-                fps = frameCount * 10; // 100ms でのフレーム数を1秒換算する
+            if (frameCount >= 30) {
+                double timeDiff = (currentTime - lastTime) / 1_000_000.0;
+                double fps = 1000.0 * 30 / timeDiff;
                 frameCount = 0; // フレーム数をリセット
                 lastTime = currentTime; // 時間を更新
                 System.out.println("FPS: " + fps); // デバッグ出力
             }
 
             SwingUtilities.invokeLater(this::repaint); // Swingスレッドで描画
-        }, 0, 18, TimeUnit.MILLISECONDS);
+        }, 0, 16, TimeUnit.MILLISECONDS);
         
 
         /*//timerを使うと60fpsからずれるらしいから変えた　Kome
@@ -136,15 +153,22 @@ class DrawView extends JPanel {
         imgCabTom = new ImageIcon("img/cabbage_and_tomato.png").getImage();
 
         imgCounter = new ImageIcon("img/counter.png").getImage();
-        orderPaper = new ImageIcon("img/order_paper_test.png").getImage();
+        orderPaper = new ImageIcon("img/order_paper.png").getImage();
         imgKnifeBlack = new ImageIcon("img/knife_black.png").getImage();
 
 
         imgFloor1 = new ImageIcon("img/floor1.jpg").getImage();
         imgFloor2 = new ImageIcon("img/floor2.jpg").getImage();
         imgFloor3 = new ImageIcon("img/floor3.png").getImage();
+        imgA = new ImageIcon("img/test/B.png").getImage();
+        imgB = new ImageIcon("img/test/D.png").getImage();
+        imgC = new ImageIcon("img/test/C.jpg").getImage();
+        imgF1 = new ImageIcon("img/test/F1.png").getImage();
+        imgF2 = new ImageIcon("img/test/F2.png").getImage();
 
         imgTable = new ImageIcon("img/table.png").getImage();
+        
+        imgSampleSalad = new ImageIcon("img/salad.png").getImage();
 
     }
     public void setController(DrawController cont) { this.cont = cont; }
@@ -191,16 +215,20 @@ class DrawView extends JPanel {
                 //generateBackGround()によってまとめました
                 
                 if (grid[i][j].wall) {
-                    g.setColor(Color.GRAY);
-                    //g.fillRect(i * cellSize, j * cellSize + headerBlank, cellSize, cellSize);
-                    g.drawImage(imgTable, i * cellSize, j * cellSize + headerBlank, cellSize, cellSize, this);
+                    if((i == 0 || i == size[0]-1) && j != size[1]-1){
+                        g.drawImage(imgA, i * cellSize, j * cellSize + headerBlank, cellSize, cellSize, this);
+                    }else{
+                        g.drawImage(imgB, i * cellSize, j * cellSize + headerBlank, cellSize, cellSize, this);
+                    }
+
+                    //g.drawImage(imgTable, i * cellSize, j * cellSize + headerBlank, cellSize, cellSize, this);
                 } else if (grid[i][j].obstacle) {
                     g.setColor(Color.RED);
                     g.fillRect(i * cellSize, j * cellSize + headerBlank, cellSize, cellSize);
                 } else {
                     g.setColor(Color.DARK_GRAY);
-                    if((i + j)%2 == 0){g.drawImage(imgFloor3, i * cellSize, j * cellSize + headerBlank, cellSize, cellSize, this);}
-                    else {g.drawImage(imgFloor3, i * cellSize, j * cellSize + headerBlank, cellSize, cellSize, this);}
+                    if((i + j)%2 == 0){g.drawImage(imgF1, i * cellSize, j * cellSize + headerBlank, cellSize, cellSize, this);}
+                    else {g.drawImage(imgF2, i * cellSize, j * cellSize + headerBlank, cellSize, cellSize, this);}
                     //g2d.fillRect(i * cellSize, j * cellSize + headerBlank, cellSize, cellSize);
                 }
                 
@@ -319,9 +347,10 @@ class DrawView extends JPanel {
 
         if (true) {
             Graphics2D g2d = (Graphics2D) g;
-            g2d.setFont(textFont);
+            g2d.setFont(customFont);
             g2d.setColor(textColor);
-            g2d.drawString("score : "+Integer.toString(model.score), 850, 750);
+            g2d.drawString("score : "+Integer.toString(model.score), 650, 850);
+            g2d.drawString("TimeLeft : "+Integer.toString(model.getGameTime()), 150, 850);
         }
 
         //オーダー用紙の描画
@@ -330,7 +359,7 @@ class DrawView extends JPanel {
             if(model.orders[i] != null){
                 Order order = model.orders[i];
                 orderImage = setOrderImage(order);
-                int targetPos = 20 + (i * 3 * cellSize);
+                int targetPos = 20 + (i * 172);
                 double dx = targetPos - order.posAnim;
                 order.posAnim += dx * easingFactor;
                 
@@ -339,7 +368,6 @@ class DrawView extends JPanel {
                     if(order.timeAnim == 0){
                         order.timeAnim = 1;
                     }
-                    
                 }
                 if(1 <= order.timeAnim) {
                     if(30 <= order.timeAnim){
@@ -349,40 +377,41 @@ class DrawView extends JPanel {
                             order.subOrderPosYAnim = order.subOrderPosY;
                         }
                         int sOPYA = (int)order.subOrderPosYAnim; //文字が長いんでint型にキャストして入れ直し
+                        int interval = cellSize-11;
+                        int wid = 45;
                         if(order.ingredient1 != null){
                             g.setColor(new Color(174, 207, 227));
-                            g.fillRect((int)order.posAnim+8+(cellSize-6)*0, sOPYA, 50, 90);
-                            g.drawImage(setCorrectRaw(order.ingredient1), (int)order.posAnim+(cellSize-6)*0 + 10, sOPYA+10, 42,42,this);
+                            g.fillRect((int)order.posAnim+8+interval*0, sOPYA, wid, 90);
+                            g.drawImage(setCorrectRaw(order.ingredient1), (int)order.posAnim+interval*0 + 8, sOPYA+10, 42,42,this);
                             if(setCorrectMethod(order.ingredient1)!=null){
-                                g.drawImage(setCorrectMethod(order.ingredient1), (int)order.posAnim+(cellSize-6)*0 + 10, sOPYA+50, 42,42,this);
+                                g.drawImage(setCorrectMethod(order.ingredient1), (int)order.posAnim+interval*0 + 10, sOPYA+50, 42,42,this);
                             }
                         }
                         if(order.ingredient2 != null){
                             g.setColor(new Color(174, 207, 227));
-                            g.fillRect((int)order.posAnim+8+(cellSize-6)*1, sOPYA, 50, 90);
-                            g.drawImage(setCorrectRaw(order.ingredient2), (int)order.posAnim+(cellSize-6)*1 + 10, sOPYA+10, 42,42,this);
+                            g.fillRect((int)order.posAnim+8+interval*1, sOPYA, wid, 90);
+                            g.drawImage(setCorrectRaw(order.ingredient2), (int)order.posAnim+interval*1 + 8, sOPYA+10, 42,42,this);
                             if(setCorrectMethod(order.ingredient2)!=null){
-                                g.drawImage(setCorrectMethod(order.ingredient2), (int)order.posAnim+(cellSize-6)*1 + 10, sOPYA+50, 42,42,this);
+                                g.drawImage(setCorrectMethod(order.ingredient2), (int)order.posAnim+interval*1 + 10, sOPYA+50, 42,42,this);
                             }
                         }
                         if(order.ingredient3 != null){
                             g.setColor(new Color(174, 207, 227));
-                            g.fillRect((int)order.posAnim+8+(cellSize-6)*2, sOPYA, 50, 90);
-                            g.drawImage(setCorrectRaw(order.ingredient3), (int)order.posAnim+(cellSize-6)*2 + 10, sOPYA+10, 42,42,this);
+                            g.fillRect((int)order.posAnim+8+interval*2, sOPYA, wid, 90);
+                            g.drawImage(setCorrectRaw(order.ingredient3), (int)order.posAnim+interval*2 + 8, sOPYA+10, 42,42,this);
                             if(setCorrectMethod(order.ingredient3)!=null){
-                                g.drawImage(setCorrectMethod(order.ingredient3), (int)order.posAnim+(cellSize-6)*2 + 10, sOPYA+50, 42,42,this);
+                                g.drawImage(setCorrectMethod(order.ingredient3), (int)order.posAnim+interval*2 + 10, sOPYA+50, 42,42,this);
                             }
                         }
-                    }else{
-
                     }
                     order.timeAnim++;
                 }
                 
                 //g.fillRect((int)order.posAnim, 0 * cellSize +20, 3*(cellSize-2), 60);
-                g.drawImage(orderPaper, (int)order.posAnim, 0 * cellSize +20, 3*(cellSize-2), 90, this);
-                drawGauge(g, "down", (int)(order.posAnim)+10, 26, 155, 13, order.getRemainingTime()/order.timeLimit);
-                g.drawImage(orderImage, cellSize + (int)order.posAnim, 0*cellSize +20, cellSize-2, cellSize-2, this);
+                g.drawImage(orderPaper, (int)order.posAnim, 0 * cellSize +20, 160, 136, this);
+                drawGauge(g, "down", (int)(order.posAnim)+9, 60, 142, 20, order.getRemainingTime()/order.timeLimit);
+                //g.drawImage(orderImage, 53 + (int)order.posAnim, 70, cellSize+5, cellSize+5, this);
+                g.drawImage(imgSampleSalad, 48 + (int)order.posAnim, 72, cellSize+15, cellSize+15, this);//プレビューのためです Kome
                 
             }
         }
@@ -512,5 +541,14 @@ class DrawView extends JPanel {
     // JFrame を取得するメソッド(Controllerでリザルト画面に移るときにゲームのウィンドウを閉じる時に使います) Yoshida
     public JFrame getFrame() {
         return (JFrame) SwingUtilities.getWindowAncestor(this);
+    }
+    private void loadCustomFont() {
+        try {
+            File fontFile = new File("font/ByteBounce.ttf"); // フォントファイルのパス
+            customFont = Font.createFont(Font.TRUETYPE_FONT, fontFile).deriveFont(100f); // フォントサイズ24
+        } catch (IOException | FontFormatException e) {
+            System.err.println("フォントの読み込みに失敗: " + e.getMessage());
+            customFont = new Font("Arial", Font.BOLD, 24); // 失敗時はデフォルトのフォント
+        }
     }
 }

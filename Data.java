@@ -155,7 +155,7 @@ class Plate {
 class Order {
     String orderName;
     double posAnim;
-    int subOrderPosY = 100;
+    int subOrderPosY = 150;
     double subOrderPosYAnim = 40;
     boolean hasPlate; //まず皿が必要
     public Food ingredient1;
