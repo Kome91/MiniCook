@@ -16,7 +16,7 @@ class Player {
     public int direction; //プレイヤーの向きWASDの順で1(上),2(左),3(下),4(右)
     private Grid[][] grid;
     public boolean moving = false;
-    public int actionCharge = 0;
+    public float actionCharge = 0;
 
     public Player(int x, int y, DrawModel model, Grid[][] grid) {
         this.x = x;
@@ -67,14 +67,34 @@ class Player {
             System.out.printf("アクションができる場所ではありません\n");
             return;
         }
-        if (this.food == null) {
+        /*if (this.food == null) {
             System.out.println("食材を持っていません！");
             return;
-        }else if(frontGrid.tool == 1 && food.canCut == true){
-            food.foodStatus = 2; //これで切ったこととなるのだ Kome
-            //food.cut();
-            System.out.printf("食材を切りました\n");
-            return;
+        }*/
+        if(food != null){
+            if(frontGrid.tool == 1 && food.canCut == true){
+                food.foodStatus = 2; //これで切ったこととなるのだ Kome
+                //food.cut();
+                System.out.printf("食材を切りました\n");
+                return;
+            }else if(frontGrid.tool == 10 && food.canHeat == true){
+                if(!frontGrid.hasFood()){
+                    frontGrid.food = food;
+                    food = null;
+                    System.out.println("釜に米を入れました。");//デバッグ用
+                }
+                //System.out.printf("食材をゆでました。%sのstatusは%dです\n", food.foodName, food.foodStatus);
+                return;
+            }
+        }
+        
+        else if(frontGrid.tool == 10 && frontGrid.hasFood()){
+                System.out.println("炊けた米をとります。");
+                frontGrid.food.foodStatus = 3;
+                food = frontGrid.food;
+                frontGrid.food = null;
+                frontGrid.cookingGauge = 0; //米をとったらリセット
+                return;
         }
     }
 
@@ -82,6 +102,7 @@ class Player {
         Grid currentGrid = grid[x][y]; //自分の足元のグリッド
         Grid frontGrid = getFrontGrid(); //自身の目の前のグリッド
         System.out.printf("frontGrid = (%d,%d)\n", frontGrid.x, frontGrid.y);
+        if(frontGrid.tool == 10){return;} //鍋からはアクションでしか食材をとれない。 Yoshida
         if(hasPlate == false && frontGrid.tool == 3 ){ //playerは皿を持っていない かつ 目の前マスが皿ボックス
             System.out.println("皿を持ちました");
             plate = new Plate(); //ここでお皿をもった
@@ -102,10 +123,23 @@ class Player {
             else if(frontGrid.foodBox == 2){ //目の前のマスがトマトボックスだったら
                 this.food = new Tomato();
                 System.out.println("トマトボックスから取得しました！");
-            }else if(frontGrid.foodBox == 3){ //目の前のマスがトマトボックスだったら
+            }else if(frontGrid.foodBox == 3){ //目の前のマスがきゅうりボックスだったら
                 this.food = new Cucumber();
                 System.out.println("きゅうりボックスから取得しました！");
+            }else if(frontGrid.foodBox == 4){ //目の前のマスが米ボックスだったら
+                this.food = new Rice();
+                System.out.println("ライスボックスから取得しました！");
+            }else if(frontGrid.foodBox == 5){ //目の前のマスがまぐろボックスだったら
+                this.food = new Tuna();
+                System.out.println("マグロボックスから取得しました！");
+            }else if(frontGrid.foodBox == 6){ //目の前のマスがいかボックスだったら
+                this.food = new Squid();
+                System.out.println("イカボックスから取得しました！");
+            }else if(frontGrid.foodBox == 7){ //目の前のマスがのりボックスだったら
+                this.food = new Seaweed();
+                System.out.println("のりボックスから取得しました！");
             }
+            
             else if (frontGrid.hasFood()) {  // 現在のマスに食材がある場合
                 food = frontGrid.food;  // 食材を拾う
                 frontGrid.food = null;  // マスから食材を消す
@@ -136,6 +170,8 @@ class Player {
             plate = null;
             hasPlate = false;
             frontGrid.food = null;
+            System.out.printf("デバッグ\n");
+            //plate.printPlate();
         }
         /* else */if(hasPlate==true && frontGrid.isCounter==true) { //いま皿を持っていて かつ 目の前がカウンター
             System.out.println("カウンターに提供します。");

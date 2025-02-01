@@ -105,7 +105,7 @@ class DrawController implements KeyListener {
         
         if(gameTimer != null) return; //二重起動防止
 
-        gameTimer = new Timer(1000, new ActionListener() {
+        gameTimer = new Timer(5000, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (model.getGameTime() > 0) {
                     model.decreaseTime();

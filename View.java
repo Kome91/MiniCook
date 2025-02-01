@@ -27,8 +27,11 @@ class DrawView extends JPanel {
     private Image imgPlayerRight;
     private Image imgErrorBlock;
     private Image imgKnife;
+    private Image imgBoil;
+    private Image imgBoilRice;
     private Image imgPlateBox;
     private Image imgPlate;
+    private Image imgPan;
     private Image imgCabbageBox;
     private Image imgCabbage;
     private Image imgCabbageCut;
@@ -39,9 +42,36 @@ class DrawView extends JPanel {
     private Image imgCucumber;
     private Image imgCucumberCut;
     private Image imgCabTom;
+    private Image imgCabCuc;
+    private Image imgTomCuc;
+    private Image imgCabTomCuc;
+    private Image imgRiceBox;
+    private Image imgRice;
+    private Image imgRiceBoil;
+    private Image imgTunaBox;
+    private Image imgTuna;
+    private Image imgTunaCut;
+    private Image imgSquidBox;
+    private Image imgSquid;
+    private Image imgSquidCut;
+    private Image imgSeaweedBox;
+    private Image imgSeaweed;
+    private Image imgRicTun;
+    private Image imgRicSqu;
+    private Image imgRicSea;
+    private Image imgRicCuc;
+    private Image imgTunSqu;
+    private Image imgRicCucSea;
+    private Image imgRicTunSea;
+    private Image imgRicTunSqu;
+
+
+
+
     private Image imgCounter;
     private Image orderPaper;
     private Image imgKnifeBlack;
+    private Image imgBoilBlack;
     private Image imgFloor1;
     private Image imgFloor2;
     private Image imgFloor3;
@@ -54,6 +84,8 @@ class DrawView extends JPanel {
     private Image imgF1;
     private Image imgF2;
     
+
+    private Image imgFire;
 
     Player player;
     int headerBlank = 220;
@@ -103,7 +135,7 @@ class DrawView extends JPanel {
                 double fps = 1000.0 * 30 / timeDiff;
                 frameCount = 0; // フレーム数をリセット
                 lastTime = currentTime; // 時間を更新
-                System.out.println("FPS: " + fps); // デバッグ出力
+                //System.out.println("FPS: " + fps); // デバッグ出力
             }
 
             SwingUtilities.invokeLater(this::repaint); // Swingスレッドで描画
@@ -132,11 +164,16 @@ class DrawView extends JPanel {
         imgPlayerLeft = new ImageIcon("img/player_left.png").getImage();
         imgPlayerDown = new ImageIcon("img/player_down.png").getImage();
         imgPlayerRight = new ImageIcon("img/player_right.png").getImage();
-        imgErrorBlock = new ImageIcon("img/error_image.png").getImage();
+        //imgErrorBlock = new ImageIcon("img/error_image.png").getImage();
+        imgErrorBlock = new ImageIcon("img/miss.png").getImage();
 
+        //皿とツール
         imgKnife=new ImageIcon("img/knife.png").getImage();
-        imgPlateBox = new ImageIcon("img/plate_box.png").getImage();
+        imgBoil=new ImageIcon("img/boil.png").getImage();
+        imgBoilRice=new ImageIcon("img/rice_boil.png").getImage();
+        imgPlateBox = new ImageIcon("img/plate_box2.png").getImage();
         imgPlate = new ImageIcon("img/plate.png").getImage();
+        imgPan = new ImageIcon("img/pan.png").getImage();
 
         imgCabbageBox=new ImageIcon("img/cabbage_box.png").getImage();
         imgCabbage=new ImageIcon("img/cabbage.png").getImage();
@@ -150,11 +187,42 @@ class DrawView extends JPanel {
         imgCucumber = new ImageIcon("img/cucumber.png").getImage();
         imgCucumberCut = new ImageIcon("img/cucumber_cut.png").getImage();
 
-        imgCabTom = new ImageIcon("img/cabbage_and_tomato.png").getImage();
+        imgCabTom = new ImageIcon("img/cab_tom.png").getImage();
+        imgCabCuc = new ImageIcon("img/cab_cuc.png").getImage();
+        imgTomCuc = new ImageIcon("img/tom_cuc.png").getImage();
+        imgCabTomCuc = new ImageIcon("img/cab_tom_cuc.png").getImage();
+
+        imgRiceBox = new ImageIcon("img/rice_box.png").getImage();
+        imgRice = new ImageIcon("img/rice.png").getImage();
+        imgRiceBoil = new ImageIcon("img/rice_boil2.png").getImage();
+
+        imgTunaBox = new ImageIcon("img/tuna_box.png").getImage();
+        imgTuna = new ImageIcon("img/tuna.png").getImage();
+        imgTunaCut = new ImageIcon("img/tuna_cut.png").getImage();
+
+        imgSquidBox = new ImageIcon("img/squid_box.png").getImage();
+        imgSquid = new ImageIcon("img/squid.png").getImage();
+        imgSquidCut = new ImageIcon("img/squid_cut.png").getImage();
+
+        imgSeaweedBox = new ImageIcon("img/seaweed_box.png").getImage();
+        imgSeaweed = new ImageIcon("img/seaweed.png").getImage();
+
+        imgRicTun = new ImageIcon("img/ric_tun.png").getImage();
+        imgRicSqu = new ImageIcon("img/ric_squ.png").getImage();
+        imgRicSea = new ImageIcon("img/ric_sea.png").getImage();
+        imgRicCuc = new ImageIcon("img/ric_cuc.png").getImage();
+        imgTunSqu = new ImageIcon("img/tun_squ.png").getImage();
+        imgRicCucSea = new ImageIcon("img/ric_cuc_sea.png").getImage();
+        imgRicTunSea = new ImageIcon("img/ric_tun_sea.png").getImage();
+        imgRicTunSqu = new ImageIcon("img/ric_tun_squ.png").getImage();
+
+
 
         imgCounter = new ImageIcon("img/counter.png").getImage();
         orderPaper = new ImageIcon("img/order_paper.png").getImage();
         imgKnifeBlack = new ImageIcon("img/knife_black.png").getImage();
+        imgBoilBlack = new ImageIcon("img/boil_black.png").getImage();
+
 
 
         imgFloor1 = new ImageIcon("img/floor1.jpg").getImage();
@@ -169,6 +237,8 @@ class DrawView extends JPanel {
         imgTable = new ImageIcon("img/table.png").getImage();
         
         imgSampleSalad = new ImageIcon("img/salad.png").getImage();
+
+        imgFire = new ImageIcon("img/fires.png").getImage();
 
     }
     public void setController(DrawController cont) { this.cont = cont; }
@@ -263,9 +333,8 @@ class DrawView extends JPanel {
                 }
 
                 if(grid[i][j].isPlatePlaced && grid[i][j].plate.hasAnyFood()){
-                    setIngredientsImage(cellSize, grid[i][j].x, grid[i][j].y, 0, 0, grid[i][j].plate, g);
+                    setIngredientsImage(cellSize, grid[i][j].x, grid[i][j].y, 0, 0, grid[i][j].plate, g, 0);
                 }
-                
             }
         }
         
@@ -340,7 +409,7 @@ class DrawView extends JPanel {
             else if(player.direction == 2) {offsetX -= cellSize *2/ 3; offsetY = 0;}
             else if(player.direction == 3) {offsetX = 0; offsetY += cellSize ;}
             else if(player.direction == 4) {offsetX += cellSize / 3; offsetY = 0;}
-            setIngredientsImage(cellSize, player.x, player.y, offsetX, offsetY, player.plate, g);
+            setIngredientsImage(cellSize, player.x, player.y, offsetX, offsetY, player.plate, g, player.direction);
         }
 
         //UIの描画
@@ -415,11 +484,47 @@ class DrawView extends JPanel {
                 
             }
         }
-        if(cont.spacePushing == true){ player.actionCharge += 1; }
+        
+        if(cont.spacePushing == true){
+            if(player.getFrontGrid().tool == 12){player.actionCharge += 0.5;} //フライパンの時は長め
+            else player.actionCharge += 1;
+        }
         else{ player.actionCharge = 0; }
         if(0 < player.actionCharge && player.actionCharge < 60){
             drawGauge(g, "up", (int)(player.xAnim*cellSize) + 10, (int)(player.yAnim*cellSize)+headerBlank,(int)(0.7*cellSize),8,player.actionCharge/60.0);
         }else if(player.actionCharge == 60) player.action();
+
+        
+        // しょぼいんですけど、フライパンの火の描画です Yoshida
+        if(player.food != null && player.food.canHeat){
+            if(player.getFrontGrid().tool == 12 && cont.spacePushing == true){
+                if(player.actionCharge>0 && player.actionCharge<60){
+                    float fireScall = player.actionCharge % 30;
+                    //1行目は大きめ、2行目は小さめ
+                    //g.drawImage(imgFire, player.getFrontGrid().x * cellSize +30-(int)(fireScall), player.getFrontGrid().y * cellSize + headerBlank+55-(int)(fireScall), (int)(fireScall*cellSize/30), (int)(fireScall*cellSize/30), this);
+                    g.drawImage(imgFire, player.getFrontGrid().x * cellSize +30-(int)(fireScall/2), player.getFrontGrid().y * cellSize + headerBlank+55-(int)(fireScall/2), (int)(fireScall*cellSize/60), (int)(fireScall*cellSize/60), this);
+    
+                }
+            }
+        } 
+
+        //米炊く　Yoshida
+        for (int i = 0; i < size[0]; i++) {
+            for (int j = 0; j < size[1]; j++) {
+                if(grid[i][j].tool == 10 && grid[i][j].hasFood()){
+                    if(grid[i][j].cookingGauge < 60.0)grid[i][j].cookingGauge += 0.1;
+
+                    if(grid[i][j].cookingGauge > 0 && grid[i][j].cookingGauge < 60){
+                        drawGauge(g, "up", i*cellSize+7, j*cellSize+headerBlank-10, (int)(0.7*cellSize), 8, grid[i][j].cookingGauge/60.0);
+                    }
+                    else if(grid[i][j].cookingGauge >= 60.0){
+                        if(grid[i][j].food.foodName == "rice"){
+                            g.drawImage(setToolImage(11), i * cellSize, j * cellSize + headerBlank, cellSize, cellSize, this);
+                        }
+                    }
+                }
+            }
+        }        
     }
     private void drawGauge(Graphics g, String type, int x, int y, int width, int height, double ratio){
         if(ratio > 1) { System.out.println("Warning : ゲージの割合が100%を超えています"); }
@@ -448,6 +553,15 @@ class DrawView extends JPanel {
             case 3: return imgPlateBox;
             case 4: return imgTomatoBox;
             case 5: return imgCucumberBox;
+            case 6: return imgRiceBox;
+            case 7: return imgTunaBox;
+            case 8: return imgSquidBox;
+            case 9: return imgSeaweedBox;
+            case 10: return imgBoil;
+            case 11: return imgBoilRice;
+            case 12: return imgPan;
+
+
         }
         return imgErrorBlock;
     }
@@ -455,10 +569,16 @@ class DrawView extends JPanel {
         if(foodInfo.foodName == "cabbage") return imgCabbage;
         else if(foodInfo.foodName == "tomato") return imgTomato;
         else if(foodInfo.foodName == "cucumber") return imgCucumber;
+        else if(foodInfo.foodName == "rice") return imgRice;
+        else if(foodInfo.foodName == "tuna") return imgTuna;
+        else if(foodInfo.foodName == "squid") return imgSquid;
+        else if(foodInfo.foodName == "seaweed") return imgSeaweed;
+      
         else return imgErrorBlock;
     }
     private Image setCorrectMethod(Food foodInfo){
         if(foodInfo.foodStatus == 2) return imgKnifeBlack;
+        else if(foodInfo.foodStatus == 3)return imgBoilBlack;
         else return null;
     }
     private Image setFoodImage(Food foodInfo){
@@ -475,30 +595,111 @@ class DrawView extends JPanel {
             if(foodInfo.foodStatus == 1) return imgCucumber;
             else if(foodInfo.foodStatus == 2) return imgCucumberCut;
             else return imgErrorBlock;
+        }else if(foodInfo.foodName == "rice"){
+            if(foodInfo.foodStatus == 1) return imgRice;
+            else if(foodInfo.foodStatus == 3) return imgRiceBoil;//boilは3?heiwa
+            else return imgErrorBlock;
+        }else if(foodInfo.foodName == "tuna"){
+            if(foodInfo.foodStatus == 1) return imgTuna;
+            else if(foodInfo.foodStatus == 2) return imgTunaCut;
+            else return imgErrorBlock;
+        }else if(foodInfo.foodName == "squid"){
+            if(foodInfo.foodStatus == 1) return imgSquid;
+            else if(foodInfo.foodStatus == 2) return imgSquidCut;
+            else return imgErrorBlock;
+        }else if(foodInfo.foodName == "cucumber"){
+            if(foodInfo.foodStatus == 1) return imgCucumber;
+            else if(foodInfo.foodStatus == 2) return imgCucumberCut;
+            else return imgErrorBlock;
+        }else if(foodInfo.foodName == "seaweed"){
+            if(foodInfo.foodStatus == 1) return imgSeaweed;
+            else return imgErrorBlock;
         }
         return imgErrorBlock;
     }
     private Image setPlateImage(Plate targetPlate){
         Food food[] = new Food[3];
         int cabbage = 0; //そのプレートにおいてそれぞれの食材がどうなっているか
-        int tomato = 0; //0:存在しない 1:生 2:カット
+        int tomato = 0; //0:存在しない 1:生 2:カット、3:ボイル
         int cucumber = 0;
+        int rice = 0;
+        int tuna = 0;
+        int squid = 0;
+        int seaweed = 0;
+ 
+
         //plateに乗っている具材情報を取得
         for(int i = 0; i < 3; i++){
             food[i] = targetPlate.get(i);
             if(food[i] == null){  break; }//これ以上の食材はないのでbreak
             if(food[i].foodName == "cabbage") cabbage = food[i].foodStatus;
             else if(food[i].foodName == "tomato") tomato = food[i].foodStatus;
-            else if(food[i].foodName == "cucumber") cucumber = food[i].foodStatus;
+            else if(food[i].foodName == "cucmber") cucumber = food[i].foodStatus;
+            else if(food[i].foodName == "rice") rice = food[i].foodStatus;
+            else if(food[i].foodName == "tuna") tuna = food[i].foodStatus;
+            else if(food[i].foodName == "squid") squid = food[i].foodStatus;
+            else if(food[i].foodName == "seaweed") seaweed = food[i].foodStatus;
+
         }
-        //取得した具材情報を利用してImageにセットする画像を返す。
-        if(cabbage==1 && tomato==0 && cucumber == 0) return imgCabbage; //未加工キャベツ
-        else if(cabbage==0 && tomato==1 && cucumber == 0) return imgTomato; //未加工トマト
-        else if(cabbage==0 && tomato==0 && cucumber == 1) return imgCucumber; //未加工きゅうり
-        else if(cabbage==2 && tomato==0 && cucumber == 0) return imgCabbageCut; //カットキャベツ
-        else if(cabbage==0 && tomato==2 && cucumber == 0) return imgTomatoCut; //カットトマト
-        else if(cabbage==0 && tomato==0 && cucumber == 2) return imgCucumberCut; //カットキュウリ
-        else if(cabbage == 2 && tomato == 2 && cucumber == 2) return imgCabTom;
+        //取得した具材情報を利用してImageにセットする画像を返す。0:未所持,1:未処理,2:カット,3:ボイル,
+        
+        if(rice==0 && tuna==0 && squid==0 && seaweed==0){
+            //System.out.printf("rice = %d", rice);//デバック用
+            if(cabbage==1 && tomato==0 && cucumber == 0) return imgCabbage; //未加工キャベツ
+            else if(cabbage==0 && tomato==1 && cucumber == 0) return imgTomato; //未加工トマト
+            else if(cabbage==0 && tomato==0 && cucumber == 1) return imgCucumber; //未加工きゅうり
+            else if(cabbage==2 && tomato==0 && cucumber == 0) return imgCabbageCut; //カットキャベツ
+            else if(cabbage==0 && tomato==2 && cucumber == 0) return imgTomatoCut; //カットトマト
+            else if(cabbage==0 && tomato==0 && cucumber == 2) return imgCucumberCut; //カットキュウリ
+            else if(cabbage == 2 && tomato == 2 && cucumber == 0) return imgCabTom;//キャベツトマト
+            else if(cabbage == 2 && tomato == 0 && cucumber == 2) return imgCabCuc;//キャベツキュウリ
+            else if(cabbage == 0 && tomato == 2 && cucumber == 2) return imgTomCuc;//トマトキュウリ
+            else if(cabbage == 2 && tomato == 2 && cucumber == 2) return imgCabTomCuc;//キャベツトマトキュウリ
+        }
+        else if(cabbage==0 && tomato==0 && cucumber==0 && squid==0){
+            //System.out.print("まぐろ");//デバック用
+            if(rice == 1 && tuna == 0 && seaweed== 0) return imgRice;//加工前
+            else if(rice == 0 && tuna == 1 && seaweed== 0) return imgTuna;//
+            else if(rice == 0 && tuna == 0 && seaweed== 1) return imgSeaweed;//
+            else if(rice == 3 && tuna == 0 && seaweed== 0) return imgRiceBoil;//加工後
+            else if(rice == 0 && tuna == 2 && seaweed== 0) return imgTunaCut;//
+            else if(rice == 3 && tuna == 2 && seaweed== 0) return imgRicTun;//まぐろにぎり
+            else if(rice == 3 && tuna == 0 && seaweed== 1) return imgRicSea;//
+            else if(rice == 3 && tuna == 2 && seaweed== 1) return imgRicTunSea;//鉄火巻
+        }
+        else if(cabbage==0 && tomato==0 && cucumber==0 && tuna==0 && seaweed==0){
+            //System.out.print("いか");//デバック用
+            if(rice == 1 && squid == 0) return imgRice;//加工前
+            else if(rice == 0 && squid == 1 ) return imgSquid;//
+            else if(rice == 3 && squid == 0 ) return imgRiceBoil;//加工後
+            else if(rice == 0 && squid == 2 ) return imgSquidCut;//
+            else if(rice == 3 && squid == 2 ) return imgRicTun;//いかにぎり
+        }
+        else if(cabbage==0 && tomato==0 && cucumber==0 && seaweed==0){
+            //System.out.print("海鮮丼");//デバック用
+            if(rice == 1 && tuna == 0 && squid== 0) return imgRice;//加工前
+            else if(rice == 0 && tuna == 1 && squid== 0) return imgTuna;//
+            else if(rice == 0 && tuna == 0 && squid== 1) return imgSquid;//
+            else if(rice == 3 && tuna == 0 && squid== 0) return imgRiceBoil;//加工後
+            else if(rice == 0 && tuna == 2 && squid== 0) return imgTunaCut;//
+            else if(rice == 0 && tuna == 0 && squid== 2) return imgSquidCut;//
+            else if(rice == 3 && tuna == 2 && squid== 0) return imgRicTun;//まぐろにぎり
+            else if(rice == 3 && tuna == 0 && squid== 2) return imgRicSqu;//いかにぎり
+            else if(rice == 0 && tuna == 2 && squid== 2) return imgTunSqu;//
+            else if(rice == 3 && tuna == 2 && squid== 2) return imgRicTunSqu;//海鮮丼
+        }
+        else if(cabbage==0 && tomato==0 && tuna==0 && squid==0){
+            //System.out.print("かっぱ巻き");//デバック用
+            if(rice == 1 && cucumber == 0 && seaweed== 0) return imgRice;//加工前
+            else if(rice == 0 && cucumber == 1 && seaweed== 0) return imgCucumber;//
+            else if(rice == 0 && cucumber == 0 && seaweed== 1) return imgSeaweed;//
+            else if(rice == 3 && cucumber == 0 && seaweed== 0) return imgRiceBoil;//加工後
+            else if(rice == 0 && cucumber == 2 && seaweed== 0) return imgCucumberCut;//
+            else if(rice == 3 && cucumber == 2 && seaweed== 0) return imgRicCuc;//
+            else if(rice == 3 && cucumber == 0 && seaweed== 1) return imgRicSea;//
+            else if(rice == 3 && cucumber == 2 && seaweed== 1) return imgRicCucSea;//かっぱ巻
+        }
+
         return imgErrorBlock;
     }
 
@@ -506,29 +707,51 @@ class DrawView extends JPanel {
         //System.out.println(order.orderName +"の画像を取得します。"); //デバッグ用
         if("salad".equals(order.orderName)){
             //System.out.println(order.orderName +"の画像を取得しました。"); //デバッグ用
-            return imgCabTom;
-        } 
+            return imgCabTomCuc;
+        }else if("tekkamaki".equals(order.orderName)){
+            //System.out.println(order.orderName +"の画像を取得しました。"); //デバッグ用
+            return imgRicTunSea;
+        }else if("kappamaki".equals(order.orderName)){
+            //System.out.println(order.orderName +"の画像を取得しました。"); //デバッグ用
+            return imgRicCucSea;
+        }else if("tunanigiri".equals(order.orderName)){
+            //System.out.println(order.orderName +"の画像を取得しました。"); //デバッグ用
+            return imgRicTun;
+        }else if("ikanigiri".equals(order.orderName)){
+            //System.out.println(order.orderName +"の画像を取得しました。"); //デバッグ用
+            return imgRicSqu;
+        }else if("kaisendon".equals(order.orderName)){
+            //System.out.println(order.orderName +"の画像を取得しました。"); //デバッグ用
+            return imgRicTunSqu;
+        }
         else return null;
     }
 
     // Imageを返すわけではなく、この関数を呼び出せば画像を貼れる Yoshida
     // paintComponentに書いても良かったけど煩雑になりそうだったので関数化しました。引数が多くてすいません。
-    private void setIngredientsImage(int cellSize, int x, int y, int offsetX, int offsetY, Plate plate, Graphics g){
+    private void setIngredientsImage(int cellSize, int x, int y, int offsetX, int offsetY, Plate plate, Graphics g, int playerDirection){
         Image ingredients[] = new Image[3];
+        int holdStatus[] = new int[3];
         Food ing[] = new Food[3];
-        int size = cellSize/4;
-        int offset = 20;
+        int size = cellSize/3;
+        int ingOffsetX = 20;
+        int ingOffsetY = 20;
+        if(playerDirection == 3){ingOffsetY = 0;}
         for(int i=0; i<3; i++){
             if(plate.foods[i] != null){
                 ing[i] = plate.foods[i];
-                //ing[i].foodStatus = 1; //生の状態を表示したい(調理した食材を皿に置いて、1歩あると画像が生になってしまうのでコメントアウトしてます。)
+                holdStatus[i] = plate.foods[i].foodStatus;
+                ing[i].foodStatus = 1; //生の状態を表示したい(調理した食材を皿に置いて、1歩あると画像が生になってしまうのでコメントアウトしてます。)
             }
         }
 
         for(int i=0; i<3; i++){
             if(ing[i] != null){
                 ingredients[i] = setFoodImage(ing[i]); 
-                g.drawImage(ingredients[i], x*cellSize+offset*i+offsetX, y*cellSize+headerBlank+offsetY, size, size, this);
+                g.setColor(Color.WHITE);
+                g.fillOval(x*cellSize+ingOffsetX*i+offsetX-3, y*cellSize+headerBlank+offsetY-ingOffsetY-2, size+5, size+5);
+                g.drawImage(ingredients[i], x*cellSize+ingOffsetX*i+offsetX, y*cellSize+headerBlank+offsetY-ingOffsetY, size, size, this);
+                ing[i].foodStatus = holdStatus[i];
             }
         }
     }

@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Random;
 
 class DrawModel extends JPanel {
     private final int xsize = 16; // グリッドの幅
@@ -38,6 +39,8 @@ class DrawModel extends JPanel {
 
         grid[5][8].food = new Cucumber();
 
+        grid[8][4].food = new Tuna();
+
         grid[7][7].foodBox = 1; //(7,7)にキャベツボックスを配置 Yoshida
         grid[7][7].obstacle = true;
         grid[7][7].tool = 2;
@@ -49,6 +52,22 @@ class DrawModel extends JPanel {
         grid[9][7].foodBox = 3; //(9,7)にきゅうりボックスを配置 heiwa
         grid[9][7].obstacle = true;
         grid[9][7].tool = 5;
+
+        grid[10][7].foodBox = 4; //(7,7)にキャベツボックスを配置 Yoshida
+        grid[10][7].obstacle = true;
+        grid[10][7].tool = 6;
+
+        grid[11][7].foodBox = 5; //(8,7)にトマトボックスを配置 Yoshida
+        grid[11][7].obstacle = true;
+        grid[11][7].tool = 7;
+
+        grid[12][7].foodBox = 6; //(9,7)にきゅうりボックスを配置 heiwa
+        grid[12][7].obstacle = true;
+        grid[12][7].tool = 8;
+
+        grid[13][7].foodBox = 7; //(9,7)にきゅうりボックスを配置 heiwa
+        grid[13][7].obstacle = true;
+        grid[13][7].tool = 9;
         
         //カウンターを設置 Yoshida
         grid[13][0].wall = false; //元々壁だったところをカウンターにしたい
@@ -60,7 +79,9 @@ class DrawModel extends JPanel {
         grid[3][4].obstacle = true;
         grid[3][5].obstacle = true;
 
-        grid[0][3].tool = 1;
+        grid[0][2].tool = 12;//フライパン
+        grid[0][3].tool = 1;//ナイフ
+        grid[0][4].tool = 10;//なべ
 
         grid[0][6].plateBox = true;
         grid[0][6].tool = 3;
@@ -106,7 +127,8 @@ class DrawModel extends JPanel {
         for (int i = 0; i < orders.length; i++) {
             if (orders[i] == null) {
                 System.out.println("orders[" + i + "] はnullです 新しいオーダーを生成します");
-                orders[i] = new Order("salad", i , this);
+                
+                orders[i] = new Order("kaisendon", i , this);
                 System.out.println("生成されたオーダー: " + orders[i].orderName);
                 break;
             } else {
@@ -130,6 +152,11 @@ class DrawModel extends JPanel {
     public void scoreUp(Order order){
         switch(order.orderName){
             case "salad" : score += 30;
+            case "tekkamaki" : score += 30;
+            case "kappamaki" : score += 30;
+            case "tunanigiri" : score += 10;
+            case "ikanigiri" : score += 10;
+            case "kaisendon" : score += 30;
         }
         System.out.println("scoreUp()が呼ばれました");
         //これは料理が提供された瞬間の方がいいかも知れない
@@ -146,6 +173,11 @@ class DrawModel extends JPanel {
         if(score == 0) return;
         switch(order.orderName){
             case "salad" : score -= 30;
+            case "tekkamaki" : score -= 30;
+            case "kappamaki" : score -= 30;
+            case "tunanigiri" : score -= 10;
+            case "ikanigiri" : score -= 10;
+            case "kaisendon" : score -= 30;
         }
         if(score < 0) score = 0;
 
@@ -228,6 +260,22 @@ class DrawModel extends JPanel {
         grid[9][7].foodBox = 3; //(9,7)にきゅうりボックスを配置 heiwa
         grid[9][7].obstacle = true;
         grid[9][7].tool = 5;
+
+        grid[10][7].foodBox = 4; //
+        grid[10][7].obstacle = true;
+        grid[10][7].tool = 6;
+
+        grid[11][7].foodBox = 5; //
+        grid[11][7].obstacle = true;
+        grid[11][7].tool = 7;
+
+        grid[12][7].foodBox = 6; //
+        grid[12][7].obstacle = true;
+        grid[12][7].tool = 8;
+
+        grid[13][7].foodBox = 7; //
+        grid[13][7].obstacle = true;
+        grid[13][7].tool = 9;
         
         //カウンターを設置 Yoshida
         grid[13][0].wall = false; //元々壁だったところをカウンターにしたい
