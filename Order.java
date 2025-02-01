@@ -6,7 +6,7 @@ import java.awt.image.ImageObserver;
 class Order {
     String orderName;
     double posAnim;
-    int subOrderPosY = 150;
+    int subOrderPosY = 110;
     double subOrderPosYAnim = 40;
     boolean hasPlate; //まず皿が必要
     public Food ingredient1;

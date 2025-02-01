@@ -220,7 +220,7 @@ class DrawView extends JPanel {
 
 
         imgCounter = new ImageIcon("img/counter.png").getImage();
-        orderPaper = new ImageIcon("img/order_paper.png").getImage();
+        orderPaper = new ImageIcon("img/order_paper_short.png").getImage();
         imgKnifeBlack = new ImageIcon("img/knife_black.png").getImage();
         imgBoilBlack = new ImageIcon("img/boil_black.png").getImage();
 
@@ -426,10 +426,12 @@ class DrawView extends JPanel {
         //オーダー用紙の描画
         for(int i = 0; i < model.orders.length; i++){
             Image orderImage;
+            int orderW = 160;
+            int orderH = 100;
             if(model.orders[i] != null){
                 Order order = model.orders[i];
                 orderImage = setOrderImage(order);
-                int targetPos = 20 + (i * 172);
+                int targetPos = 20 + i * (orderW +5);
                 double dx = targetPos - order.posAnim;
                 order.posAnim += dx * easingFactor;
                 
@@ -451,7 +453,7 @@ class DrawView extends JPanel {
                         int wid = 45;
                         if(order.ingredient1 != null){
                             g.setColor(new Color(174, 207, 227));
-                            g.fillRect((int)order.posAnim+8+interval*0, sOPYA, wid, 90);
+                            g.fillRect((int)order.posAnim+7+interval*0, sOPYA, wid, 90);
                             g.drawImage(setCorrectRaw(order.ingredient1), (int)order.posAnim+interval*0 + 8, sOPYA+10, 42,42,this);
                             if(setCorrectMethod(order.ingredient1)!=null){
                                 g.drawImage(setCorrectMethod(order.ingredient1), (int)order.posAnim+interval*0 + 10, sOPYA+50, 42,42,this);
@@ -459,7 +461,7 @@ class DrawView extends JPanel {
                         }
                         if(order.ingredient2 != null){
                             g.setColor(new Color(174, 207, 227));
-                            g.fillRect((int)order.posAnim+8+interval*1, sOPYA, wid, 90);
+                            g.fillRect((int)order.posAnim+7+interval*1, sOPYA, wid, 90);
                             g.drawImage(setCorrectRaw(order.ingredient2), (int)order.posAnim+interval*1 + 8, sOPYA+10, 42,42,this);
                             if(setCorrectMethod(order.ingredient2)!=null){
                                 g.drawImage(setCorrectMethod(order.ingredient2), (int)order.posAnim+interval*1 + 10, sOPYA+50, 42,42,this);
@@ -467,7 +469,7 @@ class DrawView extends JPanel {
                         }
                         if(order.ingredient3 != null){
                             g.setColor(new Color(174, 207, 227));
-                            g.fillRect((int)order.posAnim+8+interval*2, sOPYA, wid, 90);
+                            g.fillRect((int)order.posAnim+7+interval*2, sOPYA, wid, 90);
                             g.drawImage(setCorrectRaw(order.ingredient3), (int)order.posAnim+interval*2 + 8, sOPYA+10, 42,42,this);
                             if(setCorrectMethod(order.ingredient3)!=null){
                                 g.drawImage(setCorrectMethod(order.ingredient3), (int)order.posAnim+interval*2 + 10, sOPYA+50, 42,42,this);
@@ -478,10 +480,10 @@ class DrawView extends JPanel {
                 }
                 
                 //g.fillRect((int)order.posAnim, 0 * cellSize +20, 3*(cellSize-2), 60);
-                g.drawImage(orderPaper, (int)order.posAnim, 0 * cellSize +20, 160, 136, this);
-                drawGauge(g, "down", (int)(order.posAnim)+9, 60, 142, 20, order.getRemainingTime()/order.timeLimit);
+                g.drawImage(orderPaper, (int)order.posAnim, 15, orderW, orderH, this);
+                drawGauge(g, "down", (int)(order.posAnim)+8, 22, orderW-16, 17, order.getRemainingTime()/order.timeLimit);
                 //g.drawImage(orderImage, 53 + (int)order.posAnim, 70, cellSize+5, cellSize+5, this);
-                g.drawImage(imgSampleSalad, 48 + (int)order.posAnim, 72, cellSize+15, cellSize+15, this);//プレビューのためです Kome
+                g.drawImage(imgSampleSalad, 42 + (int)order.posAnim, 30, 75, 75, this);//プレビューのためです Kome
                 
             }
         }
