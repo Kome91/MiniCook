@@ -465,6 +465,20 @@ class DrawView extends JPanel {
             drawGauge(g, "up", (int)(player.xAnim*cellSize) + 10, (int)(player.yAnim*cellSize)+headerBlank,(int)(0.7*cellSize),8,player.actionCharge/60.0);
         }else if(player.actionCharge == 60) player.action();
 
+        
+        // しょぼいんですけど、フライパンの火の描画です Yoshida
+        if(player.food != null && player.food.canHeat){
+            if(player.getFrontGrid().tool == 12 && cont.spacePushing == true){
+                if(player.actionCharge>0 && player.actionCharge<60){
+                    float fireScall = player.actionCharge % 30;
+                    //1行目は大きめ、2行目は小さめ
+                    //g.drawImage(imgFire, player.getFrontGrid().x * cellSize +30-(int)(fireScall), player.getFrontGrid().y * cellSize + headerBlank+55-(int)(fireScall), (int)(fireScall*cellSize/30), (int)(fireScall*cellSize/30), this);
+                    g.drawImage(imgFire, player.getFrontGrid().x * cellSize +30-(int)(fireScall/2), player.getFrontGrid().y * cellSize + headerBlank+55-(int)(fireScall/2), (int)(fireScall*cellSize/60), (int)(fireScall*cellSize/60), this);
+    
+                }
+            }
+        } 
+
         //米炊く　Yoshida
         for (int i = 0; i < size[0]; i++) {
             for (int j = 0; j < size[1]; j++) {
@@ -481,21 +495,7 @@ class DrawView extends JPanel {
                     }
                 }
             }
-        }
-
-        /*
-        // しょぼいんですけど、フライパンの火の描画です Yoshida
-        if(player.food != null && player.food.canHeat){
-            if(player.getFrontGrid().tool == 12 && cont.spacePushing == true){
-                if(player.actionCharge>0 && player.actionCharge<60){
-                    float fireScall = player.actionCharge % 30;
-                    //1行目は大きめ、2行目は小さめ
-                    //g.drawImage(imgFire, player.getFrontGrid().x * cellSize +30-(int)(fireScall), player.getFrontGrid().y * cellSize + headerBlank+55-(int)(fireScall), (int)(fireScall*cellSize/30), (int)(fireScall*cellSize/30), this);
-                    g.drawImage(imgFire, player.getFrontGrid().x * cellSize +30-(int)(fireScall/2), player.getFrontGrid().y * cellSize + headerBlank+55-(int)(fireScall/2), (int)(fireScall*cellSize/60), (int)(fireScall*cellSize/60), this);
-    
-                }
-            }
-        } */
+        }        
     }
     private void drawGauge(Graphics g, String type, int x, int y, int width, int height, double ratio){
         if(ratio > 1) { System.out.println("Warning : ゲージの割合が100%を超えています"); }

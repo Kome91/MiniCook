@@ -102,6 +102,7 @@ class Player {
         Grid currentGrid = grid[x][y]; //自分の足元のグリッド
         Grid frontGrid = getFrontGrid(); //自身の目の前のグリッド
         System.out.printf("frontGrid = (%d,%d)\n", frontGrid.x, frontGrid.y);
+        if(frontGrid.tool == 10){return;} //鍋からはアクションでしか食材をとれない。 Yoshida
         if(hasPlate == false && frontGrid.tool == 3 ){ //playerは皿を持っていない かつ 目の前マスが皿ボックス
             System.out.println("皿を持ちました");
             plate = new Plate(); //ここでお皿をもった
