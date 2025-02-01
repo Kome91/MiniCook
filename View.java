@@ -92,6 +92,7 @@ class DrawView extends JPanel {
     int fotterBlank = 300;
     double playerSpeed;
 
+    Waiter[] waiters = new Waiter[5];
 
     private ScheduledExecutorService executor;
     private int frameCount = 0; // フレーム数をカウント
@@ -236,7 +237,7 @@ class DrawView extends JPanel {
 
         imgTable = new ImageIcon("img/table.png").getImage();
         
-        imgSampleSalad = new ImageIcon("img/salad.png").getImage();
+        imgSampleSalad = new ImageIcon("img/cab_tom_cuc.png").getImage();
 
         imgFire = new ImageIcon("img/fires.png").getImage();
 
@@ -524,7 +525,14 @@ class DrawView extends JPanel {
                     }
                 }
             }
-        }        
+        }
+
+        for(int i = 0; i < 5; i++){
+            if(waiters[i] != null && waiters[i].active == true){
+                //System.out.printf("waiters[%d]のdrawMe()を呼びます\n", i);
+                waiters[i].drawMe(g, this);
+            }
+        }
     }
     private void drawGauge(Graphics g, String type, int x, int y, int width, int height, double ratio){
         if(ratio > 1) { System.out.println("Warning : ゲージの割合が100%を超えています"); }
@@ -617,7 +625,7 @@ class DrawView extends JPanel {
         }
         return imgErrorBlock;
     }
-    private Image setPlateImage(Plate targetPlate){
+    public Image setPlateImage(Plate targetPlate){
         Food food[] = new Food[3];
         int cabbage = 0; //そのプレートにおいてそれぞれの食材がどうなっているか
         int tomato = 0; //0:存在しない 1:生 2:カット、3:ボイル
@@ -703,7 +711,7 @@ class DrawView extends JPanel {
         return imgErrorBlock;
     }
 
-    private Image setOrderImage(Order order){
+    public Image setOrderImage(Order order){
         //System.out.println(order.orderName +"の画像を取得します。"); //デバッグ用
         if("salad".equals(order.orderName)){
             //System.out.println(order.orderName +"の画像を取得しました。"); //デバッグ用
@@ -772,6 +780,15 @@ class DrawView extends JPanel {
         } catch (IOException | FontFormatException e) {
             System.err.println("フォントの読み込みに失敗: " + e.getMessage());
             customFont = new Font("Arial", Font.BOLD, 24); // 失敗時はデフォルトのフォント
+        }
+    }
+    public void addWaiter(Image mealImage){
+        for(int i = 0; i < 5; i++){
+            if(waiters[i] == null || waiters[i].active == false){
+                System.out.println("Waiter Instatance made.");
+                waiters[i] = new Waiter(model, mealImage, headerBlank);
+                return;
+            }
         }
     }
 }

@@ -12,7 +12,8 @@ class Player {
     public boolean hasPlate;
     private DrawModel model;
     private DrawController cont;
-    private double playerSpeed = 0.4;
+    private DrawView view;
+    private double playerSpeed = 0.2;
     public int direction; //プレイヤーの向きWASDの順で1(上),2(左),3(下),4(右)
     private Grid[][] grid;
     public boolean moving = false;
@@ -35,6 +36,7 @@ class Player {
     public Food getFood() { return food; }
     public double getPlayerSpeed() { return playerSpeed; }
     public void setController(DrawController cont) { this.cont = cont; }
+    public void setView(DrawView view) { this.view = view; }
 
     public void move(int dx, int dy, Grid[][] grid) {
         if(moving == false && getFrontGrid().isPlatePlaced == false && getFrontGrid().hasFood() == false){ //プレイやー移動中は移動したくない
@@ -180,20 +182,33 @@ class Player {
             plate = null;
             frontGrid.isPlatePlaced =true;
             Order currentOrder = model.matchOrder(frontGrid.plate);
-            if(currentOrder == null){// 料理が未完成の場合
-                System.out.println("提供できません。");
-                //提供できないから、皿が自分の手に返却される
-                hasPlate = true;
-                plate = frontGrid.plate;
+            if(currentOrder == null){// 料理が失敗だったとき
+                System.out.println("失敗作が提出されました");
+                model.scoreDown(currentOrder);
+                //失敗した場合、回収されて減点
+                view.addWaiter(view.setPlateImage(frontGrid.plate));
+                hasPlate = false;
+                plate = null;
+                frontGrid.food = null;
                 frontGrid.plate = null;
                 frontGrid.isPlatePlaced = false;
                 return;
+            }else{ //注文が正しかったとき
+                //view.addWaiter(currentOrder);
+                view.addWaiter(view.setOrderImage(currentOrder));
+                model.scoreUp(currentOrder);
+                hasPlate = false;
+                frontGrid.plate =null;
+                frontGrid.food = null;
+                frontGrid.isPlatePlaced = false;
             }
+            /* //個々のコード必要なのか問題があります。一応怖いので残してます Kome
             System.out.println(currentOrder.orderName + "が提供されました！");
             if(currentOrder.isCompleted(frontGrid.plate) == true){
                 model.scoreUp(currentOrder);
             }
             else model.scoreDown(currentOrder);
+            */
         }
         if(food != null) {  // 既に食材を持っている場合
             if(frontGrid.isPlatePlaced == true){ //目の前のマスに皿が置いてある場
@@ -208,13 +223,6 @@ class Player {
                 food = null;  // 手持ちを空にする
                 System.out.println("皿がないマスに対して食材を置きました！");
             }
-            //こちら統合前コードになります 皿がないときにそもそも食材の結合をしないようにすれば良いから要らんかも Kome
-            /*
-            else if(frontGrid.hasFood()==true && frontGrid.tool == 0){ //目の間に食材あり かつ 目の前がツールマスではない
-                frontGrid.food.addFood(this.food);
-                food = null; //手持ちを空にする
-                //model.setImageAtPosition(frontGrid.x, frontGrid.y, frontGrid.food.getImageId());
-            }*/
             else {
                 if(frontGrid.hasFood() == true) System.out.println("ここには既に食材があります！");
                 if(frontGrid.tool != 0) System.out.printf("ここはツールなので食材は置けません");

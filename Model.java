@@ -128,7 +128,7 @@ class DrawModel extends JPanel {
             if (orders[i] == null) {
                 System.out.println("orders[" + i + "] はnullです 新しいオーダーを生成します");
                 
-                orders[i] = new Order("kaisendon", i , this);
+                orders[i] = new Order("salad", i , this);
                 System.out.println("生成されたオーダー: " + orders[i].orderName);
                 break;
             } else {

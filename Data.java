@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.ImageObserver;
 
 class Grid {
     int x, y;
@@ -188,7 +189,39 @@ class Plate {
     }
 
 }
-
+class Waiter{
+    int waitY = 1000; //ウェイタースタンバイ位置
+    int receiveY = 500; //ウェイターが料理を受け取る場所
+    boolean active = true;
+    private Image imgMeal;
+    DrawModel model;
+    static final int xBefore = 460;
+    static final int xAfter = 540;
+    static final int counterX = 13;
+    static final int counterY = 0;
+    final int headerBlank;
+    final int cellsize;
+    int flame = 0;
+    static final int comeFlame = 90; //ウェイターが来るときの片道のフレーム数;
+    public Waiter(DrawModel model, Image imgMeal, int headerBlank){
+        this.model = model;
+        this.imgMeal = imgMeal;
+        this.cellsize = model.getCellSize();
+        this.headerBlank = headerBlank;
+    }
+    public void drawMe(Graphics g, ImageObserver io){
+        if(0 <= flame && flame < comeFlame){
+            g.drawImage(imgMeal, counterX*cellsize, counterY*cellsize + headerBlank, cellsize, cellsize, io);
+            //仮で正方形を描画してるよ
+            g.setColor(Color.pink);
+            g.fillRect(xBefore, (int)((waitY*(comeFlame-flame) + receiveY*flame)/comeFlame), cellsize, cellsize);
+            flame++;
+        }else if(comeFlame <= flame && flame < 2*comeFlame){
+            g.drawRect(xBefore, (int)((waitY*(flame-comeFlame) + receiveY*(2*comeFlame-flame))/comeFlame), cellsize, cellsize);
+            flame++;
+        }else if(flame == 2*comeFlame){ active = false; flame++;}
+    }
+}
 class Order {
     String orderName;
     double posAnim;

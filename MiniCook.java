@@ -15,6 +15,7 @@ class MiniCook extends JFrame {
         view = new DrawView(model);
         cont = new DrawController(model, view, this);
         model.getPlayer().setController(cont);
+        model.getPlayer().setView(view);
         view.setController(cont);
         view.addKeyListener(cont);
 
