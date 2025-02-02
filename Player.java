@@ -90,7 +90,7 @@ class Player {
             }
         }
         
-        else if(frontGrid.tool == 10 && frontGrid.hasFood()){
+        else if(frontGrid.tool == 10 && frontGrid.hasFood() && frontGrid.cookingGauge >= 60){
                 System.out.println("炊けた米をとります。");
                 frontGrid.food.foodStatus = 3;
                 food = frontGrid.food;
