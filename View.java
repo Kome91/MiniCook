@@ -87,6 +87,8 @@ class DrawView extends JPanel {
 
     private Image imgFire;
 
+    private Image imgUIBG;
+
     Player player;
     int headerBlank = 220;
     int fotterBlank = 300;
@@ -240,6 +242,9 @@ class DrawView extends JPanel {
         imgSampleSalad = new ImageIcon("img/cab_tom_cuc.png").getImage();
 
         imgFire = new ImageIcon("img/fires.png").getImage();
+
+        imgUIBG = new ImageIcon("img/ui_background.png").getImage();
+
 
     }
     public void setController(DrawController cont) { this.cont = cont; }
@@ -414,14 +419,16 @@ class DrawView extends JPanel {
         }
 
         //UIの描画
-
-        if (true) {
-            Graphics2D g2d = (Graphics2D) g;
-            g2d.setFont(customFont);
-            g2d.setColor(textColor);
-            g2d.drawString("score : "+Integer.toString(model.score), 650, 850);
-            g2d.drawString("TimeLeft : "+Integer.toString(model.getGameTime()), 150, 850);
-        }
+        g.drawImage(imgUIBG, 60, 750, 250, 90, this);
+        g.drawImage(imgUIBG, 660, 750, 250, 90, this);
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.setFont(customFont);
+        g2d.setColor(Color.WHITE);
+        int leftTimeAllSec = model.getGameTime();
+        int leftTimeMin = leftTimeAllSec/60;
+        int leftTimeSec = leftTimeAllSec%60;
+        g2d.drawString(Integer.toString(model.score), 170, 820);
+        g2d.drawString(Integer.toString(leftTimeMin)+":"+Integer.toString(leftTimeSec), 730, 820);
 
         //オーダー用紙の描画
         for(int i = 0; i < model.orders.length; i++){
@@ -768,7 +775,7 @@ class DrawView extends JPanel {
 
     //時間に関するメソッド Yoshida
     public void updateTime(int time){
-        System.out.println("残り時間："+time+"秒"); //仮のタイマー表示
+        System.out.print(time+"秒"); //仮のタイマー表示
     }
 
     // JFrame を取得するメソッド(Controllerでリザルト画面に移るときにゲームのウィンドウを閉じる時に使います) Yoshida
@@ -777,8 +784,9 @@ class DrawView extends JPanel {
     }
     private void loadCustomFont() {
         try {
-            File fontFile = new File("font/ByteBounce.ttf"); // フォントファイルのパス
-            customFont = Font.createFont(Font.TRUETYPE_FONT, fontFile).deriveFont(100f); // フォントサイズ24
+            //File fontFile = new File("font/CHEESE10.TTF"); // フォントファイルのパス
+            File fontFile = new File("font/ByteBounce.TTF"); // フォントファイルのパス
+            customFont = Font.createFont(Font.TRUETYPE_FONT, fontFile).deriveFont(90f); // フォントサイズ24
         } catch (IOException | FontFormatException e) {
             System.err.println("フォントの読み込みに失敗: " + e.getMessage());
             customFont = new Font("Arial", Font.BOLD, 24); // 失敗時はデフォルトのフォント
