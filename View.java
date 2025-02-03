@@ -168,7 +168,7 @@ class DrawView extends JPanel {
         imgPlayerUp = new ImageIcon("img/player_up.png").getImage();
         imgPlayerLeft = new ImageIcon("img/player_left.png").getImage();
         imgPlayerDown = new ImageIcon("img/player_down.png").getImage();
-        imgPlayerRight = new ImageIcon("img/player_right.png").getImage();
+        imgPlayerRight = new ImageIcon("img/test/ghost_right2.png").getImage();
         //imgErrorBlock = new ImageIcon("img/error_image.png").getImage();
         imgErrorBlock = new ImageIcon("img/miss.png").getImage();
 
@@ -181,7 +181,7 @@ class DrawView extends JPanel {
         imgPan = new ImageIcon("img/pan.png").getImage();
 
         imgCabbageBox=new ImageIcon("img/cabbage_box.png").getImage();
-        imgCabbage=new ImageIcon("img/cabbage.png").getImage();
+        imgCabbage=new ImageIcon("img/test/cab.png").getImage();
         imgCabbageCut = new ImageIcon("img/cabbage_cut.png").getImage();
 
         imgTomatoBox = new ImageIcon("img/tomato_box.png").getImage();
@@ -247,7 +247,7 @@ class DrawView extends JPanel {
 
         imgUIBG = new ImageIcon("img/ui_background.png").getImage();
 
-        testWall = new ImageIcon("img/test/wallpaper_3.png").getImage();
+        testWall = new ImageIcon("img/test/wallpaper_5.png").getImage();
 
     }
     public void setController(DrawController cont) { this.cont = cont; }
@@ -383,7 +383,7 @@ class DrawView extends JPanel {
             player.yAnim -= playerSpeed;
             player.moving = true;
         }
-        g.drawImage(ImagePlayer,(int)(player.xAnim*cellSize), (int)(player.yAnim*cellSize) + headerBlank, cellSize, cellSize, this);
+        g.drawImage(ImagePlayer,(int)(player.xAnim*cellSize)-10, (int)(player.yAnim*cellSize) + headerBlank -15, 80, 80, this);
 
         if(player.hasPlate == true){ //プレイヤーが皿を持っていたら
             //皿と画像の比率を調整
