@@ -235,7 +235,7 @@ class DrawView extends JPanel {
         imgB = new ImageIcon("img/test/D_long.png").getImage();
         imgC = new ImageIcon("img/test/C.jpg").getImage();
         imgF1 = new ImageIcon("img/test/floor_a_4.png").getImage();
-        imgF2 = new ImageIcon("img/test/floor_b_2.png").getImage();
+        imgF2 = new ImageIcon("img/test/floor_b_4.png").getImage();
 
         imgTable = new ImageIcon("img/table.png").getImage();
         
@@ -286,15 +286,15 @@ class DrawView extends JPanel {
         //g.drawImage(backgroundImage, 0, 0, this);
         g.setColor(Color.lightGray);
         g.fillRect(0, 0, 960, 900);
-        for (int i = 0; i < size[0]; i++) {
-            for (int j = 0; j < size[1]; j++) {
+        for (int i = size[0]-1; i >= 0; i--) {
+            for (int j = size[1]-1; j >= 0; j--) {
                 //generateBackGround()によってまとめました
                 
                 if (grid[i][j].wall) {
                     if((i == 0 || i == size[0]-1) && j != size[1]-1){
                         g.drawImage(imgA, i * cellSize, j * cellSize + headerBlank, cellSize, cellSize, this);
                     }else{
-                        g.drawImage(imgB, i * cellSize, j * cellSize + headerBlank, cellSize, cellSize, this);
+                        g.drawImage(imgB, i * cellSize, j * cellSize + headerBlank, cellSize, cellSize + 20, this);
                     }
 
                     //g.drawImage(imgTable, i * cellSize, j * cellSize + headerBlank, cellSize, cellSize, this);
@@ -303,12 +303,14 @@ class DrawView extends JPanel {
                     g.fillRect(i * cellSize, j * cellSize + headerBlank, cellSize, cellSize);
                 } else {
                     g.setColor(Color.DARK_GRAY);
-                    if((i + j)%2 == 0){g.drawImage(imgF1, i * cellSize, j * cellSize + headerBlank, cellSize, cellSize, this);}
-                    else {g.drawImage(imgF2, i * cellSize, j * cellSize + headerBlank, cellSize, cellSize, this);}
+                    if((i + j)%2 == 0){g.drawImage(imgF1, i * cellSize, j * cellSize + headerBlank + 20, cellSize, cellSize, this);}
+                    else {g.drawImage(imgF2, i * cellSize, j * cellSize + headerBlank + 20, cellSize, cellSize, this);}
                     //g2d.fillRect(i * cellSize, j * cellSize + headerBlank, cellSize, cellSize);
                 }
-                
-            
+            }
+        }
+        for (int i = size[0]-1; i >= 0; i--){
+            for (int j = size[1]-1; j >= 0; j--){
                 //カウンターの画像を描画 //Yoshida
                 if(grid[i][j].isCounter == true){
                     g.drawImage(imgCounter, i * cellSize, j * cellSize + headerBlank, cellSize, cellSize, this);
