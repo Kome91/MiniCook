@@ -785,7 +785,7 @@ class DrawView extends JPanel {
     private void loadCustomFont() {
         try {
             //File fontFile = new File("font/CHEESE10.TTF"); // フォントファイルのパス
-            File fontFile = new File("font/ByteBounce.TTF"); // フォントファイルのパス
+            File fontFile = new File("font/ByteBounce.ttf"); // フォントファイルのパス
             customFont = Font.createFont(Font.TRUETYPE_FONT, fontFile).deriveFont(90f); // フォントサイズ24
         } catch (IOException | FontFormatException e) {
             System.err.println("フォントの読み込みに失敗: " + e.getMessage());
