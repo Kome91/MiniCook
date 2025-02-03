@@ -428,7 +428,7 @@ class DrawView extends JPanel {
         int leftTimeMin = leftTimeAllSec/60;
         int leftTimeSec = leftTimeAllSec%60;
         g2d.drawString(Integer.toString(model.score), 170, 820);
-        g2d.drawString(Integer.toString(leftTimeMin)+":"+Integer.toString(leftTimeSec), 730, 820);
+        g2d.drawString(String.format("%d:%02d", leftTimeMin, leftTimeSec), 730, 820);
 
         //オーダー用紙の描画
         for(int i = 0; i < model.orders.length; i++){
