@@ -83,6 +83,8 @@ class DrawView extends JPanel {
     private Image imgC;
     private Image imgF1;
     private Image imgF2;
+
+    private Image testWall;
     
 
     private Image imgFire;
@@ -232,7 +234,7 @@ class DrawView extends JPanel {
         imgFloor2 = new ImageIcon("img/floor2.jpg").getImage();
         imgFloor3 = new ImageIcon("img/floor3.png").getImage();
         imgA = new ImageIcon("img/test/B.png").getImage();
-        imgB = new ImageIcon("img/test/D_long.png").getImage();
+        imgB = new ImageIcon("img/test/D.png").getImage();
         imgC = new ImageIcon("img/test/C.jpg").getImage();
         imgF1 = new ImageIcon("img/test/floor_a_4.png").getImage();
         imgF2 = new ImageIcon("img/test/floor_b_4.png").getImage();
@@ -245,6 +247,7 @@ class DrawView extends JPanel {
 
         imgUIBG = new ImageIcon("img/ui_background.png").getImage();
 
+        testWall = new ImageIcon("img/test/wallpaper_3.png").getImage();
 
     }
     public void setController(DrawController cont) { this.cont = cont; }
@@ -286,6 +289,7 @@ class DrawView extends JPanel {
         //g.drawImage(backgroundImage, 0, 0, this);
         g.setColor(Color.lightGray);
         g.fillRect(0, 0, 960, 900);
+        g.drawImage(testWall,0,0,cellSize*16, headerBlank,this);
         for (int i = size[0]-1; i >= 0; i--) {
             for (int j = size[1]-1; j >= 0; j--) {
                 //generateBackGround()によってまとめました
@@ -294,7 +298,7 @@ class DrawView extends JPanel {
                     if((i == 0 || i == size[0]-1) && j != size[1]-1){
                         g.drawImage(imgA, i * cellSize, j * cellSize + headerBlank, cellSize, cellSize, this);
                     }else{
-                        g.drawImage(imgB, i * cellSize, j * cellSize + headerBlank, cellSize, cellSize + 20, this);
+                        g.drawImage(imgB, i * cellSize, j * cellSize + headerBlank, cellSize, cellSize, this);
                     }
 
                     //g.drawImage(imgTable, i * cellSize, j * cellSize + headerBlank, cellSize, cellSize, this);
@@ -303,8 +307,8 @@ class DrawView extends JPanel {
                     g.fillRect(i * cellSize, j * cellSize + headerBlank, cellSize, cellSize);
                 } else {
                     g.setColor(Color.DARK_GRAY);
-                    if((i + j)%2 == 0){g.drawImage(imgF1, i * cellSize, j * cellSize + headerBlank + 20, cellSize, cellSize, this);}
-                    else {g.drawImage(imgF2, i * cellSize, j * cellSize + headerBlank + 20, cellSize, cellSize, this);}
+                    if((i + j)%2 == 0){g.drawImage(imgF1, i * cellSize, j * cellSize + headerBlank, cellSize, cellSize, this);}
+                    else {g.drawImage(imgF2, i * cellSize, j * cellSize + headerBlank, cellSize, cellSize, this);}
                     //g2d.fillRect(i * cellSize, j * cellSize + headerBlank, cellSize, cellSize);
                 }
             }
@@ -798,7 +802,7 @@ class DrawView extends JPanel {
         for(int i = 0; i < 5; i++){
             if(waiters[i] == null || waiters[i].active == false){
                 System.out.println("Waiter Instatance made.");
-                waiters[i] = new Waiter(model, mealImage, headerBlank);
+                waiters[i] = new Waiter(model, mealImage, headerBlank, player.x);
                 return;
             }
         }

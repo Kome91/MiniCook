@@ -30,21 +30,25 @@ class Waiter{
     DrawModel model;
     static final int xBefore = 460;
     static final int xAfter = 540;
-    static final int counterX = 13;
-    static final int counterY = 0;
+    static final int counterX = 7;
+    static final int counterY = 8;
     final int headerBlank;
     final int cellsize;
+    int playerX;
     int flame = 0;
     static final int comeFlame = 90; //ウェイターが来るときの片道のフレーム数;
-    public Waiter(DrawModel model, Image imgMeal, int headerBlank){
+    public Waiter(DrawModel model, Image imgMeal, int headerBlank, int playerX){
         this.model = model;
         this.imgMeal = imgMeal;
         this.cellsize = model.getCellSize();
         this.headerBlank = headerBlank;
+        this.playerX = playerX;
+        waitY = 1000; //ウェイタースタンバイ位置
+        receiveY = (counterY+1)*cellsize + headerBlank; //ウェイターが料理を受け取る場所
     }
     public void drawMe(Graphics g, ImageObserver io){
         if(0 <= flame && flame < comeFlame){
-            g.drawImage(imgMeal, counterX*cellsize, counterY*cellsize + headerBlank, cellsize, cellsize, io);
+            g.drawImage(imgMeal, playerX*cellsize, counterY*cellsize + headerBlank, cellsize, cellsize, io);
             //仮で正方形を描画してるよ
             g.setColor(Color.pink);
             g.fillRect(xBefore, (int)((waitY*(comeFlame-flame) + receiveY*flame)/comeFlame), cellsize, cellsize);

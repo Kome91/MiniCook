@@ -33,47 +33,49 @@ class DrawModel extends JPanel {
                 }
             }
         }
-        grid[5][5].food = new Cabbage();  // (5,5)の位置に食材を配置 Yoshida
+        //grid[5][5].food = new Cabbage();  // (5,5)の位置に食材を配置 Yoshida
 
-        grid[5][7].food = new Tomato(); // (5,7)の位置にトマトを配置 Yoshida
+        //grid[5][7].food = new Tomato(); // (5,7)の位置にトマトを配置 Yoshida
 
-        grid[5][8].food = new Cucumber();
+        //grid[5][8].food = new Cucumber();
 
-        grid[8][4].food = new Tuna();
+        //grid[8][4].food = new Tuna();
 
-        grid[7][7].foodBox = 1; //(7,7)にキャベツボックスを配置 Yoshida
-        grid[7][7].obstacle = true;
-        grid[7][7].tool = 2;
+        grid[5][4].foodBox = 1; //(7,7)にキャベツボックスを配置 Yoshida
+        grid[5][4].obstacle = true;
+        grid[5][4].tool = 2;
 
-        grid[8][7].foodBox = 2; //(8,7)にトマトボックスを配置 Yoshida
-        grid[8][7].obstacle = true;
-        grid[8][7].tool = 4;
+        grid[6][4].foodBox = 2; //(8,7)にトマトボックスを配置 Yoshida
+        grid[6][4].obstacle = true;
+        grid[6][4].tool = 4;
 
-        grid[9][7].foodBox = 3; //(9,7)にきゅうりボックスを配置 heiwa
-        grid[9][7].obstacle = true;
-        grid[9][7].tool = 5;
+        grid[7][4].foodBox = 3; //(9,7)にきゅうりボックスを配置 heiwa
+        grid[7][4].obstacle = true;
+        grid[7][4].tool = 5;
 
-        grid[10][7].foodBox = 4; //(7,7)にキャベツボックスを配置 Yoshida
-        grid[10][7].obstacle = true;
-        grid[10][7].tool = 6;
+        grid[8][4].foodBox = 4; //(7,7)にキャベツボックスを配置 Yoshida
+        grid[8][4].obstacle = true;
+        grid[8][4].tool = 6;
 
-        grid[11][7].foodBox = 5; //(8,7)にトマトボックスを配置 Yoshida
-        grid[11][7].obstacle = true;
-        grid[11][7].tool = 7;
+        grid[9][4].foodBox = 5; //(8,7)にトマトボックスを配置 Yoshida
+        grid[9][4].obstacle = true;
+        grid[9][4].tool = 7;
 
-        grid[12][7].foodBox = 6; //(9,7)にきゅうりボックスを配置 heiwa
-        grid[12][7].obstacle = true;
-        grid[12][7].tool = 8;
+        grid[10][4].foodBox = 6; //(9,7)にきゅうりボックスを配置 heiwa
+        grid[10][4].obstacle = true;
+        grid[10][4].tool = 8;
 
-        grid[13][7].foodBox = 7; //(9,7)にきゅうりボックスを配置 heiwa
-        grid[13][7].obstacle = true;
-        grid[13][7].tool = 9;
+        grid[11][4].foodBox = 7; //(9,7)にきゅうりボックスを配置 heiwa
+        grid[11][4].obstacle = true;
+        grid[11][4].tool = 9;
         
         //カウンターを設置 Yoshida
-        grid[13][0].wall = false; //元々壁だったところをカウンターにしたい
-        grid[13][0].isCounter = true;
+        grid[7][8].wall = true; //元々壁だったところをカウンターにしたい
+        grid[7][8].isCounter = true;
+        grid[8][8].wall = true; //元々壁だったところをカウンターにしたい
+        grid[8][8].isCounter = true;
 
-        player = new Player(1, 1, this, grid);
+        player = new Player(2, 2, this, grid);
 
         grid[3][3].obstacle = true;
         grid[3][4].obstacle = true;
