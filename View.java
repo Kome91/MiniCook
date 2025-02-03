@@ -234,8 +234,8 @@ class DrawView extends JPanel {
         imgA = new ImageIcon("img/test/B.png").getImage();
         imgB = new ImageIcon("img/test/D.png").getImage();
         imgC = new ImageIcon("img/test/C.jpg").getImage();
-        imgF1 = new ImageIcon("img/test/F1.png").getImage();
-        imgF2 = new ImageIcon("img/test/F2.png").getImage();
+        imgF1 = new ImageIcon("img/test/floor_a_2.png").getImage();
+        imgF2 = new ImageIcon("img/test/floor_b_2.png").getImage();
 
         imgTable = new ImageIcon("img/table.png").getImage();
         
