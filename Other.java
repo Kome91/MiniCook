@@ -24,12 +24,14 @@ class Grid {
 
 class Waiter{
     int waitY = 1000; //ウェイタースタンバイ位置
-    int receiveY = 500; //ウェイターが料理を受け取る場所
+    int receiveY = 700; //ウェイターが料理を受け取る場所
     boolean active = true;
     private Image imgMeal;
+    private Image imgWaiterUp;
+    private Image imgWaiterDown;
     DrawModel model;
-    static final int xBefore = 460;
-    static final int xAfter = 540;
+    static final int xBefore = 490;
+    static final int xAfter = 490;
     static final int counterX = 7;
     static final int counterY = 8;
     final int headerBlank;
@@ -38,15 +40,15 @@ class Waiter{
     int playerX;
     int flame = 0;
     static final int comeFlame = 90; //ウェイターが来るときの片道のフレーム数;
-    public Waiter(DrawModel model, Image imgMeal, int headerBlank, int rightBlank, int playerX){
+    public Waiter(DrawModel model, Image imgMeal, Image imgWaiterDown, Image imgWaiterUp, int headerBlank, int rightBlank, int playerX){
         this.model = model;
         this.imgMeal = imgMeal;
         this.cellsize = model.getCellSize();
         this.headerBlank = headerBlank;
         this.rightBlank = rightBlank;
+        this.imgWaiterDown = imgWaiterDown;
+        this.imgWaiterUp = imgWaiterUp;
         this.playerX = playerX;
-        waitY = 1000; //ウェイタースタンバイ位置
-        receiveY = (counterY+1)*cellsize + headerBlank; //ウェイターが料理を受け取る場所
     }
     public void drawMe(Graphics g, ImageObserver io){
         final int cS = cellsize;
@@ -54,13 +56,16 @@ class Waiter{
             g.drawImage(imgMeal, playerX*cellsize + rightBlank, counterY*cellsize + headerBlank, cS, cS, io);
             //仮で正方形を描画してるよ
             g.setColor(Color.pink);
-            g.fillRect(xBefore, (int)((waitY*(comeFlame-flame) + receiveY*flame)/comeFlame) + rightBlank, cS, cS);
+            g.drawImage(imgWaiterUp,xBefore-10, (int)((waitY*(comeFlame-flame) + receiveY*flame)/comeFlame) + rightBlank, cS+20, cS+20, io);
+            //g.fillRect(xBefore, (int)((waitY*(comeFlame-flame) + receiveY*flame)/comeFlame) + rightBlank, cS, cS);
             flame++;
         }else if(comeFlame <= flame && flame < 2*comeFlame){
-            g.fillRect(xBefore, receiveY + rightBlank, cS, cS);
+            g.drawImage(imgWaiterUp,xBefore-10, receiveY + rightBlank, cS+20, cS+20, io);
+            //g.fillRect(xBefore, receiveY + rightBlank, cS, cS);
             flame++;
         }else if(2*comeFlame <= flame && flame < 3*comeFlame){
-            g.drawRect(xBefore, (int)((waitY*(flame-2*comeFlame) + receiveY*(3*comeFlame-flame))/comeFlame) + rightBlank, cS, cS);
+            //g.drawRect(xBefore, (int)((waitY*(flame-2*comeFlame) + receiveY*(3*comeFlame-flame))/comeFlame) + rightBlank, cS, cS);
+            g.drawImage(imgWaiterDown,xAfter-10, (int)((waitY*(flame-2*comeFlame) + receiveY*(3*comeFlame-flame))/comeFlame) + rightBlank, cS+20, cS+20, io);
             flame++;
         }else if(flame == 3*comeFlame){ active = false; flame++;}
     }

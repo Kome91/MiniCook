@@ -72,7 +72,7 @@ class DrawView extends JPanel {
 
 
 
-    private Image imgCounter;
+    private Image[] imgCounter = new Image[5];
     private Image orderPaper;
     private Image imgKnifeBlack;
     private Image imgBoilBlack;
@@ -89,6 +89,10 @@ class DrawView extends JPanel {
     private Image imgF2;
 
     private Image testWall;
+    private Image sideWall;
+
+    private Image imgWaiterUp;
+    private Image imgWaiterDown;
     
 
     private Image imgFire;
@@ -99,7 +103,7 @@ class DrawView extends JPanel {
     Player player;
     static final int headerBlank = 220;
     static final int fotterBlank = 300;
-    static final int rightBlank = 60;
+    static final int rightBlank = 40;
     static final int leftBlank = 60;
     double playerSpeed;
 
@@ -110,17 +114,17 @@ class DrawView extends JPanel {
     private double fps = 0.0; // 計算したFPSを格納
     private long lastTime = System.nanoTime(); // 前回の時間
     private static final long FPS_UPDATE_INTERVAL = 100_000_000; // 100ms（ナノ秒）
-
+    int passedFlame = 0; //全体の経過フレーム、様々なアニメーションにつかう
 
 
     //public boolean moving = true;
     private Font customFont;
     public DrawView(DrawModel m) {
         {//画像読み込み
-        imgPlayerUp = new ImageIcon("img/player_up.png").getImage();
-        imgPlayerLeft = new ImageIcon("img/player_left.png").getImage();
-        imgPlayerDown = new ImageIcon("img/player_down.png").getImage();
-        imgPlayerRight = new ImageIcon("img/test/ghost_right2.png").getImage();
+        imgPlayerUp = new ImageIcon("img/test/ghost_up.png").getImage();
+        imgPlayerLeft = new ImageIcon("img/test/ghost_left.png").getImage();
+        imgPlayerDown = new ImageIcon("img/test/ghost_down.png").getImage();
+        imgPlayerRight = new ImageIcon("img/test/ghost_right.png").getImage();
         //imgErrorBlock = new ImageIcon("img/error_image.png").getImage();
         imgErrorBlock = new ImageIcon("img/miss.png").getImage();
 
@@ -175,7 +179,11 @@ class DrawView extends JPanel {
 
 
 
-        imgCounter = new ImageIcon("img/test/counter.png").getImage();
+        imgCounter[0] = new ImageIcon("img/test/counter1.png").getImage();
+        imgCounter[1] = new ImageIcon("img/test/counter2.png").getImage();
+        imgCounter[2] = new ImageIcon("img/test/counter3.png").getImage();
+        imgCounter[3] = new ImageIcon("img/test/counter4.png").getImage();
+        imgCounter[4] = new ImageIcon("img/test/counter5.png").getImage();
         orderPaper = new ImageIcon("img/order_paper_short.png").getImage();
         imgKnifeBlack = new ImageIcon("img/knife_black.png").getImage();
         imgBoilBlack = new ImageIcon("img/boil_black.png").getImage();
@@ -200,6 +208,9 @@ class DrawView extends JPanel {
         imgUIBG = new ImageIcon("img/ui_background.png").getImage();
 
         testWall = new ImageIcon("img/test/wallpaper_8.png").getImage();
+        sideWall = new ImageIcon("img/test/wall_side.png").getImage();
+        imgWaiterUp = new ImageIcon("img/test/waiter_up.png").getImage();
+        imgWaiterDown = new ImageIcon("img/test/ghost_down.png").getImage();
         }
         model = m;
         this.setFocusable(true);
@@ -262,11 +273,15 @@ class DrawView extends JPanel {
 
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+        passedFlame++;
         final int dD3d = 20; //疑似3Dの実装のために床を実際よりyが正向きにずれる。
         g.setColor(Color.lightGray);
         g.fillRect(0, 0, 960, 900);
-        g.drawImage(testWall,0,0,cellSize*18, headerBlank,this); //奥の壁
+        g.drawImage(testWall,20,0,cellSize*16 + 40, headerBlank,this); //奥の壁 テスト用
+        //g.drawImage(testWall,0,0,cellSize*18, headerBlank,this); //奥の壁
         g.drawImage(cacheFloorAll, 0+rightBlank, 0+headerBlank + dD3d, this); //床の画像だけキャッシュ(一時保存)して処理を軽く
+        g.drawImage(sideWall, 20, 55, 20, 1000, this);
+        g.drawImage(sideWall, 16*60 + rightBlank, 55, 20, 1000, this);
         final int rB = rightBlank;
         final int hB = headerBlank;
         final int cS = cellSize;
@@ -281,25 +296,21 @@ class DrawView extends JPanel {
                     }
                 } else if (grid[i][j].obstacle) {
                     g.setColor(Color.RED);
-                    g.fillRect(i * cellSize+rB, j * cellSize + hB, cellSize, cellSize);
+                    g.drawImage(imgB, i * cellSize + rB, j * cellSize + hB, cellSize, cellSize +dD3d, this);
                 }
             }
         }
         
         //カウンターを座標指定して描画
-        g.drawImage(imgCounter, 7*cellSize + rB, 8*cellSize + hB, cellSize*2, cellSize, this);
+        g.drawImage(imgCounter[(passedFlame/15)%5], 7*cellSize + rB, 8*cellSize + hB, cellSize*2, cellSize + dD3d, this);
         for (int i = size[0]-1; i >= 0; i--){
             for (int j = size[1]-1; j >= 0; j--){
-                //カウンターの画像を描画 //Yoshida
-                /*
-                if(grid[i][j].isCounter == true){
-                    //g.drawImage(imgCounter, i * cellSize + rB, j * cellSize + hB, cellSize, cellSize, this);
-                }
-                */
                 if(grid[i][j].isPlatePlaced == true){ //皿は食材の土台にあるべきなので、皿のみの特殊描画処理
-                    g.drawImage(imgPlate, i * cellSize + rB, j * cellSize + headerBlank, cellSize, cellSize, this);
-                }else{
-                    
+                    if(grid[i][j].wall == false && grid[i][j].obstacle == false){
+                        g.drawImage(imgPlate, i * cellSize + rB, j * cellSize + hB + dD3d, cellSize, cellSize, this);
+                    }else{
+                        g.drawImage(imgPlate, i * cellSize + rB, j * cellSize + hB, cellSize, cellSize, this);
+                    }
                 }
 
                 //食材画像を描画
@@ -314,10 +325,16 @@ class DrawView extends JPanel {
                 //ツールマスに関しての描画
                 if(grid[i][j].tool != 0){
                     selectedImage = setToolImage(grid[i][j].tool);
+                    if(grid[i][j].foodBox != 0)
+                    g.drawImage(imgB, i * cellSize + rB, j * cellSize + hB, cellSize, cellSize, this);
                 }
 
                 if (selectedImage != null) {
-                    g.drawImage(selectedImage, i * cellSize + rB, j * cellSize + hB, cellSize, cellSize, this);
+                    if(grid[i][j].wall == false && grid[i][j].obstacle == false){
+                        g.drawImage(selectedImage, i * cellSize + rB, j * cellSize + hB + dD3d, cellSize, cellSize, this);
+                    }else{
+                        g.drawImage(selectedImage, i * cellSize + rB, j * cellSize + hB, cellSize, cellSize, this);
+                    }
                 }
 
                 if(grid[i][j].isPlatePlaced && grid[i][j].plate.hasAnyFood()){
@@ -747,6 +764,8 @@ class DrawView extends JPanel {
         int size = cellSize/3;
         int ingOffsetX = 20;
         int ingOffsetY = 20;
+        final int hB = headerBlank;
+        final int rB = rightBlank;
         if(playerDirection == 3){ingOffsetY = 0;}
         for(int i=0; i<3; i++){
             if(plate.foods[i] != null){
@@ -760,8 +779,8 @@ class DrawView extends JPanel {
             if(ing[i] != null){
                 ingredients[i] = setFoodImage(ing[i]); 
                 g.setColor(Color.WHITE);
-                g.fillOval(x*cellSize+ingOffsetX*i+offsetX-3, y*cellSize+headerBlank+offsetY-ingOffsetY-2, size+5, size+5);
-                g.drawImage(ingredients[i], x*cellSize+ingOffsetX*i+offsetX, y*cellSize+headerBlank+offsetY-ingOffsetY, size, size, this);
+                g.fillOval(x*cellSize+ingOffsetX*i+offsetX-3 +rB, y*cellSize+hB+offsetY-ingOffsetY-2, size+5, size+5);
+                g.drawImage(ingredients[i], x*cellSize+ingOffsetX*i+offsetX +rB, y*cellSize+hB+offsetY-ingOffsetY, size, size, this);
                 ing[i].foodStatus = holdStatus[i];
             }
         }
@@ -790,7 +809,7 @@ class DrawView extends JPanel {
         for(int i = 0; i < 5; i++){
             if(waiters[i] == null || waiters[i].active == false){
                 System.out.println("Waiter Instatance made.");
-                waiters[i] = new Waiter(model, mealImage, headerBlank, rightBlank, player.x);
+                waiters[i] = new Waiter(model, mealImage,imgWaiterDown, imgWaiterUp, headerBlank, rightBlank, player.x);
                 return;
             }
         }
