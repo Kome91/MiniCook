@@ -21,7 +21,7 @@ class MiniCook extends JFrame {
 
         this.setBackground(Color.white);
         this.setTitle("MiniCookey");
-        this.setSize(975, 900);
+        this.setSize(1200, 960);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 

@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
+import java.awt.image.ImageObserver;
 import java.io.File;
 import java.io.IOException;
 
@@ -14,12 +15,15 @@ class DrawView extends JPanel {
     int speed = 20;
     double easingFactor = 0.2;
     
-    private BufferedImage backgroundImage = null;
+    private BufferedImage cacheFloorAll = null;
 
     private Timer drawTimer60fps; //60Hzでpaintcomponent()を呼び出すために使う Kome
     protected DrawModel model;
     private DrawController cont;
     Grid[][] grid;
+    int[] size;
+    final int cellSize;
+    
     private Image ImagePlayer;
     private Image imgPlayerUp;
     private Image imgPlayerLeft;
@@ -90,12 +94,13 @@ class DrawView extends JPanel {
     private Image imgFire;
 
     private Image imgUIBG;
+    
 
     Player player;
-    int headerBlank = 220;
-    int fotterBlank = 300;
-    int rightBlank = 60;
-    int leftBlank = 60;
+    static final int headerBlank = 220;
+    static final int fotterBlank = 300;
+    static final int rightBlank = 60;
+    static final int leftBlank = 60;
     double playerSpeed;
 
     Waiter[] waiters = new Waiter[5];
@@ -109,47 +114,9 @@ class DrawView extends JPanel {
 
 
     //public boolean moving = true;
-    private String text = "sample_text";
     private Font customFont;
-    private Color textColor = Color.RED;
     public DrawView(DrawModel m) {
-        model = m;
-        this.setFocusable(true);
-        this.setDoubleBuffered(true);
-        player = model.getPlayer();
-        grid = model.getGrid();
-        loadCustomFont();
-        generateBackground();
-        //60fpsでの描画を開始
-        
-        executor = Executors.newScheduledThreadPool(1);
-        
-        /*
-        executor.scheduleAtFixedRate(() -> {
-            SwingUtilities.invokeLater(this::repaint); // Swingスレッドで描画
-        }, 0, 50, TimeUnit.MILLISECONDS);
-        */
-        
-        
-        executor = Executors.newScheduledThreadPool(1);
-        executor.scheduleAtFixedRate(() -> {
-            long currentTime = System.nanoTime();
-            frameCount++;
-
-            // 100ms ごとに FPS を計算
-            if (frameCount >= 30) {
-                double timeDiff = (currentTime - lastTime) / 1_000_000.0;
-                double fps = 1000.0 * 30 / timeDiff;
-                frameCount = 0; // フレーム数をリセット
-                lastTime = currentTime; // 時間を更新
-                //System.out.println("FPS: " + fps); // デバッグ出力
-            }
-
-            SwingUtilities.invokeLater(this::repaint); // Swingスレッドで描画
-        }, 0, 16, TimeUnit.MILLISECONDS);
-        
-        playerSpeed = player.getPlayerSpeed();
-        //画像読み込み
+        {//画像読み込み
         imgPlayerUp = new ImageIcon("img/player_up.png").getImage();
         imgPlayerLeft = new ImageIcon("img/player_left.png").getImage();
         imgPlayerDown = new ImageIcon("img/player_down.png").getImage();
@@ -219,7 +186,7 @@ class DrawView extends JPanel {
         imgFloor2 = new ImageIcon("img/floor2.jpg").getImage();
         imgFloor3 = new ImageIcon("img/floor3.png").getImage();
         imgA = new ImageIcon("img/test/B.png").getImage();
-        imgB = new ImageIcon("img/test/D.png").getImage();
+        imgB = new ImageIcon("img/test/D_long.png").getImage();
         imgC = new ImageIcon("img/test/C.jpg").getImage();
         imgF1 = new ImageIcon("img/test/floor_a_4.png").getImage();
         imgF2 = new ImageIcon("img/test/floor_b_4.png").getImage();
@@ -233,80 +200,99 @@ class DrawView extends JPanel {
         imgUIBG = new ImageIcon("img/ui_background.png").getImage();
 
         testWall = new ImageIcon("img/test/wallpaper_8.png").getImage();
+        }
+        model = m;
+        this.setFocusable(true);
+        this.setDoubleBuffered(true);
+        player = model.getPlayer();
+        grid = model.getGrid();
+        size = model.getFieldSize();
+        cellSize = model.getCellSize();
+        loadCustomFont();
+
+        
+        /*
+        executor.scheduleAtFixedRate(() -> {
+            SwingUtilities.invokeLater(this::repaint); // Swingスレッドで描画
+        }, 0, 50, TimeUnit.MILLISECONDS);
+        */
+        
+        
+        executor = Executors.newScheduledThreadPool(1); //60fpsでの描画を開始
+        executor.scheduleAtFixedRate(() -> {
+            long currentTime = System.nanoTime();
+            frameCount++;
+
+            // 100ms ごとに FPS を計算
+            if (frameCount >= 30) {
+                double timeDiff = (currentTime - lastTime) / 1_000_000.0;
+                double fps = 1000.0 * 30 / timeDiff;
+                frameCount = 0; // フレーム数をリセット
+                lastTime = currentTime; // 時間を更新
+                //System.out.println("FPS: " + fps); // デバッグ出力
+            }
+
+            SwingUtilities.invokeLater(this::repaint); // Swingスレッドで描画
+        }, 0, 16, TimeUnit.MILLISECONDS);
+        
+        playerSpeed = player.getPlayerSpeed();
+        
+        createCacheFloorAll();
 
     }
     public void setController(DrawController cont) { this.cont = cont; }
-
-    private void generateBackground() { //画像を毎回描画すると処理が重いから、代用
-        int[] size = model.getFieldSize();
-        int cellSize = model.getCellSize();
-        int width = size[0] * cellSize;
-        int height = size[1] * cellSize;
-        backgroundImage = new BufferedImage(960, 900, BufferedImage.TYPE_INT_ARGB);
-        Graphics2D g2d = backgroundImage.createGraphics();
-        g2d.setColor(Color.lightGray);
-        g2d.fillRect(0, 0, 960, 900);
-    
-        for (int i = 0; i < size[0]; i++) {
-            for (int j = 0; j < size[1]; j++) {
-                if (grid[i][j].wall) {
-                    g2d.setColor(Color.GRAY);
-                    g2d.fillRect(i * cellSize, j * cellSize + headerBlank, cellSize, cellSize);
-                } else if (grid[i][j].obstacle) {
-                    g2d.setColor(Color.RED);
-                    g2d.fillRect(i * cellSize, j * cellSize + headerBlank, cellSize, cellSize);
-                } else {
-                    g2d.setColor(Color.DARK_GRAY);
-                    g2d.drawImage(imgCabbage, i * cellSize, j * cellSize + headerBlank, cellSize, cellSize, this);
-                    //g2d.fillRect(i * cellSize, j * cellSize + headerBlank, cellSize, cellSize);
-                }
-                
+    private void createCacheFloorAll() { //床の画像をキャッシュする関数、DrawViewのコンストラクタで一回だけ呼ぶ
+        int cS = cellSize;
+        cacheFloorAll = new BufferedImage(cS*size[0], cS*size[1], BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2 = cacheFloorAll.createGraphics();
+        
+        // 必要に応じて他の背景パーツを描画する
+        int rB = rightBlank;
+        int hB = headerBlank;
+        for(int i = 0; i < size[0]; i++){
+            for(int j = 0; j < size[1]; j++){
+                g2.setColor(Color.DARK_GRAY);
+                if((i + j)%2 == 0){g2.drawImage(imgF1, i * cS, j * cS, cS, cS, this);}
+                else {g2.drawImage(imgF2, i * cS, j * cS, cS, cS, this);}
             }
         }
-    
-        g2d.dispose(); // リソース解放
+        g2.dispose();
     }
 
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        int[] size = model.getFieldSize();
-        int cellSize = model.getCellSize();
-        //g.drawImage(backgroundImage, 0, 0, this);
+        int dd3d = 20; //疑似3Dの実装のために床を実際よりyが正向きにずれる。
         g.setColor(Color.lightGray);
         g.fillRect(0, 0, 960, 900);
-        g.drawImage(testWall,0,0,cellSize*16, headerBlank,this);
-        for (int i = size[0]-1; i >= 0; i--) {
-            for (int j = size[1]-1; j >= 0; j--) {
-                //generateBackGround()によってまとめました
-                
+        g.drawImage(testWall,0,0,cellSize*18, headerBlank,this); //奥の壁
+        g.drawImage(cacheFloorAll, 0+rightBlank, 0+headerBlank, this); //床の画像だけキャッシュ(一時保存)して処理を軽く
+        final int rB = rightBlank;
+        final int hB = headerBlank;
+        final int cS = cellSize;
+        for (int i = size[0] - 1; i >= 0; i--) {
+            for (int j = size[1] - 1; j >= 0; j--) {
                 if (grid[i][j].wall) {
-                    if((i == 0 || i == size[0]-1) && j != size[1]-1){
-                        g.drawImage(imgA, i * cellSize, j * cellSize + headerBlank, cellSize, cellSize, this);
-                    }else{
-                        g.drawImage(imgB, i * cellSize, j * cellSize + headerBlank, cellSize, cellSize, this);
+                    if ((i == 0 || i == size[0] - 1) && j != size[1] - 1) { // 右と左のテーブル
+                        g.drawImage(imgA, i * cellSize + rB, j * cellSize + hB, cellSize, cellSize, this);
+                    } else {
+                        g.drawImage(imgB, i * cellSize + rB, j * cellSize + hB, cellSize, cellSize, this);
                     }
-
-                    //g.drawImage(imgTable, i * cellSize, j * cellSize + headerBlank, cellSize, cellSize, this);
                 } else if (grid[i][j].obstacle) {
                     g.setColor(Color.RED);
-                    g.fillRect(i * cellSize, j * cellSize + headerBlank, cellSize, cellSize);
-                } else {
-                    g.setColor(Color.DARK_GRAY);
-                    if((i + j)%2 == 0){g.drawImage(imgF1, i * cellSize, j * cellSize + headerBlank, cellSize, cellSize, this);}
-                    else {g.drawImage(imgF2, i * cellSize, j * cellSize + headerBlank, cellSize, cellSize, this);}
-                    //g2d.fillRect(i * cellSize, j * cellSize + headerBlank, cellSize, cellSize);
+                    g.fillRect(i * cellSize+rB, j * cellSize + hB, cellSize, cellSize);
                 }
             }
         }
+        
         for (int i = size[0]-1; i >= 0; i--){
             for (int j = size[1]-1; j >= 0; j--){
                 //カウンターの画像を描画 //Yoshida
                 if(grid[i][j].isCounter == true){
-                    g.drawImage(imgCounter, i * cellSize, j * cellSize + headerBlank, cellSize, cellSize, this);
+                    g.drawImage(imgCounter, i * cellSize + rB, j * cellSize + hB, cellSize, cellSize, this);
                 }
 
                 if(grid[i][j].isPlatePlaced == true){ //皿は食材の土台にあるべきなので、皿のみの特殊描画処理
-                    g.drawImage(imgPlate, i * cellSize, j * cellSize + headerBlank, cellSize, cellSize, this);
+                    g.drawImage(imgPlate, i * cellSize + rB, j * cellSize + headerBlank, cellSize, cellSize, this);
                 }else{
                     
                 }
@@ -326,7 +312,7 @@ class DrawView extends JPanel {
                 }
 
                 if (selectedImage != null) {
-                    g.drawImage(selectedImage, i * cellSize, j * cellSize + headerBlank, cellSize, cellSize, this);
+                    g.drawImage(selectedImage, i * cellSize + rB, j * cellSize + hB, cellSize, cellSize, this);
                 }
 
                 if(grid[i][j].isPlatePlaced && grid[i][j].plate.hasAnyFood()){
@@ -368,7 +354,7 @@ class DrawView extends JPanel {
             player.yAnim -= playerSpeed;
             player.moving = true;
         }
-        g.drawImage(ImagePlayer,(int)(player.xAnim*cellSize)-10, (int)(player.yAnim*cellSize) + headerBlank -15, 80, 80, this);
+        g.drawImage(ImagePlayer,(int)(player.xAnim*cellSize)-10 + rB, (int)(player.yAnim*cellSize) + hB -15, 80, 80, this);
 
         if(player.hasPlate == true){ //プレイヤーが皿を持っていたら
             //皿と画像の比率を調整
@@ -379,7 +365,7 @@ class DrawView extends JPanel {
             else if(player.direction == 2) offsetX -= cellSize / 2;
             else if(player.direction == 3) offsetY += cellSize / 2;
             else if(player.direction == 4) offsetX += cellSize / 2;
-            g.drawImage(imgPlate, player.x * cellSize + offsetX, player.y * cellSize + offsetY  + headerBlank, foodSize, foodSize, this);
+            g.drawImage(imgPlate, player.x * cellSize + offsetX +rB, player.y * cellSize + offsetY  + hB, foodSize, foodSize, this);
         }
         Image heldFoodImage = null;
         if(player.hasPlate == true && player.plate.hasAnyFood() == true){ //食材ありの皿を持ってたら
@@ -397,7 +383,7 @@ class DrawView extends JPanel {
             else if(player.direction == 2) offsetX -= cellSize / 2;
             else if(player.direction == 3) offsetY += cellSize / 2;
             else if(player.direction == 4) offsetX += cellSize / 2;
-            g.drawImage(heldFoodImage, player.x * cellSize + offsetX, player.y * cellSize + offsetY + headerBlank, foodSize, foodSize, this);
+            g.drawImage(heldFoodImage, player.x * cS + offsetX +rB, player.y * cS + offsetY + hB, foodSize, foodSize, this);
         }
         if(player.hasPlate == true && player.plate.hasAnyFood()){
             int offsetX = cellSize / 4;
@@ -531,6 +517,18 @@ class DrawView extends JPanel {
             if(waiters[i] != null && waiters[i].active == true){
                 //System.out.printf("waiters[%d]のdrawMe()を呼びます\n", i);
                 waiters[i].drawMe(g, this);
+            }
+        }
+    }
+    private void drawFloorAll(Graphics g, ImageObserver io){
+        int cS = cellSize; //この中で略語を定義
+        int rB = rightBlank;
+        int hB = headerBlank;
+        for(int i = 0; i < size[0]; i++){
+            for(int j = 0; j < size[1]; j++){
+                g.setColor(Color.DARK_GRAY);
+                if((i + j)%2 == 0){g.drawImage(imgF1, i * cS + rB, j * cS + hB, cS, cS, this);}
+                else {g.drawImage(imgF2, i * cS + rB, j * cS + hB, cS, cS, this);}
             }
         }
     }
@@ -787,7 +785,7 @@ class DrawView extends JPanel {
         for(int i = 0; i < 5; i++){
             if(waiters[i] == null || waiters[i].active == false){
                 System.out.println("Waiter Instatance made.");
-                waiters[i] = new Waiter(model, mealImage, headerBlank, player.x);
+                waiters[i] = new Waiter(model, mealImage, headerBlank, rightBlank, player.x);
                 return;
             }
         }

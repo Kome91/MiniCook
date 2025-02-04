@@ -33,28 +33,31 @@ class Waiter{
     static final int counterX = 7;
     static final int counterY = 8;
     final int headerBlank;
+    final int rightBlank;
     final int cellsize;
     int playerX;
     int flame = 0;
     static final int comeFlame = 90; //ウェイターが来るときの片道のフレーム数;
-    public Waiter(DrawModel model, Image imgMeal, int headerBlank, int playerX){
+    public Waiter(DrawModel model, Image imgMeal, int headerBlank, int rightBlank, int playerX){
         this.model = model;
         this.imgMeal = imgMeal;
         this.cellsize = model.getCellSize();
         this.headerBlank = headerBlank;
+        this.rightBlank = rightBlank;
         this.playerX = playerX;
         waitY = 1000; //ウェイタースタンバイ位置
         receiveY = (counterY+1)*cellsize + headerBlank; //ウェイターが料理を受け取る場所
     }
     public void drawMe(Graphics g, ImageObserver io){
+        final int cS = cellsize;
         if(0 <= flame && flame < comeFlame){
-            g.drawImage(imgMeal, playerX*cellsize, counterY*cellsize + headerBlank, cellsize, cellsize, io);
+            g.drawImage(imgMeal, playerX*cellsize + rightBlank, counterY*cellsize + headerBlank, cS, cS, io);
             //仮で正方形を描画してるよ
             g.setColor(Color.pink);
-            g.fillRect(xBefore, (int)((waitY*(comeFlame-flame) + receiveY*flame)/comeFlame), cellsize, cellsize);
+            g.fillRect(xBefore, (int)((waitY*(comeFlame-flame) + receiveY*flame)/comeFlame) + rightBlank, cS, cS);
             flame++;
         }else if(comeFlame <= flame && flame < 2*comeFlame){
-            g.drawRect(xBefore, (int)((waitY*(flame-comeFlame) + receiveY*(2*comeFlame-flame))/comeFlame), cellsize, cellsize);
+            g.drawRect(xBefore, (int)((waitY*(flame-comeFlame) + receiveY*(2*comeFlame-flame))/comeFlame), cS, cS);
             flame++;
         }else if(flame == 2*comeFlame){ active = false; flame++;}
     }
