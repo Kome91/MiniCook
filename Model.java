@@ -126,11 +126,15 @@ class DrawModel extends JPanel {
     }
 
     public void generateOrder() {
+        String[] menu={"salad","tekkamaki","kappamaki","tunanigiri","ikanigiri","kaisendon"};
+        int num_menu=6;
+        Random random=new Random();
         for (int i = 0; i < orders.length; i++) {
             if (orders[i] == null) {
                 System.out.println("orders[" + i + "] はnullです 新しいオーダーを生成します");
-                
-                orders[i] = new Order("salad", i , this);
+                String randommenu=menu[random.nextInt(num_menu)];     
+                orders[i] = new Order(randommenu, i , this);
+                //orders[i] = new Order("tekkamaki", i , this);
                 System.out.println("生成されたオーダー: " + orders[i].orderName);
                 break;
             } else {
