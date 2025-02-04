@@ -57,8 +57,11 @@ class Waiter{
             g.fillRect(xBefore, (int)((waitY*(comeFlame-flame) + receiveY*flame)/comeFlame) + rightBlank, cS, cS);
             flame++;
         }else if(comeFlame <= flame && flame < 2*comeFlame){
-            g.drawRect(xBefore, (int)((waitY*(flame-comeFlame) + receiveY*(2*comeFlame-flame))/comeFlame), cS, cS);
+            g.fillRect(xBefore, receiveY + rightBlank, cS, cS);
             flame++;
-        }else if(flame == 2*comeFlame){ active = false; flame++;}
+        }else if(2*comeFlame <= flame && flame < 3*comeFlame){
+            g.drawRect(xBefore, (int)((waitY*(flame-2*comeFlame) + receiveY*(3*comeFlame-flame))/comeFlame) + rightBlank, cS, cS);
+            flame++;
+        }else if(flame == 3*comeFlame){ active = false; flame++;}
     }
 }

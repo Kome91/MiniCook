@@ -175,7 +175,7 @@ class DrawView extends JPanel {
 
 
 
-        imgCounter = new ImageIcon("img/counter.png").getImage();
+        imgCounter = new ImageIcon("img/test/counter.png").getImage();
         orderPaper = new ImageIcon("img/order_paper_short.png").getImage();
         imgKnifeBlack = new ImageIcon("img/knife_black.png").getImage();
         imgBoilBlack = new ImageIcon("img/boil_black.png").getImage();
@@ -241,7 +241,8 @@ class DrawView extends JPanel {
 
     }
     public void setController(DrawController cont) { this.cont = cont; }
-    private void createCacheFloorAll() { //床の画像をキャッシュする関数、DrawViewのコンストラクタで一回だけ呼ぶ
+    //床の画像をキャッシュする関数、DrawViewのコンストラクタで一回だけ呼ぶ
+    private void createCacheFloorAll() {
         int cS = cellSize;
         cacheFloorAll = new BufferedImage(cS*size[0], cS*size[1], BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2 = cacheFloorAll.createGraphics();
@@ -249,8 +250,8 @@ class DrawView extends JPanel {
         // 必要に応じて他の背景パーツを描画する
         int rB = rightBlank;
         int hB = headerBlank;
-        for(int i = 0; i < size[0]; i++){
-            for(int j = 0; j < size[1]; j++){
+        for(int i = 1; i < size[0] -1; i++){
+            for(int j = 1; j < size[1] -1; j++){
                 g2.setColor(Color.DARK_GRAY);
                 if((i + j)%2 == 0){g2.drawImage(imgF1, i * cS, j * cS, cS, cS, this);}
                 else {g2.drawImage(imgF2, i * cS, j * cS, cS, cS, this);}
@@ -261,21 +262,22 @@ class DrawView extends JPanel {
 
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        int dd3d = 20; //疑似3Dの実装のために床を実際よりyが正向きにずれる。
+        final int dD3d = 20; //疑似3Dの実装のために床を実際よりyが正向きにずれる。
         g.setColor(Color.lightGray);
         g.fillRect(0, 0, 960, 900);
         g.drawImage(testWall,0,0,cellSize*18, headerBlank,this); //奥の壁
-        g.drawImage(cacheFloorAll, 0+rightBlank, 0+headerBlank, this); //床の画像だけキャッシュ(一時保存)して処理を軽く
+        g.drawImage(cacheFloorAll, 0+rightBlank, 0+headerBlank + dD3d, this); //床の画像だけキャッシュ(一時保存)して処理を軽く
         final int rB = rightBlank;
         final int hB = headerBlank;
         final int cS = cellSize;
-        for (int i = size[0] - 1; i >= 0; i--) {
-            for (int j = size[1] - 1; j >= 0; j--) {
+        
+        for (int j = 0; j < size[1]; j++) {
+            for (int i = 0; i < size[0]; i++) {
                 if (grid[i][j].wall) {
-                    if ((i == 0 || i == size[0] - 1) && j != size[1] - 1) { // 右と左のテーブル
+                    if ((i == 0 || i == size[0] - 1) && j != size[1] - 1 && j != 0) { // 右と左のテーブル
                         g.drawImage(imgA, i * cellSize + rB, j * cellSize + hB, cellSize, cellSize, this);
                     } else {
-                        g.drawImage(imgB, i * cellSize + rB, j * cellSize + hB, cellSize, cellSize, this);
+                        g.drawImage(imgB, i * cellSize + rB, j * cellSize + hB, cellSize, cellSize +dD3d, this);
                     }
                 } else if (grid[i][j].obstacle) {
                     g.setColor(Color.RED);
@@ -284,13 +286,16 @@ class DrawView extends JPanel {
             }
         }
         
+        //カウンターを座標指定して描画
+        g.drawImage(imgCounter, 7*cellSize + rB, 8*cellSize + hB, cellSize*2, cellSize, this);
         for (int i = size[0]-1; i >= 0; i--){
             for (int j = size[1]-1; j >= 0; j--){
                 //カウンターの画像を描画 //Yoshida
+                /*
                 if(grid[i][j].isCounter == true){
-                    g.drawImage(imgCounter, i * cellSize + rB, j * cellSize + hB, cellSize, cellSize, this);
+                    //g.drawImage(imgCounter, i * cellSize + rB, j * cellSize + hB, cellSize, cellSize, this);
                 }
-
+                */
                 if(grid[i][j].isPlatePlaced == true){ //皿は食材の土台にあるべきなので、皿のみの特殊描画処理
                     g.drawImage(imgPlate, i * cellSize + rB, j * cellSize + headerBlank, cellSize, cellSize, this);
                 }else{
@@ -354,7 +359,7 @@ class DrawView extends JPanel {
             player.yAnim -= playerSpeed;
             player.moving = true;
         }
-        g.drawImage(ImagePlayer,(int)(player.xAnim*cellSize)-10 + rB, (int)(player.yAnim*cellSize) + hB -15, 80, 80, this);
+        g.drawImage(ImagePlayer,(int)(player.xAnim*cellSize)-10 + rB, (int)(player.yAnim*cellSize) + hB -10, 80, 80, this);
 
         if(player.hasPlate == true){ //プレイヤーが皿を持っていたら
             //皿と画像の比率を調整
