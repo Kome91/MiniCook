@@ -328,10 +328,10 @@ class DrawView extends JPanel {
                     if ((i == 0 || i == size[0] - 1) && j != size[1] - 1 && j != 0) { // 右と左のテーブル
                         g.drawImage(imgA, i * cellSize + rB, j * cellSize + hB, cellSize, cellSize, this);
                     } else {
-                        g.drawImage(imgB, i * cellSize + rB, j * cellSize + hB, cellSize, cellSize +dD3d, this);
+                        g.drawImage(imgB, i * cellSize + rB, j * cellSize + hB, cellSize, cellSize +dD3d + 10, this);
                     }
                 } else if (grid[i][j].obstacle) {
-                    g.drawImage(imgB, i * cellSize + rB, j * cellSize + hB, cellSize, cellSize +dD3d, this);
+                    g.drawImage(imgB, i * cellSize + rB, j * cellSize + hB, cellSize, cellSize +dD3d + 10, this);
                 }
             }
         }
