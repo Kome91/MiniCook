@@ -102,6 +102,8 @@ class DrawView extends JPanel {
     private Image imgFire;
 
     private Image imgUIBG;
+    private Image imgCoin;
+    private Image imgTimer;
     
 
     Player player;
@@ -215,6 +217,8 @@ class DrawView extends JPanel {
         
 
         imgUIBG = new ImageIcon("img/ui_background.png").getImage();
+        imgCoin = new ImageIcon("img/coin.png").getImage();
+        imgTimer = new ImageIcon("img/timer.png").getImage();
 
         testWall = new ImageIcon("img/test/wallpaper_8.png").getImage();
         sideWall = new ImageIcon("img/test/wall_side.png").getImage();
@@ -443,7 +447,10 @@ class DrawView extends JPanel {
 
         //UIの描画
         g.drawImage(imgUIBG, 60, 750, 250, 90, this); //得点表示の背景
+        g.drawImage(imgCoin, 20, 730, 120, 120, this); //得点表示の背景
+
         g.drawImage(imgUIBG, 660, 750, 250, 90, this); //時間表示の背景
+        g.drawImage(imgTimer, 870, 730, 120, 120, this); //時間表示の背景
         Graphics2D g2d = (Graphics2D) g;
         g2d.setFont(customFont); 
         g2d.setColor(Color.WHITE);
@@ -460,7 +467,7 @@ class DrawView extends JPanel {
         String text = Integer.toString((int)scoreAnim);
         FontMetrics fm = g2d.getFontMetrics();
         int textWidth = fm.stringWidth(text);
-        int centerX = 185; // 中央に配置したいx座標
+        int centerX = 210; // 中央に配置したいx座標
         g2d.drawString(text, centerX - textWidth / 2, 820);
 
         if(1 <= flameScoreGet && flameScoreGet <= 60){
@@ -551,7 +558,7 @@ class DrawView extends JPanel {
         }
         else{ player.actionCharge = 0; }
         if(0 < player.actionCharge && player.actionCharge < 60){
-            drawGauge(g, "up", (int)(player.xAnim*cellSize) + 10, (int)(player.yAnim*cellSize)+headerBlank,(int)(0.7*cellSize),8,player.actionCharge/60.0);
+            drawGauge(g, "up", (int)(player.xAnim*cellSize)+rightBlank + 10, (int)(player.yAnim*cellSize)+headerBlank,(int)(0.7*cellSize),8,player.actionCharge/60.0);
         }else if(player.actionCharge == 60) player.action();
 
         
