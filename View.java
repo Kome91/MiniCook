@@ -117,6 +117,8 @@ class DrawView extends JPanel {
     private long lastTime = System.nanoTime(); // 前回の時間
     private static final long FPS_UPDATE_INTERVAL = 100_000_000; // 100ms（ナノ秒）
     int passedFlame = 0; //全体の経過フレーム、様々なアニメーションにつかう
+    int flameScoreGet = 0;
+    int getScore = 0;
 
 
     //public boolean moving = true;
@@ -335,24 +337,6 @@ class DrawView extends JPanel {
         //すべての座標について2重for文
         for (int i = size[0]-1; i >= 0; i--){
             for (int j = size[1]-1; j >= 0; j--){
-                Image selectedImage = null;
-                //ツールマスに関しての描画
-                if(grid[i][j].tool != 0){
-                    selectedImage = setToolImage(grid[i][j].tool);
-                    if(grid[i][j].foodBox != 0)
-                    g.drawImage(imgB, i * cellSize + rB, j * cellSize + hB, cellSize, cellSize, this);
-                }
-                if (selectedImage != null) {
-                    if(grid[i][j].wall == false && grid[i][j].obstacle == false){ //台上じゃなかったら
-                        g.drawImage(selectedImage, i * cS + rB, j * cS + hB + dD3d, cellSize, cellSize, this);
-                    }else{ //台上だったら
-                        g.drawImage(selectedImage, i * cS + rB, j * cS + hB, cellSize, cellSize, this);
-                    }
-                }
-            }
-        }
-        for (int i = size[0]-1; i >= 0; i--){
-            for (int j = size[1]-1; j >= 0; j--){
                 if(grid[i][j].isPlatePlaced == true){ //皿は食材の土台にあるべきなので、皿のみの特殊描画処理
                     if(grid[i][j].wall == false && grid[i][j].obstacle == false){ 
                         g.drawImage(imgPlate, i * cellSize + rB, j * cellSize + hB + dD3d, cellSize, cellSize, this);
@@ -380,6 +364,25 @@ class DrawView extends JPanel {
                 }
             }
         }
+        for (int i = size[0]-1; i >= 0; i--){
+            for (int j = size[1]-1; j >= 0; j--){
+                Image selectedImage = null;
+                //ツールマスに関しての描画
+                if(grid[i][j].tool != 0){
+                    selectedImage = setToolImage(grid[i][j].tool);
+                    if(grid[i][j].foodBox != 0)
+                    g.drawImage(imgB, i * cellSize + rB, j * cellSize + hB, cellSize, cellSize, this);
+                }
+                if (selectedImage != null) {
+                    if(grid[i][j].wall == false && grid[i][j].obstacle == false){ //台上じゃなかったら
+                        g.drawImage(selectedImage, i * cS + rB, j * cS + hB + dD3d, cellSize, cellSize, this);
+                    }else{ //台上だったら
+                        g.drawImage(selectedImage, i * cS + rB, j * cS + hB, cellSize, cellSize, this);
+                    }
+                }
+            }
+        }
+
         for (int i = size[0]-1; i >= 0; i--){
             for (int j = size[1]-1; j >= 0; j--){
                 if(grid[i][j].isPlatePlaced && grid[i][j].plate.hasAnyFood()){
@@ -438,10 +441,10 @@ class DrawView extends JPanel {
         }
 
         //UIの描画
-        g.drawImage(imgUIBG, 60, 750, 250, 90, this);
-        g.drawImage(imgUIBG, 660, 750, 250, 90, this);
+        g.drawImage(imgUIBG, 60, 750, 250, 90, this); //得点表示の背景
+        g.drawImage(imgUIBG, 660, 750, 250, 90, this); //時間表示の背景
         Graphics2D g2d = (Graphics2D) g;
-        g2d.setFont(customFont);
+        g2d.setFont(customFont); 
         g2d.setColor(Color.WHITE);
         int leftTimeAllSec = model.getGameTime();
         int leftTimeMin = leftTimeAllSec/60;
@@ -449,6 +452,7 @@ class DrawView extends JPanel {
         g2d.drawString(String.format("%d:%02d", leftTimeMin, leftTimeSec), 730, 820);
 
         double dScore = model.score - scoreAnim;
+        if(dScore != 0.0 && flameScoreGet == 0){ getScore = (int)dScore; flameScoreGet = 1; } //増加スコアエフェクトのトリガー
         scoreAnim += dScore * easingFactorText;
         if (Math.abs(dScore) < 2.0) { scoreAnim = model.score; }
 
@@ -457,6 +461,21 @@ class DrawView extends JPanel {
         int textWidth = fm.stringWidth(text);
         int centerX = 185; // 中央に配置したいx座標
         g2d.drawString(text, centerX - textWidth / 2, 820);
+
+        if(1 <= flameScoreGet && flameScoreGet <= 60){
+            text = Integer.toString(getScore);
+            if(getScore >= 0){
+                g.setColor(new Color(50, 255, 50, 200 - 2*flameScoreGet));
+                text = "+"+text;
+            } else {
+                g.setColor(new Color(255, 50, 50, 200 - 2*flameScoreGet));
+            }
+            fm = g2d.getFontMetrics();
+            textWidth = fm.stringWidth(text);
+            centerX = 185; // 中央に配置したいx座標
+            g2d.drawString(text, centerX - textWidth / 2, 770 - 2*flameScoreGet/3);
+            flameScoreGet++;
+        }else if(flameScoreGet > 60){ flameScoreGet = 0; }
 
 
         //オーダー用紙の描画
@@ -555,11 +574,11 @@ class DrawView extends JPanel {
                     if(grid[i][j].cookingGauge < 60.0)grid[i][j].cookingGauge += 0.1;
 
                     if(grid[i][j].cookingGauge > 0 && grid[i][j].cookingGauge < 60){
-                        drawGauge(g, "up", i*cellSize+7, j*cellSize+headerBlank-10, (int)(0.7*cellSize), 8, grid[i][j].cookingGauge/60.0);
+                        drawGauge(g, "up", i*cS+7 + rightBlank, j*cS+headerBlank-10, (int)(0.7*cS), 8, grid[i][j].cookingGauge/60.0);
                     }
                     else if(grid[i][j].cookingGauge >= 60.0){
                         if(grid[i][j].food.foodName == "rice"){
-                            g.drawImage(setToolImage(11), i * cellSize, j * cellSize + headerBlank, cellSize, cellSize, this);
+                            g.drawImage(setToolImage(11), i * cS +rightBlank, j * cS + headerBlank, cS, cS, this);
                         }
                     }
                 }
