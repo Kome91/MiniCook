@@ -125,6 +125,8 @@ class Order {
         expirationTimer = new Timer(timeLimit * 1000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                AudioManager se = new AudioManager();
+                se.playSE("./sound/music_tieuporder.wav");
                 removeThisOrder();
                 System.out.println(orderIndex+orderName + " の制限時間が切れました！");
             }

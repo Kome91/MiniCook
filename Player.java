@@ -75,12 +75,16 @@ class Player {
         }*/
         if(food != null){
             if(frontGrid.tool == 1 && food.canCut == true){
+                AudioManager se = new AudioManager();
+                se.playSE("./sound/music_cut.wav");
                 food.foodStatus = 2; //これで切ったこととなるのだ Kome
                 //food.cut();
                 System.out.printf("食材を切りました\n");
                 return;
             }else if(frontGrid.tool == 10 && food.canHeat == true){
                 if(!frontGrid.hasFood()){
+                    AudioManager se = new AudioManager();
+                    se.playSE("./sound/music_boil.wav");
                     frontGrid.food = food;
                     food = null;
                     System.out.println("釜に米を入れました。");//デバッグ用
@@ -106,10 +110,14 @@ class Player {
         System.out.printf("frontGrid = (%d,%d)\n", frontGrid.x, frontGrid.y);
         if(frontGrid.tool == 10){return;} //鍋からはアクションでしか食材をとれない。 Yoshida
         if(hasPlate == false && frontGrid.tool == 3 ){ //playerは皿を持っていない かつ 目の前マスが皿ボックス
+            AudioManager se = new AudioManager();
+            se.playSE("./sound/music_have.wav");
             System.out.println("皿を持ちました");
             plate = new Plate(); //ここでお皿をもった
             hasPlate = true; //皿を持つ
         }else if(hasPlate == false && frontGrid.isPlatePlaced == true){ //playerは皿を持っていない かつ 目の前マスに皿がある
+            AudioManager se = new AudioManager();
+            se.playSE("./sound/music_have.wav");
             hasPlate = true; //皿を持つ
             plate = frontGrid.plate;
             frontGrid.isPlatePlaced = false; //目の前マスから皿を回収
@@ -119,30 +127,46 @@ class Player {
         }
         else if (food == null) {  // 何も持っていない場合
             if(frontGrid.foodBox == 1){ //目の前のマスがキャベツボックスだったら
+                AudioManager se = new AudioManager();
+                se.playSE("./sound/music_have.wav");
                 this.food = new Cabbage();
                 System.out.println("キャベツボックスから取得しました！");
             }
             else if(frontGrid.foodBox == 2){ //目の前のマスがトマトボックスだったら
+                AudioManager se = new AudioManager();
+                se.playSE("./sound/music_have.wav");
                 this.food = new Tomato();
                 System.out.println("トマトボックスから取得しました！");
             }else if(frontGrid.foodBox == 3){ //目の前のマスがきゅうりボックスだったら
+                AudioManager se = new AudioManager();
+                se.playSE("./sound/music_have.wav");
                 this.food = new Cucumber();
                 System.out.println("きゅうりボックスから取得しました！");
             }else if(frontGrid.foodBox == 4){ //目の前のマスが米ボックスだったら
+                AudioManager se = new AudioManager();
+                se.playSE("./sound/music_have.wav");
                 this.food = new Rice();
                 System.out.println("ライスボックスから取得しました！");
             }else if(frontGrid.foodBox == 5){ //目の前のマスがまぐろボックスだったら
+                AudioManager se = new AudioManager();
+                se.playSE("./sound/music_have.wav");
                 this.food = new Tuna();
                 System.out.println("マグロボックスから取得しました！");
             }else if(frontGrid.foodBox == 6){ //目の前のマスがいかボックスだったら
+                AudioManager se = new AudioManager();
+                se.playSE("./sound/music_have.wav");
                 this.food = new Squid();
                 System.out.println("イカボックスから取得しました！");
             }else if(frontGrid.foodBox == 7){ //目の前のマスがのりボックスだったら
+                AudioManager se = new AudioManager();
+                se.playSE("./sound/music_have.wav");
                 this.food = new Seaweed();
                 System.out.println("のりボックスから取得しました！");
             }
             
             else if (frontGrid.hasFood()) {  // 現在のマスに食材がある場合
+                AudioManager se = new AudioManager();
+                se.playSE("./sound/music_have.wav");  
                 food = frontGrid.food;  // 食材を拾う
                 frontGrid.food = null;  // マスから食材を消す
                 System.out.println("食材を持ち上げました！");
@@ -195,6 +219,8 @@ class Player {
                 return;
             }else{ //注文が正しかったとき
                 //view.addWaiter(currentOrder);
+                AudioManager se = new AudioManager();
+                se.playSE("./sound/music_music_success.wav");
                 view.addWaiter(view.setOrderImage(currentOrder));
                 model.scoreUp(currentOrder);
                 hasPlate = false;

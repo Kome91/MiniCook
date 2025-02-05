@@ -34,6 +34,8 @@ public class Start extends JPanel {
         startButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                AudioManager se = new AudioManager();
+                se.playSE("./sound/music_start.wav");
                 mainApp.startGame(); // MiniCook の startGame() を呼び出し
             }
         });

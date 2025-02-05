@@ -142,23 +142,6 @@ class DrawView extends JPanel {
             SwingUtilities.invokeLater(this::repaint); // Swingスレッドで描画
         }, 0, 16, TimeUnit.MILLISECONDS);
         
-
-        /*//timerを使うと60fpsからずれるらしいから変えた　Kome
-        drawTimer60fps = new Timer(1, e -> {
-            long currentTime = System.nanoTime();
-            double elapsedTime = (currentTime - lastTime) / 1_000_000.0; // ミリ秒に変換
-            frameCount++;
-        
-            if (frameCount % 60 == 0) { // 1秒ごとにFPS表示
-                System.out.println("FPS: " + (1000.0 / elapsedTime) * frameCount);
-                frameCount = 0;
-                lastTime = currentTime;
-            }
-        
-            repaint(); // コメントアウトして FPS の変化を見る
-        });
-        drawTimer60fps.start();
-        */
         playerSpeed = player.getPlayerSpeed();
         //画像読み込み
         imgPlayerUp = new ImageIcon("img/player_up.png").getImage();
