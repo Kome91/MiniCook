@@ -503,7 +503,8 @@ class DrawView extends JPanel {
                 g.drawImage(orderPaper, (int)order.posAnim, 15, orderW, orderH, this);
                 drawGauge(g, "down", (int)(order.posAnim)+8, 22, orderW-16, 17, order.getRemainingTime()/order.timeLimit);
                 //g.drawImage(orderImage, 53 + (int)order.posAnim, 70, cellSize+5, cellSize+5, this);
-                g.drawImage(imgSampleSalad, 42 + (int)order.posAnim, 30, 75, 75, this);//プレビューのためです Kome
+                //g.drawImage(imgSampleSalad, 42 + (int)order.posAnim, 30, 75, 75, this);//プレビューのためです Kome
+                g.drawImage(orderImage, 42 + (int)order.posAnim, 30, 75, 75, this);//プレビューのためです Kome
                 
             }
         }
