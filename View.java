@@ -341,7 +341,7 @@ class DrawView extends JPanel {
                 }
 
                 if(grid[i][j].isPlatePlaced && grid[i][j].plate.hasAnyFood()){
-                    setIngredientsImage(cellSize, grid[i][j].x, grid[i][j].y, 0, 0, grid[i][j].plate, g, 0);
+                    setIngredientsImage(cellSize, grid[i][j].x*cS, grid[i][j].y*cS, 0, 0, grid[i][j].plate, g, 0);
                 }
             }
         }

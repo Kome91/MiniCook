@@ -177,6 +177,11 @@ class DrawModel extends JPanel {
     public void scoreDown(Order order){
         System.out.println("socreDown() called");
         if(score == 0) return;
+        if(order == null){
+            score -= 50;
+            if(score < 0) score = 0;
+            return;
+        }
         switch(order.orderName){
             case "salad" : score -= 30;
             case "tekkamaki" : score -= 30;
