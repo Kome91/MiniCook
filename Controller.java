@@ -110,7 +110,7 @@ class DrawController implements KeyListener {
                 if (model.getGameTime() > 0) {
                     model.decreaseTime();
                     view.updateTime(model.getGameTime());
-                    if(model.getGameTime() <= 10){
+                    if(1 <= model.getGameTime()&&model.getGameTime() <= 10){
                         AudioManager se = new AudioManager();
                         se.playSE("./sound/music_timer.wav");
                     }
