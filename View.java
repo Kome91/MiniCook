@@ -13,7 +13,9 @@ class DrawView extends JPanel {
 
     //int orderXAnim = 2000;
     int speed = 20;
-    double easingFactor = 0.2;
+    static final double easingFactor = 0.2;
+    static final double easingFactorText = 0.2;
+    double scoreAnim = 0;
     
     private BufferedImage cacheFloorAll = null;
 
@@ -387,7 +389,7 @@ class DrawView extends JPanel {
             else if(player.direction == 2) offsetX -= cellSize / 2;
             else if(player.direction == 3) offsetY += cellSize / 2;
             else if(player.direction == 4) offsetX += cellSize / 2;
-            g.drawImage(imgPlate, player.x * cellSize + offsetX +rB, player.y * cellSize + offsetY  + hB, foodSize, foodSize, this);
+            g.drawImage(imgPlate, (int)(player.xAnim*cS) + offsetX +rB, (int)(player.yAnim*cS)+ offsetY  + hB, foodSize, foodSize, this);
         }
         Image heldFoodImage = null;
         if(player.hasPlate == true && player.plate.hasAnyFood() == true){ //食材ありの皿を持ってたら
@@ -405,7 +407,7 @@ class DrawView extends JPanel {
             else if(player.direction == 2) offsetX -= cellSize / 2;
             else if(player.direction == 3) offsetY += cellSize / 2;
             else if(player.direction == 4) offsetX += cellSize / 2;
-            g.drawImage(heldFoodImage, player.x * cS + offsetX +rB, player.y * cS + offsetY + hB, foodSize, foodSize, this);
+            g.drawImage(heldFoodImage, (int)(player.xAnim*cS) + offsetX +rB, (int)(player.yAnim*cS) + offsetY  + hB, foodSize, foodSize, this);
         }
         if(player.hasPlate == true && player.plate.hasAnyFood()){
             int offsetX = cellSize / 4;
@@ -414,7 +416,8 @@ class DrawView extends JPanel {
             else if(player.direction == 2) {offsetX -= cellSize *2/ 3; offsetY = 0;}
             else if(player.direction == 3) {offsetX = 0; offsetY += cellSize ;}
             else if(player.direction == 4) {offsetX += cellSize / 3; offsetY = 0;}
-            setIngredientsImage(cellSize, player.x, player.y, offsetX, offsetY, player.plate, g, player.direction);
+            setIngredientsImage(cellSize, (int)(player.xAnim*cS), (int)(player.yAnim*cS), offsetX, offsetY, player.plate, g, player.direction);
+            //setIngredientsImage(cellSize, player.x, player.y, offsetX, offsetY, player.plate, g, player.direction);
         }
 
         //UIの描画
@@ -426,8 +429,18 @@ class DrawView extends JPanel {
         int leftTimeAllSec = model.getGameTime();
         int leftTimeMin = leftTimeAllSec/60;
         int leftTimeSec = leftTimeAllSec%60;
-        g2d.drawString(Integer.toString(model.score), 170, 820);
         g2d.drawString(String.format("%d:%02d", leftTimeMin, leftTimeSec), 730, 820);
+
+        double dScore = model.score - scoreAnim;
+        scoreAnim += dScore * easingFactorText;
+        if (Math.abs(dScore) < 2.0) { scoreAnim = model.score; }
+
+        String text = Integer.toString((int)scoreAnim);
+        FontMetrics fm = g2d.getFontMetrics();
+        int textWidth = fm.stringWidth(text);
+        int centerX = 185; // 中央に配置したいx座標
+        g2d.drawString(text, centerX - textWidth / 2, 820);
+
 
         //オーダー用紙の描画
         for(int i = 0; i < model.orders.length; i++){
@@ -588,7 +601,6 @@ class DrawView extends JPanel {
             case 10: return imgBoil;
             case 11: return imgBoilRice;
             case 12: return imgPan;
-
 
         }
         return imgErrorBlock;
@@ -757,7 +769,7 @@ class DrawView extends JPanel {
 
     // Imageを返すわけではなく、この関数を呼び出せば画像を貼れる Yoshida
     // paintComponentに書いても良かったけど煩雑になりそうだったので関数化しました。引数が多くてすいません。
-    private void setIngredientsImage(int cellSize, int x, int y, int offsetX, int offsetY, Plate plate, Graphics g, int playerDirection){
+    private void setIngredientsImage(int cellSize, int xAnim, int yAnim, int offsetX, int offsetY, Plate plate, Graphics g, int playerDirection){
         Image ingredients[] = new Image[3];
         int holdStatus[] = new int[3];
         Food ing[] = new Food[3];
@@ -779,8 +791,8 @@ class DrawView extends JPanel {
             if(ing[i] != null){
                 ingredients[i] = setFoodImage(ing[i]); 
                 g.setColor(Color.WHITE);
-                g.fillOval(x*cellSize+ingOffsetX*i+offsetX-3 +rB, y*cellSize+hB+offsetY-ingOffsetY-2, size+5, size+5);
-                g.drawImage(ingredients[i], x*cellSize+ingOffsetX*i+offsetX +rB, y*cellSize+hB+offsetY-ingOffsetY, size, size, this);
+                g.fillOval(xAnim+ingOffsetX*i+offsetX-3 +rB, yAnim+hB+offsetY-ingOffsetY-2, size+5, size+5);
+                g.drawImage(ingredients[i], xAnim+ingOffsetX*i+offsetX +rB, yAnim+hB+offsetY-ingOffsetY, size, size, this);
                 ing[i].foodStatus = holdStatus[i];
             }
         }
