@@ -126,7 +126,7 @@ class Order {
             @Override
             public void actionPerformed(ActionEvent e) {
                 AudioManager se = new AudioManager();
-                se.playSE("./sound/music_timeuporder.wav");
+                se.playSE("./sound/music_timeuporder3.wav");
                 removeThisOrder();
                 System.out.println(orderIndex+orderName + " の制限時間が切れました！");
             }

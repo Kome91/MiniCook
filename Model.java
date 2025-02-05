@@ -17,7 +17,7 @@ class DrawModel extends JPanel {
 
     public DrawModel() {
         //System.out.println("DrawModel instance: " + this);
-        gameTime = 30/*3*60 + 30*/; //　ゲーム時間は3分30秒 Yoshida
+        gameTime = 100/*3*60 + 30*/; //　ゲーム時間は3分30秒 Yoshida
         score = 0;
         orders = new Order[5];
         for(int i=0; i<5; i++){
@@ -34,41 +34,44 @@ class DrawModel extends JPanel {
                 }
             }
         }
-        //grid[5][5].food = new Cabbage();  // (5,5)の位置に食材を配置 Yoshida
+        player = new Player(2, 2, this, grid);
 
-        //grid[5][7].food = new Tomato(); // (5,7)の位置にトマトを配置 Yoshida
+        grid[3][5].obstacle = true;
+        grid[4][5].obstacle = true;
+        grid[5][5].obstacle = true;
+        grid[6][5].obstacle = true;
+        grid[9][3].obstacle = true;
+        grid[10][3].obstacle = true;
+        grid[11][3].obstacle = true;
+        grid[12][3].obstacle = true;
 
-        //grid[5][8].food = new Cucumber();
+        grid[4][3].foodBox = 1;
+        grid[4][3].obstacle = true;
+        grid[4][3].tool = 2;
 
-        //grid[8][4].food = new Tuna();
+        grid[5][3].foodBox = 2;
+        grid[5][3].obstacle = true;
+        grid[5][3].tool = 4;
 
-        grid[5][4].foodBox = 1; //(7,7)にキャベツボックスを配置 Yoshida
-        grid[5][4].obstacle = true;
-        grid[5][4].tool = 2;
+        grid[6][3].foodBox = 3;
+        grid[6][3].obstacle = true;
+        grid[6][3].tool = 5;
 
-        grid[6][4].foodBox = 2; //(8,7)にトマトボックスを配置 Yoshida
-        grid[6][4].obstacle = true;
-        grid[6][4].tool = 4;
+        grid[9][5].foodBox = 4;
+        grid[9][5].obstacle = true;
+        grid[9][5].tool = 6;
 
-        grid[7][4].foodBox = 3; //(9,7)にきゅうりボックスを配置 heiwa
-        grid[7][4].obstacle = true;
-        grid[7][4].tool = 5;
+        grid[10][5].foodBox = 5;
+        grid[10][5].obstacle = true;
+        grid[10][5].tool = 7;
 
-        grid[8][4].foodBox = 4; //(7,7)にキャベツボックスを配置 Yoshida
-        grid[8][4].obstacle = true;
-        grid[8][4].tool = 6;
+        grid[11][5].foodBox = 6;
+        grid[11][5].obstacle = true;
+        grid[11][5].tool = 8;
 
-        grid[9][4].foodBox = 5; //(8,7)にトマトボックスを配置 Yoshida
-        grid[9][4].obstacle = true;
-        grid[9][4].tool = 7;
-
-        grid[10][4].foodBox = 6; //(9,7)にきゅうりボックスを配置 heiwa
-        grid[10][4].obstacle = true;
-        grid[10][4].tool = 8;
-
-        grid[11][4].foodBox = 7; //(9,7)にきゅうりボックスを配置 heiwa
-        grid[11][4].obstacle = true;
-        grid[11][4].tool = 9;
+        grid[12][5].foodBox = 7;
+        grid[12][5].obstacle = true;
+        grid[12][5].tool = 9;
         
         //カウンターを設置 Yoshida
         grid[7][8].wall = true; //元々壁だったところをカウンターにしたい
@@ -76,18 +79,26 @@ class DrawModel extends JPanel {
         grid[8][8].wall = true; //元々壁だったところをカウンターにしたい
         grid[8][8].isCounter = true;
 
-        player = new Player(2, 2, this, grid);
 
-        grid[3][3].obstacle = true;
-        grid[3][4].obstacle = true;
-        grid[3][5].obstacle = true;
 
-        grid[0][2].tool = 12;//フライパン
+
         grid[0][3].tool = 1;//ナイフ
-        grid[0][4].tool = 10;//なべ
 
-        grid[0][6].plateBox = true;
-        grid[0][6].tool = 3;
+        grid[4][0].tool = 10;//なべ
+        grid[5][0].tool = 10;//なべ
+        grid[3][0].tool = 10;//なべ
+
+        grid[11][0].tool = 12;//フライパン
+        grid[12][0].tool = 12;//フライパン
+        grid[10][0].tool = 12;//フライパン
+
+        grid[3][8].tool = 1;//ナイフ
+        grid[5][8].tool = 1;//ナイフ
+        grid[4][8].tool = 1;//ナイフ
+
+        grid[3][3].plateBox = true;
+        grid[3][3].obstacle = true;
+        grid[3][3].tool = 3;
     }
 
     public Grid[][] getGrid() {

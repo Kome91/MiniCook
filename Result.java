@@ -21,6 +21,8 @@ public class Result extends JPanel {
         gbc.anchor = GridBagConstraints.CENTER;
         gbc.insets = new Insets(20, 0, 20, 0);
 
+
+
         // フォントを読み込む
         loadCustomFont();
         

@@ -76,7 +76,7 @@ class Player {
         if(food != null){
             if(frontGrid.tool == 1 && food.canCut == true){
                 AudioManager se = new AudioManager();
-                se.playSE("./sound/music_cut.wav");
+                se.playSE("./sound/music_cut2.wav");
                 food.foodStatus = 2; //これで切ったこととなるのだ Kome
                 //food.cut();
                 System.out.printf("食材を切りました\n");

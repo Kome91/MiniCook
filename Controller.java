@@ -122,6 +122,7 @@ class DrawController implements KeyListener {
     
                     // ゲーム終了時に Result 画面を表示
                     System.out.println("リザルト画面に切り替えます。"); //デバッグ用
+                    AudioManager.playBGM("./sound/music_result.wav");
                     mainApp.showResult();
                     
                 }
