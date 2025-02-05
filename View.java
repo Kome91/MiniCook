@@ -66,7 +66,9 @@ class DrawView extends JPanel {
     private Image imgRicSqu;
     private Image imgRicSea;
     private Image imgRicCuc;
+    private Image imgTunSea;
     private Image imgTunSqu;
+    private Image imgCucSea;
     private Image imgRicCucSea;
     private Image imgRicTunSea;
     private Image imgRicTunSqu;
@@ -176,7 +178,9 @@ class DrawView extends JPanel {
         imgRicSqu = new ImageIcon("img/ric_squ.png").getImage();
         imgRicSea = new ImageIcon("img/ric_sea.png").getImage();
         imgRicCuc = new ImageIcon("img/ric_cuc.png").getImage();
+        imgTunSea = new ImageIcon("img/tun_sea.png").getImage();
         imgTunSqu = new ImageIcon("img/tun_squ.png").getImage();
+        imgCucSea = new ImageIcon("img/cuc_sea.png").getImage();
         imgRicCucSea = new ImageIcon("img/ric_cuc_sea.png").getImage();
         imgRicTunSea = new ImageIcon("img/ric_tun_sea.png").getImage();
         imgRicTunSqu = new ImageIcon("img/ric_tun_squ.png").getImage();
@@ -742,6 +746,7 @@ class DrawView extends JPanel {
             else if(rice == 0 && tuna == 2 && seaweed== 0) return imgTunaCut;//
             else if(rice == 3 && tuna == 2 && seaweed== 0) return imgRicTun;//まぐろにぎり
             else if(rice == 3 && tuna == 0 && seaweed== 1) return imgRicSea;//
+            else if(rice == 0 && tuna == 2 && seaweed== 1) return imgTunSea;//
             else if(rice == 3 && tuna == 2 && seaweed== 1) return imgRicTunSea;//鉄火巻
         }
         else if(cabbage==0 && tomato==0 && cucumber==0 && tuna==0 && seaweed==0){
@@ -774,6 +779,7 @@ class DrawView extends JPanel {
             else if(rice == 0 && cucumber == 2 && seaweed== 0) return imgCucumberCut;//
             else if(rice == 3 && cucumber == 2 && seaweed== 0) return imgRicCuc;//
             else if(rice == 3 && cucumber == 0 && seaweed== 1) return imgRicSea;//
+            else if(rice == 0 && cucumber == 2 && seaweed== 1) return imgCucSea;//
             else if(rice == 3 && cucumber == 2 && seaweed== 1) return imgRicCucSea;//かっぱ巻
         }
 
