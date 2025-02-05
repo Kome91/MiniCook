@@ -6,6 +6,7 @@ class MiniCook extends JFrame {
     DrawView view;
     DrawController cont;
     AudioManager audio;
+    Result resultScreen;
 
     private CardLayout cardLayout;
     private JPanel cardPanel;
@@ -34,7 +35,7 @@ class MiniCook extends JFrame {
 
         // 各画面の追加
         Start startScreen = new Start(this);
-        Result resultScreen = new Result(this);
+        resultScreen = new Result(this);
 
         cardPanel.add(startScreen, "start");
         cardPanel.add(resultScreen, "result");
@@ -63,6 +64,7 @@ class MiniCook extends JFrame {
     public void showResult() {
         audio.stopBGM();
         System.out.println("リザルト画面を表示します。");
+        resultScreen.updateScore(model.score);
         cardLayout.show(cardPanel, "result");
     }
 
