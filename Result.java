@@ -8,65 +8,67 @@ import java.io.IOException;
 public class Result extends JPanel {
     private MiniCook mainApp;
     private Font pixelFont;
+    private int score;
+    private JLabel scoreLabel; // スコア表示用ラベル
 
     public Result(MiniCook mainApp) {
-        this.mainApp = mainApp; // MiniCook のインスタンスを保持
+        this.mainApp = mainApp;
+        this.score = 0; // 初期スコア
 
-        setLayout(new GridBagLayout()); // GridBagLayout を使用
+        setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 0;
         gbc.anchor = GridBagConstraints.CENTER;
-        gbc.insets = new Insets(20, 0, 20, 0); // 上下の余白を設定
+        gbc.insets = new Insets(20, 0, 20, 0);
 
         // フォントを読み込む
         loadCustomFont();
         
-        // タイトルラベルの作成
+        // タイトルラベル
         JLabel titleLabel = new JLabel("Result", SwingConstants.CENTER);
         titleLabel.setFont(pixelFont.deriveFont(100f));
-        add(titleLabel, gbc); // ラベルを追加
+        gbc.gridy = 0;
+        add(titleLabel, gbc);
 
-        // ボタンパネルの作成（横並び）
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 10));
+        // スコアラベル（変更可能にする）
+        scoreLabel = new JLabel("Score : " + score, SwingConstants.CENTER);
+        scoreLabel.setFont(pixelFont.deriveFont(80f));
+        gbc.gridy = 1;
+        add(scoreLabel, gbc);
 
-        // リスタートボタン
+        // ボタンパネル
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
+
         JButton restartButton = new JButton("Restart");
         restartButton.setFont(pixelFont.deriveFont(50f));
-        restartButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                mainApp.restartGame(); // ゲームをリスタート
-            }
-        });
+        restartButton.addActionListener(e -> mainApp.restartGame());
 
-        // 終了ボタン
         JButton closeButton = new JButton("Close");
         closeButton.setFont(pixelFont.deriveFont(50f));
-        closeButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.exit(0); // アプリを終了
-            }
-        });
+        closeButton.addActionListener(e -> System.exit(0));
 
-        // パネルにボタンを追加
         buttonPanel.add(restartButton);
         buttonPanel.add(closeButton);
 
-        // ボタンパネルの配置設定
-        gbc.gridy = 1;
-        add(buttonPanel, gbc); // ボタンパネルを追加
+        gbc.gridy = 2;
+        add(buttonPanel, gbc);
+    }
+
+    // 🔹 スコアを更新するメソッド（ゲーム終了時に呼び出す）
+    public void updateScore(int newScore) {
+        this.score = newScore;
+        scoreLabel.setText("Score : " + score);
+        repaint(); // 再描画
+        revalidate(); // レイアウト更新
     }
 
     private void loadCustomFont() {
         try {
-            File fontFile = new File("font/ByteBounce.ttf"); // フォントのパス
+            File fontFile = new File("font/ByteBounce.ttf");
             pixelFont = Font.createFont(Font.TRUETYPE_FONT, fontFile);
-        } catch (IOException | FontFormatException e) {
+        } catch (Exception e) {
             e.printStackTrace();
-            pixelFont = new Font("Monospaced", Font.PLAIN, 24); // フォールバック用フォント
+            pixelFont = new Font("Monospaced", Font.PLAIN, 24);
         }
     }
 }
