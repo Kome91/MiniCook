@@ -135,7 +135,7 @@ class DrawView extends JPanel {
         imgBoil=new ImageIcon("img/boil.png").getImage();
         imgBoilRice=new ImageIcon("img/rice_boil.png").getImage();
         imgPlateBox = new ImageIcon("img/plate_box2.png").getImage();
-        imgPlate = new ImageIcon("img/plate2.png").getImage();
+        imgPlate = new ImageIcon("img/plate.png").getImage();
         imgPan = new ImageIcon("img/pan.png").getImage();
 
         imgCabbageBox=new ImageIcon("img/cabbage_box.png").getImage();
@@ -335,6 +335,24 @@ class DrawView extends JPanel {
         //すべての座標について2重for文
         for (int i = size[0]-1; i >= 0; i--){
             for (int j = size[1]-1; j >= 0; j--){
+                Image selectedImage = null;
+                //ツールマスに関しての描画
+                if(grid[i][j].tool != 0){
+                    selectedImage = setToolImage(grid[i][j].tool);
+                    if(grid[i][j].foodBox != 0)
+                    g.drawImage(imgB, i * cellSize + rB, j * cellSize + hB, cellSize, cellSize, this);
+                }
+                if (selectedImage != null) {
+                    if(grid[i][j].wall == false && grid[i][j].obstacle == false){ //台上じゃなかったら
+                        g.drawImage(selectedImage, i * cS + rB, j * cS + hB + dD3d, cellSize, cellSize, this);
+                    }else{ //台上だったら
+                        g.drawImage(selectedImage, i * cS + rB, j * cS + hB, cellSize, cellSize, this);
+                    }
+                }
+            }
+        }
+        for (int i = size[0]-1; i >= 0; i--){
+            for (int j = size[1]-1; j >= 0; j--){
                 if(grid[i][j].isPlatePlaced == true){ //皿は食材の土台にあるべきなので、皿のみの特殊描画処理
                     if(grid[i][j].wall == false && grid[i][j].obstacle == false){ 
                         g.drawImage(imgPlate, i * cellSize + rB, j * cellSize + hB + dD3d, cellSize, cellSize, this);
@@ -351,21 +369,13 @@ class DrawView extends JPanel {
                 }else if(grid[i][j].plate != null && grid[i][j].plate.hasAnyFood() == true){ //皿があって食材がおいてある場合
                     selectedImage = setPlateImage(grid[i][j].plate);
                 }
-
-                //ツールマスに関しての描画
-                if(grid[i][j].tool != 0){
-                    selectedImage = setToolImage(grid[i][j].tool);
-                    if(grid[i][j].foodBox != 0)
-                    g.drawImage(imgB, i * cellSize + rB, j * cellSize + hB, cellSize, cellSize, this);
-                }
-
                 if (selectedImage != null) {
-                    int size = (int)(cellSize*0.8); //描画画像の一辺の長さ
-                    int cenOffSet = (cellSize - size)/2; //画像のサイズが変わったときに、描画位置の調整をするもの
+                    int length = (int)(cellSize*0.7); //描画画像の一辺の長さ
+                    int cenOffSet = (cellSize - length)/2; //画像のサイズが変わったときに、描画位置の調整をするもの
                     if(grid[i][j].wall == false && grid[i][j].obstacle == false){ //台上じゃなかったら
-                        g.drawImage(selectedImage, i * cS + rB + cenOffSet, j * cS + hB + dD3d + cenOffSet, size, size, this);
+                        g.drawImage(selectedImage, i * cS + rB + cenOffSet, j * cS + hB + dD3d + cenOffSet, length, length, this);
                     }else{ //台上だったら
-                        g.drawImage(selectedImage, i * cS + rB + cenOffSet, j * cS + hB + cenOffSet, size, size, this);
+                        g.drawImage(selectedImage, i * cS + rB + cenOffSet, j * cS + hB + cenOffSet, length, length, this);
                     }
                 }
             }
