@@ -284,8 +284,6 @@ class DrawView extends JPanel {
         super.paintComponent(g);
         passedFlame++;
         final int dD3d = 20; //疑似3Dの実装のために床を実際よりyが正向きにずれる。
-        g.setColor(Color.lightGray);
-        g.fillRect(0, 0, 960, 900);
         g.drawImage(testWall,20,0,cellSize*16 + 40, headerBlank,this); //奥の壁 テスト用
         //g.drawImage(testWall,0,0,cellSize*18, headerBlank,this); //奥の壁
         g.drawImage(cacheFloorAll, 0+rightBlank, 0+headerBlank + dD3d, this); //床の画像だけキャッシュ(一時保存)して処理を軽く
@@ -328,10 +326,10 @@ class DrawView extends JPanel {
                     if ((i == 0 || i == size[0] - 1) && j != size[1] - 1 && j != 0) { // 右と左のテーブル
                         g.drawImage(imgA, i * cellSize + rB, j * cellSize + hB, cellSize, cellSize, this);
                     } else {
-                        g.drawImage(imgB, i * cellSize + rB, j * cellSize + hB, cellSize, cellSize +dD3d + 10, this);
+                        g.drawImage(imgB, i * cellSize + rB, j * cellSize + hB, cellSize, cellSize +dD3d + 14, this);
                     }
                 } else if (grid[i][j].obstacle) {
-                    g.drawImage(imgB, i * cellSize + rB, j * cellSize + hB, cellSize, cellSize +dD3d + 10, this);
+                    g.drawImage(imgB, i * cellSize + rB, j * cellSize + hB, cellSize, cellSize +dD3d + 14, this);
                 }
             }
         }
@@ -406,31 +404,30 @@ class DrawView extends JPanel {
 
         if(player.hasPlate == true){ //プレイヤーが皿を持っていたら
             //皿と画像の比率を調整
-            int foodSize = cellSize * 2/3;
-            int offsetX = cellSize /6;
-            int offsetY = cellSize /6;
-            if(player.direction == 1) offsetY -= cellSize / 2;
-            else if(player.direction == 2) offsetX -= cellSize / 2;
-            else if(player.direction == 3) offsetY += cellSize / 2;
-            else if(player.direction == 4) offsetX += cellSize / 2;
-            g.drawImage(imgPlate, (int)(player.xAnim*cS) + offsetX +rB, (int)(player.yAnim*cS)+ offsetY  + hB, foodSize, foodSize, this);
+            int foodSize = (int)(0.68*cellSize);
+            int offsetX = (cellSize - foodSize)/2;
+            int offsetY = (cellSize - foodSize)/2;
+            if(player.direction == 1) offsetY -= (int)(.92*cellSize);
+            else if(player.direction == 2) offsetX -= (int)(0.8*cellSize);
+            else if(player.direction == 3) offsetY += (int)(0.72*cellSize);
+            else if(player.direction == 4) offsetX += (int)(0.8*cellSize);
+            g.drawImage(imgPlate, (int)(player.xAnim*cS) + offsetX +rB + 1, (int)(player.yAnim*cS)+ offsetY + 4  + hB, foodSize, foodSize, this); // +1,+4は微調整項
         }
         Image heldFoodImage = null;
         if(player.hasPlate == true && player.plate.hasAnyFood() == true){ //食材ありの皿を持ってたら
             heldFoodImage = setPlateImage(player.plate);
-        }
-        else if(player.getFood() != null){ //単体の食材を持っていたら
+        }else if(player.getFood() != null){ //単体の食材を持っていたら
             heldFoodImage = setFoodImage(player.getFood());
         }
         if (heldFoodImage != null) {
             // 少し小さめにしてプレイヤーの上に描画
-            int foodSize = cellSize / 2;
-            int offsetX = cellSize / 4;
-            int offsetY = cellSize / 4;
-            if(player.direction == 1) offsetY -= cellSize / 2;
-            else if(player.direction == 2) offsetX -= cellSize / 2;
-            else if(player.direction == 3) offsetY += cellSize / 2;
-            else if(player.direction == 4) offsetX += cellSize / 2;
+            int foodSize = (int)(0.55*cellSize);
+            int offsetX = (cellSize - foodSize)/2;
+            int offsetY = (cellSize - foodSize)/2;
+            if(player.direction == 1) offsetY -= (int)(.92*cellSize); //上のブロックのパラメータと共通
+            else if(player.direction == 2) offsetX -= (int)(0.8*cellSize);
+            else if(player.direction == 3) offsetY += (int)(0.72*cellSize);
+            else if(player.direction == 4) offsetX += (int)(0.8*cellSize);
             g.drawImage(heldFoodImage, (int)(player.xAnim*cS) + offsetX +rB, (int)(player.yAnim*cS) + offsetY  + hB, foodSize, foodSize, this);
         }
         if(player.hasPlate == true && player.plate.hasAnyFood()){
