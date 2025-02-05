@@ -290,28 +290,23 @@ class DrawView extends JPanel {
         final int cS = cellSize;
 
         //プレイヤーの座標のアニメーション処理
-        if(Math.abs(player.x - player.xAnim) <= playerSpeed){
+        if(Math.abs(player.x - player.xAnim) <= playerSpeed){ //xについて
             player.xAnim = player.x;
             player.moving = false;
-        }
-        else if(player.x > player.xAnim){
+        }else if(player.x > player.xAnim){
             player.xAnim += playerSpeed;
             player.moving = true;
-        } 
-        else if(player.x < player.xAnim){
+        }else if(player.x < player.xAnim){
             player.xAnim -= playerSpeed;
             player.moving = true;
         }
-
-        if(Math.abs(player.y - player.yAnim) <= playerSpeed){
+        if(Math.abs(player.y - player.yAnim) <= playerSpeed){ //yについて
             player.yAnim = player.y;
             player.moving = (player.moving || false);
-        }
-        else if(player.y > player.yAnim){
+        }else if(player.y > player.yAnim){
             player.yAnim += playerSpeed;
             player.moving = true;
-        }
-        else if(player.y < player.yAnim){
+        }else if(player.y < player.yAnim){
             player.yAnim -= playerSpeed;
             player.moving = true;
         }
@@ -320,6 +315,7 @@ class DrawView extends JPanel {
         g.setColor(new Color(0,0,0,128));
         g.fillOval((int)(player.xAnim*cellSize) + rB + 10, (int)(player.yAnim*cellSize) + hB +dD3d + 10, 40, 40);
         
+        //テーブルの描画
         for (int j = 0; j < size[1]; j++) {
             for (int i = 0; i < size[0]; i++) {
                 if (grid[i][j].wall) {
@@ -329,20 +325,20 @@ class DrawView extends JPanel {
                         g.drawImage(imgB, i * cellSize + rB, j * cellSize + hB, cellSize, cellSize +dD3d, this);
                     }
                 } else if (grid[i][j].obstacle) {
-                    g.setColor(Color.RED);
                     g.drawImage(imgB, i * cellSize + rB, j * cellSize + hB, cellSize, cellSize +dD3d, this);
                 }
             }
         }
         
-        //カウンターを座標指定して描画
-        g.drawImage(imgCounter[(passedFlame/15)%5], 7*cellSize + rB, 8*cellSize + hB, cellSize*2, cellSize + dD3d, this);
+        g.drawImage(imgCounter[(passedFlame/15)%5], 7*cellSize + rB, 8*cellSize + hB, cellSize*2, cellSize + dD3d, this); //カウンターを座標指定して描画
+
+        //すべての座標について2重for文
         for (int i = size[0]-1; i >= 0; i--){
             for (int j = size[1]-1; j >= 0; j--){
                 if(grid[i][j].isPlatePlaced == true){ //皿は食材の土台にあるべきなので、皿のみの特殊描画処理
-                    if(grid[i][j].wall == false && grid[i][j].obstacle == false){
+                    if(grid[i][j].wall == false && grid[i][j].obstacle == false){ 
                         g.drawImage(imgPlate, i * cellSize + rB, j * cellSize + hB + dD3d, cellSize, cellSize, this);
-                    }else{
+                    }else{//土台の上なら疑似3D座標ズレを考慮
                         g.drawImage(imgPlate, i * cellSize + rB, j * cellSize + hB, cellSize, cellSize, this);
                     }
                 }
@@ -364,10 +360,12 @@ class DrawView extends JPanel {
                 }
 
                 if (selectedImage != null) {
-                    if(grid[i][j].wall == false && grid[i][j].obstacle == false){
-                        g.drawImage(selectedImage, i * cellSize + rB, j * cellSize + hB + dD3d, cellSize, cellSize, this);
-                    }else{
-                        g.drawImage(selectedImage, i * cellSize + rB, j * cellSize + hB, cellSize, cellSize, this);
+                    int size = (int)(cellSize*0.8); //描画画像の一辺の長さ
+                    int cenOffSet = (cellSize - size)/2; //画像のサイズが変わったときに、描画位置の調整をするもの
+                    if(grid[i][j].wall == false && grid[i][j].obstacle == false){ //台上じゃなかったら
+                        g.drawImage(selectedImage, i * cS + rB + cenOffSet, j * cS + hB + dD3d + cenOffSet, size, size, this);
+                    }else{ //台上だったら
+                        g.drawImage(selectedImage, i * cS + rB + cenOffSet, j * cS + hB + cenOffSet, size, size, this);
                     }
                 }
             }
@@ -380,15 +378,13 @@ class DrawView extends JPanel {
             }
         }
         
-        // プレイヤーを描画
+        // 向きによってプレイヤーの向きを決定して、プレイヤーを描画
         switch(player.direction){
             case 1: ImagePlayer = imgPlayerUp; break;
             case 2: ImagePlayer = imgPlayerLeft; break;
             case 3: ImagePlayer = imgPlayerDown; break;
             case 4: ImagePlayer = imgPlayerRight; break;
         }
-        
-
         g.drawImage(ImagePlayer,(int)(player.xAnim*cellSize)-10 + rB, (int)(player.yAnim*cellSize) + hB -10, 80, 80, this);
 
         if(player.hasPlate == true){ //プレイヤーが皿を持っていたら
