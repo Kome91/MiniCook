@@ -17,7 +17,8 @@ class DrawModel extends JPanel {
 
     public DrawModel() {
         //System.out.println("DrawModel instance: " + this);
-        gameTime = 100/*3*60 + 30*/; //　ゲーム時間は3分30秒 Yoshida
+        gameTime = 30/*3*60 + 30*/; //　ゲーム時間は3分30秒 Yoshida
+        score = 0;
         orders = new Order[5];
         for(int i=0; i<5; i++){
             orders[i] = null;
@@ -177,6 +178,11 @@ class DrawModel extends JPanel {
     public void scoreDown(Order order){
         System.out.println("socreDown() called");
         if(score == 0) return;
+        if(order == null){
+            score -= 50;
+            if(score < 0) score = 0;
+            return;
+        }
         switch(order.orderName){
             case "salad" : score -= 30;
             case "tekkamaki" : score -= 30;

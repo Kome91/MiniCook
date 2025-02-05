@@ -117,6 +117,8 @@ class DrawView extends JPanel {
     private long lastTime = System.nanoTime(); // 前回の時間
     private static final long FPS_UPDATE_INTERVAL = 100_000_000; // 100ms（ナノ秒）
     int passedFlame = 0; //全体の経過フレーム、様々なアニメーションにつかう
+    int flameScoreGet = 0;
+    int getScore = 0;
 
 
     //public boolean moving = true;
@@ -288,7 +290,34 @@ class DrawView extends JPanel {
         final int rB = rightBlank;
         final int hB = headerBlank;
         final int cS = cellSize;
+
+        //プレイヤーの座標のアニメーション処理
+        if(Math.abs(player.x - player.xAnim) <= playerSpeed){ //xについて
+            player.xAnim = player.x;
+            player.moving = false;
+        }else if(player.x > player.xAnim){
+            player.xAnim += playerSpeed;
+            player.moving = true;
+        }else if(player.x < player.xAnim){
+            player.xAnim -= playerSpeed;
+            player.moving = true;
+        }
+        if(Math.abs(player.y - player.yAnim) <= playerSpeed){ //yについて
+            player.yAnim = player.y;
+            player.moving = (player.moving || false);
+        }else if(player.y > player.yAnim){
+            player.yAnim += playerSpeed;
+            player.moving = true;
+        }else if(player.y < player.yAnim){
+            player.yAnim -= playerSpeed;
+            player.moving = true;
+        }
+        //プレイヤーの下の影の描画
+        g.setColor(Color.BLACK);
+        g.setColor(new Color(0,0,0,128));
+        g.fillOval((int)(player.xAnim*cellSize) + rB + 10, (int)(player.yAnim*cellSize) + hB +dD3d + 10, 40, 40);
         
+        //テーブルの描画
         for (int j = 0; j < size[1]; j++) {
             for (int i = 0; i < size[0]; i++) {
                 if (grid[i][j].wall) {
@@ -298,20 +327,20 @@ class DrawView extends JPanel {
                         g.drawImage(imgB, i * cellSize + rB, j * cellSize + hB, cellSize, cellSize +dD3d, this);
                     }
                 } else if (grid[i][j].obstacle) {
-                    g.setColor(Color.RED);
                     g.drawImage(imgB, i * cellSize + rB, j * cellSize + hB, cellSize, cellSize +dD3d, this);
                 }
             }
         }
         
-        //カウンターを座標指定して描画
-        g.drawImage(imgCounter[(passedFlame/15)%5], 7*cellSize + rB, 8*cellSize + hB, cellSize*2, cellSize + dD3d, this);
+        g.drawImage(imgCounter[(passedFlame/15)%5], 7*cellSize + rB, 8*cellSize + hB, cellSize*2, cellSize + dD3d, this); //カウンターを座標指定して描画
+
+        //すべての座標について2重for文
         for (int i = size[0]-1; i >= 0; i--){
             for (int j = size[1]-1; j >= 0; j--){
                 if(grid[i][j].isPlatePlaced == true){ //皿は食材の土台にあるべきなので、皿のみの特殊描画処理
-                    if(grid[i][j].wall == false && grid[i][j].obstacle == false){
+                    if(grid[i][j].wall == false && grid[i][j].obstacle == false){ 
                         g.drawImage(imgPlate, i * cellSize + rB, j * cellSize + hB + dD3d, cellSize, cellSize, this);
-                    }else{
+                    }else{//土台の上なら疑似3D座標ズレを考慮
                         g.drawImage(imgPlate, i * cellSize + rB, j * cellSize + hB, cellSize, cellSize, this);
                     }
                 }
@@ -324,60 +353,50 @@ class DrawView extends JPanel {
                 }else if(grid[i][j].plate != null && grid[i][j].plate.hasAnyFood() == true){ //皿があって食材がおいてある場合
                     selectedImage = setPlateImage(grid[i][j].plate);
                 }
-
+                if (selectedImage != null) {
+                    int length = (int)(cellSize*0.7); //描画画像の一辺の長さ
+                    int cenOffSet = (cellSize - length)/2; //画像のサイズが変わったときに、描画位置の調整をするもの
+                    if(grid[i][j].wall == false && grid[i][j].obstacle == false){ //台上じゃなかったら
+                        g.drawImage(selectedImage, i * cS + rB + cenOffSet, j * cS + hB + dD3d + cenOffSet, length, length, this);
+                    }else{ //台上だったら
+                        g.drawImage(selectedImage, i * cS + rB + cenOffSet, j * cS + hB + cenOffSet, length, length, this);
+                    }
+                }
+            }
+        }
+        for (int i = size[0]-1; i >= 0; i--){
+            for (int j = size[1]-1; j >= 0; j--){
+                Image selectedImage = null;
                 //ツールマスに関しての描画
                 if(grid[i][j].tool != 0){
                     selectedImage = setToolImage(grid[i][j].tool);
                     if(grid[i][j].foodBox != 0)
                     g.drawImage(imgB, i * cellSize + rB, j * cellSize + hB, cellSize, cellSize, this);
                 }
-
                 if (selectedImage != null) {
-                    if(grid[i][j].wall == false && grid[i][j].obstacle == false){
-                        g.drawImage(selectedImage, i * cellSize + rB, j * cellSize + hB + dD3d, cellSize, cellSize, this);
-                    }else{
-                        g.drawImage(selectedImage, i * cellSize + rB, j * cellSize + hB, cellSize, cellSize, this);
+                    if(grid[i][j].wall == false && grid[i][j].obstacle == false){ //台上じゃなかったら
+                        g.drawImage(selectedImage, i * cS + rB, j * cS + hB + dD3d, cellSize, cellSize, this);
+                    }else{ //台上だったら
+                        g.drawImage(selectedImage, i * cS + rB, j * cS + hB, cellSize, cellSize, this);
                     }
                 }
+            }
+        }
 
+        for (int i = size[0]-1; i >= 0; i--){
+            for (int j = size[1]-1; j >= 0; j--){
                 if(grid[i][j].isPlatePlaced && grid[i][j].plate.hasAnyFood()){
-                    setIngredientsImage(cellSize, grid[i][j].x, grid[i][j].y, 0, 0, grid[i][j].plate, g, 0);
+                    setIngredientsImage(cellSize, grid[i][j].x*cS, grid[i][j].y*cS, 0, 0, grid[i][j].plate, g, 0);
                 }
             }
         }
         
-        // プレイヤーを描画
+        // 向きによってプレイヤーの向きを決定して、プレイヤーを描画
         switch(player.direction){
             case 1: ImagePlayer = imgPlayerUp; break;
             case 2: ImagePlayer = imgPlayerLeft; break;
             case 3: ImagePlayer = imgPlayerDown; break;
             case 4: ImagePlayer = imgPlayerRight; break;
-        }
-        //アニメーション処理
-        if(Math.abs(player.x - player.xAnim) <= playerSpeed){
-            player.xAnim = player.x;
-            player.moving = false;
-        }
-        else if(player.x > player.xAnim){
-            player.xAnim += playerSpeed;
-            player.moving = true;
-        } 
-        else if(player.x < player.xAnim){
-            player.xAnim -= playerSpeed;
-            player.moving = true;
-        }
-
-        if(Math.abs(player.y - player.yAnim) <= playerSpeed){
-            player.yAnim = player.y;
-            player.moving = (player.moving || false);
-        }
-        else if(player.y > player.yAnim){
-            player.yAnim += playerSpeed;
-            player.moving = true;
-        }
-        else if(player.y < player.yAnim){
-            player.yAnim -= playerSpeed;
-            player.moving = true;
         }
         g.drawImage(ImagePlayer,(int)(player.xAnim*cellSize)-10 + rB, (int)(player.yAnim*cellSize) + hB -10, 80, 80, this);
 
@@ -422,10 +441,10 @@ class DrawView extends JPanel {
         }
 
         //UIの描画
-        g.drawImage(imgUIBG, 60, 750, 250, 90, this);
-        g.drawImage(imgUIBG, 660, 750, 250, 90, this);
+        g.drawImage(imgUIBG, 60, 750, 250, 90, this); //得点表示の背景
+        g.drawImage(imgUIBG, 660, 750, 250, 90, this); //時間表示の背景
         Graphics2D g2d = (Graphics2D) g;
-        g2d.setFont(customFont);
+        g2d.setFont(customFont); 
         g2d.setColor(Color.WHITE);
         int leftTimeAllSec = model.getGameTime();
         int leftTimeMin = leftTimeAllSec/60;
@@ -433,6 +452,7 @@ class DrawView extends JPanel {
         g2d.drawString(String.format("%d:%02d", leftTimeMin, leftTimeSec), 730, 820);
 
         double dScore = model.score - scoreAnim;
+        if(dScore != 0.0 && flameScoreGet == 0){ getScore = (int)dScore; flameScoreGet = 1; } //増加スコアエフェクトのトリガー
         scoreAnim += dScore * easingFactorText;
         if (Math.abs(dScore) < 2.0) { scoreAnim = model.score; }
 
@@ -441,6 +461,21 @@ class DrawView extends JPanel {
         int textWidth = fm.stringWidth(text);
         int centerX = 185; // 中央に配置したいx座標
         g2d.drawString(text, centerX - textWidth / 2, 820);
+
+        if(1 <= flameScoreGet && flameScoreGet <= 60){
+            text = Integer.toString(getScore);
+            if(getScore >= 0){
+                g.setColor(new Color(50, 255, 50, 200 - 2*flameScoreGet));
+                text = "+"+text;
+            } else {
+                g.setColor(new Color(255, 50, 50, 200 - 2*flameScoreGet));
+            }
+            fm = g2d.getFontMetrics();
+            textWidth = fm.stringWidth(text);
+            centerX = 185; // 中央に配置したいx座標
+            g2d.drawString(text, centerX - textWidth / 2, 770 - 2*flameScoreGet/3);
+            flameScoreGet++;
+        }else if(flameScoreGet > 60){ flameScoreGet = 0; }
 
 
         //オーダー用紙の描画
@@ -503,7 +538,8 @@ class DrawView extends JPanel {
                 g.drawImage(orderPaper, (int)order.posAnim, 15, orderW, orderH, this);
                 drawGauge(g, "down", (int)(order.posAnim)+8, 22, orderW-16, 17, order.getRemainingTime()/order.timeLimit);
                 //g.drawImage(orderImage, 53 + (int)order.posAnim, 70, cellSize+5, cellSize+5, this);
-                g.drawImage(imgSampleSalad, 42 + (int)order.posAnim, 30, 75, 75, this);//プレビューのためです Kome
+                //g.drawImage(imgSampleSalad, 42 + (int)order.posAnim, 30, 75, 75, this);//プレビューのためです Kome
+                g.drawImage(orderImage, 42 + (int)order.posAnim, 30, 75, 75, this);//プレビューのためです Kome
                 
             }
         }
@@ -538,11 +574,11 @@ class DrawView extends JPanel {
                     if(grid[i][j].cookingGauge < 60.0)grid[i][j].cookingGauge += 0.1;
 
                     if(grid[i][j].cookingGauge > 0 && grid[i][j].cookingGauge < 60){
-                        drawGauge(g, "up", i*cellSize+7, j*cellSize+headerBlank-10, (int)(0.7*cellSize), 8, grid[i][j].cookingGauge/60.0);
+                        drawGauge(g, "up", i*cS+7 + rightBlank, j*cS+headerBlank-10, (int)(0.7*cS), 8, grid[i][j].cookingGauge/60.0);
                     }
                     else if(grid[i][j].cookingGauge >= 60.0){
                         if(grid[i][j].food.foodName == "rice"){
-                            g.drawImage(setToolImage(11), i * cellSize, j * cellSize + headerBlank, cellSize, cellSize, this);
+                            g.drawImage(setToolImage(11), i * cS +rightBlank, j * cS + headerBlank, cS, cS, this);
                         }
                     }
                 }
