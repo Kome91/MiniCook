@@ -515,7 +515,7 @@ class DrawView extends JPanel {
                             g.fillRect((int)order.posAnim+7+interval*0, sOPYA, wid, 90);
                             g.drawImage(setCorrectRaw(order.ingredient1), (int)order.posAnim+interval*0 + 8, sOPYA+10, 42,42,this);
                             if(setCorrectMethod(order.ingredient1)!=null){
-                                g.drawImage(setCorrectMethod(order.ingredient1), (int)order.posAnim+interval*0 + 10, sOPYA+50, 42,42,this);
+                                g.drawImage(setCorrectMethod(order.ingredient1), (int)order.posAnim+interval*0 + 9, sOPYA+50, 42,42,this);
                             }
                         }
                         if(order.ingredient2 != null){
@@ -523,7 +523,7 @@ class DrawView extends JPanel {
                             g.fillRect((int)order.posAnim+7+interval*1, sOPYA, wid, 90);
                             g.drawImage(setCorrectRaw(order.ingredient2), (int)order.posAnim+interval*1 + 8, sOPYA+10, 42,42,this);
                             if(setCorrectMethod(order.ingredient2)!=null){
-                                g.drawImage(setCorrectMethod(order.ingredient2), (int)order.posAnim+interval*1 + 10, sOPYA+50, 42,42,this);
+                                g.drawImage(setCorrectMethod(order.ingredient2), (int)order.posAnim+interval*1 + 9, sOPYA+50, 42,42,this);
                             }
                         }
                         if(order.ingredient3 != null){
@@ -531,7 +531,7 @@ class DrawView extends JPanel {
                             g.fillRect((int)order.posAnim+7+interval*2, sOPYA, wid, 90);
                             g.drawImage(setCorrectRaw(order.ingredient3), (int)order.posAnim+interval*2 + 8, sOPYA+10, 42,42,this);
                             if(setCorrectMethod(order.ingredient3)!=null){
-                                g.drawImage(setCorrectMethod(order.ingredient3), (int)order.posAnim+interval*2 + 10, sOPYA+50, 42,42,this);
+                                g.drawImage(setCorrectMethod(order.ingredient3), (int)order.posAnim+interval*2 + 9, sOPYA+50, 42,42,this);
                             }
                         }
                     }
