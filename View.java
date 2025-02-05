@@ -674,7 +674,7 @@ class DrawView extends JPanel {
             if(food[i] == null){  break; }//これ以上の食材はないのでbreak
             if(food[i].foodName == "cabbage") cabbage = food[i].foodStatus;
             else if(food[i].foodName == "tomato") tomato = food[i].foodStatus;
-            else if(food[i].foodName == "cucmber") cucumber = food[i].foodStatus;
+            else if(food[i].foodName == "cucumber") cucumber = food[i].foodStatus;
             else if(food[i].foodName == "rice") rice = food[i].foodStatus;
             else if(food[i].foodName == "tuna") tuna = food[i].foodStatus;
             else if(food[i].foodName == "squid") squid = food[i].foodStatus;
