@@ -713,7 +713,7 @@ class DrawView extends JPanel {
             else if(rice == 0 && squid == 1 ) return imgSquid;//
             else if(rice == 3 && squid == 0 ) return imgRiceBoil;//加工後
             else if(rice == 0 && squid == 2 ) return imgSquidCut;//
-            else if(rice == 3 && squid == 2 ) return imgRicTun;//いかにぎり
+            else if(rice == 3 && squid == 2 ) return imgRicSqu;//いかにぎり
         }
         else if(cabbage==0 && tomato==0 && cucumber==0 && seaweed==0){
             //System.out.print("海鮮丼");//デバック用

@@ -31,7 +31,7 @@ class Order {
         //オーダーによって必要な食材や状態(切られてる、焼かれてる等)を設定
         if("salad".equals(orderName)){
             System.out.println("Order created: " + this.orderName);
-            this.timeLimit = 30;
+            this.timeLimit = 100;
 
             this.ingredient1 = new Cabbage();
             this.ingredient1.foodStatus = 2;
@@ -47,7 +47,7 @@ class Order {
         }
         if("tekkamaki".equals(orderName)){
             System.out.println("Order created: " + this.orderName);
-            this.timeLimit = 30;
+            this.timeLimit = 100;
 
             this.ingredient1 = new Rice();
             this.ingredient1.foodStatus = 3;
@@ -63,7 +63,7 @@ class Order {
         }
         if("kappamaki".equals(orderName)){
             System.out.println("Order created: " + this.orderName);
-            this.timeLimit = 30;
+            this.timeLimit = 100;
 
             this.ingredient1 = new Rice();
             this.ingredient1.foodStatus = 3;
@@ -79,7 +79,7 @@ class Order {
         }
         if("tunanigiri".equals(orderName)){
             System.out.println("Order created: " + this.orderName);
-            this.timeLimit = 30;
+            this.timeLimit = 80;
 
             this.ingredient1 = new Rice();
             this.ingredient1.foodStatus = 3;
@@ -92,7 +92,7 @@ class Order {
         }
         if("ikanigiri".equals(orderName)){
             System.out.println("Order created: " + this.orderName);
-            this.timeLimit = 30;
+            this.timeLimit = 80;
 
             this.ingredient1 = new Rice();
             this.ingredient1.foodStatus = 3;
@@ -105,7 +105,7 @@ class Order {
         }
         if("kaisendon".equals(orderName)){
             System.out.println("Order created: " + this.orderName);
-            this.timeLimit = 30;
+            this.timeLimit = 100;
 
             this.ingredient1 = new Rice();
             this.ingredient1.foodStatus = 3;
