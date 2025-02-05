@@ -180,9 +180,14 @@ class Player {
     public void put(){
         Grid currentGrid = grid[x][y];
         Grid frontGrid = getFrontGrid();
-        
+        if(frontGrid.tool == 13){
+            hasPlate = false;
+            plate = null;
+            food = null;
+            System.out.println("ゴミ箱に捨てられました");
+        }
          //皿を持っていて 目の前がツールマスではなくカウンターでもない、目の前に食材なし
-        if((hasPlate) && frontGrid.tool==0 && frontGrid.isCounter==false && frontGrid.food==null) {
+        else if((hasPlate) && frontGrid.tool==0 && frontGrid.isCounter==false && frontGrid.food==null) {
             hasPlate = false; //皿を捨てる(置く)
             frontGrid.isPlatePlaced =true;
             frontGrid.plate = plate; //プレイヤーが持っている皿をグリッドにわたす

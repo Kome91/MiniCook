@@ -99,6 +99,8 @@ class DrawModel extends JPanel {
         grid[3][3].plateBox = true;
         grid[3][3].obstacle = true;
         grid[3][3].tool = 3;
+
+        grid[0][1].tool = 13; //ゴミ箱
     }
 
     public Grid[][] getGrid() {

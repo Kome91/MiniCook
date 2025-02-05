@@ -127,6 +127,7 @@ class Order {
             public void actionPerformed(ActionEvent e) {
                 AudioManager se = new AudioManager();
                 se.playSE("./sound/music_timeuporder3.wav");
+                model.scoreDown(null);
                 removeThisOrder();
                 System.out.println(orderIndex+orderName + " の制限時間が切れました！");
             }

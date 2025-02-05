@@ -73,7 +73,7 @@ class DrawView extends JPanel {
     private Image imgRicTunSea;
     private Image imgRicTunSqu;
 
-
+    private Image imgTrash;
 
 
     private Image[] imgCounter = new Image[5];
@@ -143,7 +143,7 @@ class DrawView extends JPanel {
         imgPan = new ImageIcon("img/pan.png").getImage();
 
         imgCabbageBox=new ImageIcon("img/cabbage_box.png").getImage();
-        imgCabbage=new ImageIcon("img/test/cab.png").getImage();
+        imgCabbage=new ImageIcon("img/cabbage.png").getImage();
         imgCabbageCut = new ImageIcon("img/cabbage_cut.png").getImage();
 
         imgTomatoBox = new ImageIcon("img/tomato_box.png").getImage();
@@ -196,7 +196,7 @@ class DrawView extends JPanel {
         imgKnifeBlack = new ImageIcon("img/knife_black.png").getImage();
         imgBoilBlack = new ImageIcon("img/boil_black.png").getImage();
 
-
+        imgTrash =  new ImageIcon("img/trash.png").getImage();
 
         imgFloor1 = new ImageIcon("img/floor1.jpg").getImage();
         imgFloor2 = new ImageIcon("img/floor2.jpg").getImage();
@@ -428,7 +428,7 @@ class DrawView extends JPanel {
             else if(player.direction == 2) offsetX -= (int)(0.8*cellSize);
             else if(player.direction == 3) offsetY += (int)(0.72*cellSize);
             else if(player.direction == 4) offsetX += (int)(0.8*cellSize);
-            g.drawImage(heldFoodImage, (int)(player.xAnim*cS) + offsetX +rB, (int)(player.yAnim*cS) + offsetY  + hB, foodSize, foodSize, this);
+            g.drawImage(heldFoodImage, (int)(player.xAnim*cS) + offsetX +rB + 2, (int)(player.yAnim*cS) + offsetY  + hB, foodSize, foodSize, this); //+1は微調整項
         }
         if(player.hasPlate == true && player.plate.hasAnyFood()){
             int offsetX = cellSize / 4;
@@ -639,7 +639,7 @@ class DrawView extends JPanel {
             case 10: return imgBoil;
             case 11: return imgBoilRice;
             case 12: return imgPan;
-
+            case 13: return imgTrash;
         }
         return imgErrorBlock;
     }
@@ -840,7 +840,7 @@ class DrawView extends JPanel {
 
     //時間に関するメソッド Yoshida
     public void updateTime(int time){
-        System.out.print(time+"秒"); //仮のタイマー表示
+        //System.out.print(time+"秒"); //仮のタイマー表示
     }
 
     // JFrame を取得するメソッド(Controllerでリザルト画面に移るときにゲームのウィンドウを閉じる時に使います) Yoshida

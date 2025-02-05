@@ -12,7 +12,7 @@ class Grid {
     public boolean isPlatePlaced = false; //そのマスにさらがおかれているか
     public int foodBox = 0; //フードボックスがキャベツなら1、トマトなら2...みたいな感じ(ボックスが無ければ0) Yoshida
     public boolean plateBox = false; //皿ボックスだった場合trueになる
-    public int tool = 0; //0はツールではない, 1は包丁, 2はキャベツボックス, 3は皿ボックス, 4:トマトボックス,5:キュウリ,6:米,7マグロ:,8:イカ,9:のり,10:なべ, 11:なべ(米), 12:フライパン
+    public int tool = 0; //0はツールではない, 1は包丁, 2はキャベツボックス, 3は皿ボックス, 4:トマトボックス,5:キュウリ,6:米,7マグロ:,8:イカ,9:のり,10:なべ, 11:なべ(米), 12:フライパン, 13:ゴミ箱
     boolean isCounter; //そのマスがカウンターではないか
     public float cookingGauge = 0; //ご飯を炊いてる時のゲージ用　Yoshida
 
