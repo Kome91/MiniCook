@@ -135,7 +135,7 @@ class DrawView extends JPanel {
         imgBoil=new ImageIcon("img/boil.png").getImage();
         imgBoilRice=new ImageIcon("img/rice_boil.png").getImage();
         imgPlateBox = new ImageIcon("img/plate_box2.png").getImage();
-        imgPlate = new ImageIcon("img/plate.png").getImage();
+        imgPlate = new ImageIcon("img/plate2.png").getImage();
         imgPan = new ImageIcon("img/pan.png").getImage();
 
         imgCabbageBox=new ImageIcon("img/cabbage_box.png").getImage();
