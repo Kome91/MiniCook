@@ -206,6 +206,7 @@ class DrawView extends JPanel {
         imgSampleSalad = new ImageIcon("img/cab_tom_cuc.png").getImage();
 
         imgFire = new ImageIcon("img/fires.png").getImage();
+        
 
         imgUIBG = new ImageIcon("img/ui_background.png").getImage();
 
