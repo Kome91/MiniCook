@@ -288,6 +288,37 @@ class DrawView extends JPanel {
         final int rB = rightBlank;
         final int hB = headerBlank;
         final int cS = cellSize;
+
+        //プレイヤーの座標のアニメーション処理
+        if(Math.abs(player.x - player.xAnim) <= playerSpeed){
+            player.xAnim = player.x;
+            player.moving = false;
+        }
+        else if(player.x > player.xAnim){
+            player.xAnim += playerSpeed;
+            player.moving = true;
+        } 
+        else if(player.x < player.xAnim){
+            player.xAnim -= playerSpeed;
+            player.moving = true;
+        }
+
+        if(Math.abs(player.y - player.yAnim) <= playerSpeed){
+            player.yAnim = player.y;
+            player.moving = (player.moving || false);
+        }
+        else if(player.y > player.yAnim){
+            player.yAnim += playerSpeed;
+            player.moving = true;
+        }
+        else if(player.y < player.yAnim){
+            player.yAnim -= playerSpeed;
+            player.moving = true;
+        }
+        //プレイヤーの下の影の描画
+        g.setColor(Color.BLACK);
+        g.setColor(new Color(0,0,0,128));
+        g.fillOval((int)(player.xAnim*cellSize) + rB + 10, (int)(player.yAnim*cellSize) + hB +dD3d + 10, 40, 40);
         
         for (int j = 0; j < size[1]; j++) {
             for (int i = 0; i < size[0]; i++) {
@@ -353,32 +384,8 @@ class DrawView extends JPanel {
             case 3: ImagePlayer = imgPlayerDown; break;
             case 4: ImagePlayer = imgPlayerRight; break;
         }
-        //アニメーション処理
-        if(Math.abs(player.x - player.xAnim) <= playerSpeed){
-            player.xAnim = player.x;
-            player.moving = false;
-        }
-        else if(player.x > player.xAnim){
-            player.xAnim += playerSpeed;
-            player.moving = true;
-        } 
-        else if(player.x < player.xAnim){
-            player.xAnim -= playerSpeed;
-            player.moving = true;
-        }
+        
 
-        if(Math.abs(player.y - player.yAnim) <= playerSpeed){
-            player.yAnim = player.y;
-            player.moving = (player.moving || false);
-        }
-        else if(player.y > player.yAnim){
-            player.yAnim += playerSpeed;
-            player.moving = true;
-        }
-        else if(player.y < player.yAnim){
-            player.yAnim -= playerSpeed;
-            player.moving = true;
-        }
         g.drawImage(ImagePlayer,(int)(player.xAnim*cellSize)-10 + rB, (int)(player.yAnim*cellSize) + hB -10, 80, 80, this);
 
         if(player.hasPlate == true){ //プレイヤーが皿を持っていたら
