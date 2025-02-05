@@ -143,7 +143,8 @@ class DrawView extends JPanel {
         }, 0, 16, TimeUnit.MILLISECONDS);
         
         playerSpeed = player.getPlayerSpeed();
-        //画像読み込み
+
+        {//画像読み込み
         imgPlayerUp = new ImageIcon("img/player_up.png").getImage();
         imgPlayerLeft = new ImageIcon("img/player_left.png").getImage();
         imgPlayerDown = new ImageIcon("img/player_down.png").getImage();
@@ -223,6 +224,7 @@ class DrawView extends JPanel {
         imgSampleSalad = new ImageIcon("img/cab_tom_cuc.png").getImage();
 
         imgFire = new ImageIcon("img/fires.png").getImage();
+        }
 
     }
     public void setController(DrawController cont) { this.cont = cont; }
