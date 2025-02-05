@@ -370,7 +370,10 @@ class DrawView extends JPanel {
                         g.drawImage(selectedImage, i * cellSize + rB, j * cellSize + hB, cellSize, cellSize, this);
                     }
                 }
-
+            }
+        }
+        for (int i = size[0]-1; i >= 0; i--){
+            for (int j = size[1]-1; j >= 0; j--){
                 if(grid[i][j].isPlatePlaced && grid[i][j].plate.hasAnyFood()){
                     setIngredientsImage(cellSize, grid[i][j].x*cS, grid[i][j].y*cS, 0, 0, grid[i][j].plate, g, 0);
                 }
