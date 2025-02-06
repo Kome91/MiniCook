@@ -180,12 +180,12 @@ class DrawModel extends JPanel {
     }
     public void scoreUp(Order order){
         switch(order.orderName){
-            case "salad" : score += 50;
-            case "tekkamaki" : score += 50;
-            case "kappamaki" : score += 50;
-            case "tunanigiri" : score += 30;
-            case "ikanigiri" : score += 30;
-            case "kaisendon" : score += 60;
+            case "salad" : score += 200; break;
+            case "tekkamaki" : score += 160; break;
+            case "kappamaki" : score += 160; break;
+            case "tunanigiri" : score += 140; break;
+            case "ikanigiri" : score += 140; break;
+            case "kaisendon" : score += 220; break;
         }
         System.out.println("scoreUp()が呼ばれました");
         //これは料理が提供された瞬間の方がいいかも知れない
@@ -201,17 +201,17 @@ class DrawModel extends JPanel {
         System.out.println("socreDown() called");
         if(score == 0) return;
         if(order == null){
-            score -= 50;
+            score -= 60;
             if(score < 0) score = 0;
             return;
         }
         switch(order.orderName){
-            case "salad" : score -= 30;
-            case "tekkamaki" : score -= 30;
-            case "kappamaki" : score -= 30;
-            case "tunanigiri" : score -= 20;
-            case "ikanigiri" : score -= 20;
-            case "kaisendon" : score -= 30;
+            case "salad" : score -= 120; break;
+            case "tekkamaki" : score -= 100; break;
+            case "kappamaki" : score -= 100; break;
+            case "tunanigiri" : score -= 80; break;
+            case "ikanigiri" : score -= 80; break;
+            case "kaisendon" : score -= 120; break;
         }
         if(score < 0) score = 0;
 

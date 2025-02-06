@@ -75,9 +75,9 @@ public class Result extends JPanel {
 
     // スコアに応じた星の文字列を返す
     private String getStarRating(int score) {
-        if (score >= 500) {
+        if (score >= 300) {
             return "\u2605 \u2605 \u2605"; // ★ ★ ★
-        } else if (score >= 250) {
+        } else if (score >= 150) {
             return "\u2605 \u2605 \u2606"; // ★ ★ ☆
         } else if(score > 0){
             return "\u2605 \u2606 \u2606"; // ★ ☆ ☆
