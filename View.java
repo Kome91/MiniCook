@@ -293,8 +293,8 @@ class DrawView extends JPanel {
         g.drawImage(testWall,rightBlank,0,cellSize*16, headerBlank,this); //奥の壁 テスト用
         //g.drawImage(testWall,0,0,cellSize*18, headerBlank,this); //奥の壁
         g.drawImage(cacheFloorAll, 0+rightBlank, 0+headerBlank + dD3d, this); //床の画像だけキャッシュ(一時保存)して処理を軽く
-        g.drawImage(sideWall, 20, 55, 20, 1000, this);
-        g.drawImage(sideWall, 16*60 + rightBlank, 55, 20, 1000, this);
+        g.drawImage(sideWall, 20, 0, 20, 1000, this);
+        g.drawImage(sideWall, 16*60 + rightBlank, 0, 20, 1000, this);
         final int rB = rightBlank;
         final int hB = headerBlank;
         final int cS = cellSize;
