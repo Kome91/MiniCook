@@ -129,7 +129,7 @@ class Order {
                 se.playSE("./sound/music_timeuporder3.wav");
                 model.scoreDown(null);
                 removeThisOrder();
-                System.out.println(orderIndex+orderName + " の制限時間が切れました！");
+                System.out.println(orderIndex+orderName + " : の制限時間が切れました！");
             }
         });
         expirationTimer.setRepeats(false); // 一度だけ実行
