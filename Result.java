@@ -79,8 +79,10 @@ public class Result extends JPanel {
             return "\u2605 \u2605 \u2605"; // ★ ★ ★
         } else if (score >= 150) {
             return "\u2605 \u2605 \u2606"; // ★ ★ ☆
-        } else {
+        } else if(score > 0){
             return "\u2605 \u2606 \u2606"; // ★ ☆ ☆
+        } else{
+            return "\u2606 \u2606 \u2606"; // ☆ ☆ ☆
         }
     }
 
