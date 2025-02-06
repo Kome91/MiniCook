@@ -17,7 +17,7 @@ class DrawModel extends JPanel {
 
     public DrawModel() {
         //System.out.println("DrawModel instance: " + this);
-        gameTime = 60/*3*60 + 30*/; //　ゲーム時間は3分30秒 Yoshida
+        gameTime = 20/*3*60 + 30*/; //　ゲーム時間は3分30秒 Yoshida
         score = 0;
         orders = new Order[5];
         for(int i=0; i<5; i++){
@@ -107,6 +107,9 @@ class DrawModel extends JPanel {
         grid[0][7].tool=13;
         grid[15][1].tool=13;
         grid[15][7].tool=13;
+
+        grid[6][8].tool = 14;
+        grid[9][8].tool = 14;
     }
 
     public Grid[][] getGrid() {
@@ -255,7 +258,7 @@ class DrawModel extends JPanel {
 
     public void reset() {
         //System.out.println("DrawModel instance: " + this);
-        gameTime = 100/*3*60 + 30*/;
+        gameTime = 20/*3*60 + 30*/;
         score = 0;
         for(int i=0; i<5; i++){
             //orders[i].cancelTimer();  
@@ -345,5 +348,8 @@ class DrawModel extends JPanel {
         grid[0][7].tool=13;
         grid[15][1].tool=13;
         grid[15][7].tool=13;
+
+        grid[6][8].tool = 14;
+        grid[9][8].tool = 14;
     }
 }

@@ -91,6 +91,8 @@ class DrawView extends JPanel {
     private Image imgC;
     private Image imgF1;
     private Image imgF2;
+    private Image imgF3;
+
 
     private Image testWall;
     private Image sideWall;
@@ -105,12 +107,13 @@ class DrawView extends JPanel {
     private Image imgUIBG;
     private Image imgCoin;
     private Image imgTimer;
+    private Image imgCandle;
     
 
     Player player;
     static final int headerBlank = 220;
     static final int fotterBlank = 300;
-    static final int rightBlank = 40;
+    static final int rightBlank = 20;
     static final int leftBlank = 60;
     double playerSpeed;
 
@@ -209,6 +212,7 @@ class DrawView extends JPanel {
         imgC = new ImageIcon("img/test/C.jpg").getImage();
         imgF1 = new ImageIcon("img/test/floor_a_4.png").getImage();
         imgF2 = new ImageIcon("img/test/floor_b_4.png").getImage();
+        imgF3 = new ImageIcon("img/test/floor_c_3.png").getImage();
 
         imgTable = new ImageIcon("img/table.png").getImage();
         
@@ -221,11 +225,13 @@ class DrawView extends JPanel {
         imgCoin = new ImageIcon("img/coin.png").getImage();
         imgTimer = new ImageIcon("img/timer.png").getImage();
 
-        testWall = new ImageIcon("img/test/wallpaper_9.png").getImage();
+        testWall = new ImageIcon("img/test/wallpaper_11.png").getImage();
         sideWall = new ImageIcon("img/test/wall_side.png").getImage();
         imgWaiterUp = new ImageIcon("img/test/ghost_up.png").getImage();
         imgWaiterDown = new ImageIcon("img/test/ghost_down.png").getImage();
         longShadow = new ImageIcon("img/long_shadow.png").getImage();
+
+        imgCandle = new ImageIcon("img/test/candle.png").getImage();
         }
         model = m;
         this.setFocusable(true);
@@ -270,7 +276,8 @@ class DrawView extends JPanel {
     //床の画像をキャッシュする関数、DrawViewのコンストラクタで一回だけ呼ぶ
     private void createCacheFloorAll() {
         int cS = cellSize;
-        cacheFloorAll = new BufferedImage(cS*size[0], cS*size[1], BufferedImage.TYPE_INT_ARGB);
+        int overCell = 6;
+        cacheFloorAll = new BufferedImage(cS*size[0], cS * (size[1]+overCell), BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2 = cacheFloorAll.createGraphics();
         
         // 必要に応じて他の背景パーツを描画する
@@ -283,6 +290,12 @@ class DrawView extends JPanel {
                 else {g2.drawImage(imgF2, i * cS, j * cS, cS, cS, this);}
             }
         }
+        for(int j = size[1]; j < size[1] + overCell; j++){
+            for(int i = 0; i < size[0]; i++){
+                g2.setColor(new Color(200,0,0));
+                g2.drawImage(imgF3, i * cS, j * cS, cS, cS, this);
+            }
+        }
         g2.dispose();
     }
 
@@ -292,9 +305,12 @@ class DrawView extends JPanel {
         final int dD3d = 20; //疑似3Dの実装のために床を実際よりyが正向きにずれる。
         g.drawImage(testWall,rightBlank,0,cellSize*16, headerBlank,this); //奥の壁 テスト用
         //g.drawImage(testWall,0,0,cellSize*18, headerBlank,this); //奥の壁
+        g.setColor(new Color(101,68,59));
         g.drawImage(cacheFloorAll, 0+rightBlank, 0+headerBlank + dD3d, this); //床の画像だけキャッシュ(一時保存)して処理を軽く
-        g.drawImage(sideWall, 20, 0, 20, 1000, this);
-        g.drawImage(sideWall, 16*60 + rightBlank, 0, 20, 1000, this);
+        g.fillRect(0, 0, rightBlank, 1200);
+        g.fillRect(0 + rightBlank + size[0]*cellSize, 0, rightBlank, 1200);
+        //g.drawImage(sideWall, 20, 0, 20, 1000, this);
+        //g.drawImage(sideWall, 16*60 + rightBlank, 0, 20, 1000, this);
         final int rB = rightBlank;
         final int hB = headerBlank;
         final int cS = cellSize;
@@ -445,20 +461,28 @@ class DrawView extends JPanel {
             setIngredientsImage(cellSize, (int)(player.xAnim*cS), (int)(player.yAnim*cS), offsetX, offsetY, player.plate, g, player.direction);
             //setIngredientsImage(cellSize, player.x, player.y, offsetX, offsetY, player.plate, g, player.direction);
         }
+        
+        //装飾品の描画
+        //g.drawImage(imgCandle, 0*cellSize + rightBlank, 0 * cellSize + headerBlank - 60, 60, 120, this);
+        //g.drawImage(imgCandle, 15*cellSize + rightBlank, 0 * cellSize + headerBlank - 60, 60, 120, this);
+        //g.drawImage(imgCandle, 1*cellSize + rightBlank, 8 * cellSize + headerBlank - 60, 60, 120, this);
+        //g.drawImage(imgCandle, 14*cellSize + rightBlank, 8 * cellSize + headerBlank - 60, 60, 120, this);
+        g.drawImage(imgCandle, 6*cellSize + rightBlank, 8 * cellSize + headerBlank - 60, 60, 120, this);
+        g.drawImage(imgCandle, 9*cellSize + rightBlank, 8 * cellSize + headerBlank - 60, 60, 120, this);
 
         //UIの描画
-        g.drawImage(imgUIBG, 60, 750, 250, 90, this); //得点表示の背景
-        g.drawImage(imgCoin, 20, 730, 120, 120, this); //得点表示の背景
+        g.drawImage(imgUIBG, 55, 750, 250, 90, this); //得点表示の背景
+        g.drawImage(imgCoin, 0, 730, 120, 120, this); //得点表示の背景
 
-        g.drawImage(imgUIBG, 660, 750, 250, 90, this); //時間表示の背景
-        g.drawImage(imgTimer, 870, 730, 120, 120, this); //時間表示の背景
+        g.drawImage(imgUIBG, 655, 750, 250, 90, this); //時間表示の背景
+        g.drawImage(imgTimer, 868, 730, 120, 120, this); //時間表示の背景
         Graphics2D g2d = (Graphics2D) g;
         g2d.setFont(customFont); 
         g2d.setColor(Color.WHITE);
         int leftTimeAllSec = model.getGameTime();
         int leftTimeMin = leftTimeAllSec/60;
         int leftTimeSec = leftTimeAllSec%60;
-        g2d.drawString(String.format("%d:%02d", leftTimeMin, leftTimeSec), 730, 820);
+        g2d.drawString(String.format("%d:%02d", leftTimeMin, leftTimeSec), 712, 820);
 
         double dScore = model.score - scoreAnim;
         if(dScore != 0.0 && flameScoreGet == 0){ getScore = (int)dScore; flameScoreGet = 1; } //増加スコアエフェクトのトリガー
@@ -468,7 +492,7 @@ class DrawView extends JPanel {
         String text = Integer.toString((int)scoreAnim);
         FontMetrics fm = g2d.getFontMetrics();
         int textWidth = fm.stringWidth(text);
-        int centerX = 210; // 中央に配置したいx座標
+        int centerX = 202; // 中央に配置したいx座標
         g2d.drawString(text, centerX - textWidth / 2, 820);
 
         if(1 <= flameScoreGet && flameScoreGet <= 60){
@@ -481,7 +505,7 @@ class DrawView extends JPanel {
             }
             fm = g2d.getFontMetrics();
             textWidth = fm.stringWidth(text);
-            centerX = 185; // 中央に配置したいx座標
+            centerX = 175; // 中央に配置したいx座標
             g2d.drawString(text, centerX - textWidth / 2, 770 - 2*flameScoreGet/3);
             flameScoreGet++;
         }else if(flameScoreGet > 60){ flameScoreGet = 0; }
@@ -600,6 +624,9 @@ class DrawView extends JPanel {
                 waiters[i].drawMe(g, this);
             }
         }
+
+
+
         if(passedFlame == 60) AudioManager.playBGM("./sound/music_background2.wav");
     }
     private void drawFloorAll(Graphics g, ImageObserver io){
@@ -621,13 +648,13 @@ class DrawView extends JPanel {
         if(type == "up"){
             g.setColor(Color.WHITE);
             g.fillRect(x-2, y-2, width+4, height+4);
-            g.setColor(Color.GREEN);
+            g.setColor(new Color(75, 180, 35));
             g.fillRect(x, y, (int)(width*ratio), height);
         }
         else if(type == "down"){
             g.setColor(Color.GRAY);
         g.fillRect(x, y, width, height);
-            if(ratio >= 0.5) { g.setColor(new Color(75, 140, 35)); }
+            if(ratio >= 0.5) { g.setColor(new Color(75, 180, 35)); }
             else if(ratio >= 0.25) { g.setColor(Color.YELLOW); }
             else{ g.setColor(Color.RED); }
             g.fillRect(x, y, (int)(width*ratio), height);
@@ -649,6 +676,7 @@ class DrawView extends JPanel {
             case 11: return imgBoilRice;
             case 12: return imgPan;
             case 13: return imgTrash;
+            case 14: return null;
         }
         return imgErrorBlock;
     }
