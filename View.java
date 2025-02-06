@@ -94,6 +94,7 @@ class DrawView extends JPanel {
 
     private Image testWall;
     private Image sideWall;
+    private Image longShadow;
 
     private Image imgWaiterUp;
     private Image imgWaiterDown;
@@ -222,8 +223,9 @@ class DrawView extends JPanel {
 
         testWall = new ImageIcon("img/test/wallpaper_8.png").getImage();
         sideWall = new ImageIcon("img/test/wall_side.png").getImage();
-        imgWaiterUp = new ImageIcon("img/test/waiter_up.png").getImage();
+        imgWaiterUp = new ImageIcon("img/test/ghost_up.png").getImage();
         imgWaiterDown = new ImageIcon("img/test/ghost_down.png").getImage();
+        longShadow = new ImageIcon("img/long_shadow.png").getImage();
         }
         model = m;
         this.setFocusable(true);
@@ -337,7 +339,9 @@ class DrawView extends JPanel {
                 }
             }
         }
-        
+        //影を落とす
+        g.drawImage(longShadow, 0+rightBlank, 0+headerBlank, 960, 14, this);
+
         g.drawImage(imgCounter[(passedFlame/15)%5], 7*cellSize + rB, 8*cellSize + hB, cellSize*2, cellSize + dD3d, this); //カウンターを座標指定して描画
 
         //すべての座標について2重for文
@@ -599,6 +603,7 @@ class DrawView extends JPanel {
                 waiters[i].drawMe(g, this);
             }
         }
+        if(passedFlame == 60) AudioManager.playBGM("./sound/music_background2.wav");
     }
     private void drawFloorAll(Graphics g, ImageObserver io){
         int cS = cellSize; //この中で略語を定義

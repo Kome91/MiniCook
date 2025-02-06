@@ -54,7 +54,7 @@ class MiniCook extends JFrame {
     public void startGame() {
         cardLayout.show(cardPanel, "game");
         cont.startGame();
-        audio.playBGM("./sound/music_background2.wav");
+        //audio.playBGM("./sound/music_background2.wav");
 
         // キーボード入力を受け取るためにフォーカスを設定
         view.requestFocusInWindow();
