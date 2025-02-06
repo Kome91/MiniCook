@@ -221,7 +221,7 @@ class DrawView extends JPanel {
         imgCoin = new ImageIcon("img/coin.png").getImage();
         imgTimer = new ImageIcon("img/timer.png").getImage();
 
-        testWall = new ImageIcon("img/test/wallpaper_8.png").getImage();
+        testWall = new ImageIcon("img/test/wallpaper_9.png").getImage();
         sideWall = new ImageIcon("img/test/wall_side.png").getImage();
         imgWaiterUp = new ImageIcon("img/test/ghost_up.png").getImage();
         imgWaiterDown = new ImageIcon("img/test/ghost_down.png").getImage();
@@ -290,7 +290,7 @@ class DrawView extends JPanel {
         super.paintComponent(g);
         passedFlame++;
         final int dD3d = 20; //疑似3Dの実装のために床を実際よりyが正向きにずれる。
-        g.drawImage(testWall,20,0,cellSize*16 + 40, headerBlank,this); //奥の壁 テスト用
+        g.drawImage(testWall,rightBlank,0,cellSize*16, headerBlank,this); //奥の壁 テスト用
         //g.drawImage(testWall,0,0,cellSize*18, headerBlank,this); //奥の壁
         g.drawImage(cacheFloorAll, 0+rightBlank, 0+headerBlank + dD3d, this); //床の画像だけキャッシュ(一時保存)して処理を軽く
         g.drawImage(sideWall, 20, 55, 20, 1000, this);
