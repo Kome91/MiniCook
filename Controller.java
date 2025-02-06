@@ -151,9 +151,9 @@ class DrawController implements KeyListener {
                         "\r\n" + //
                         "Y. Kometani\r\n" + //
                         "\r\n" + //
-                        "H. Yoshida\r\n" + //
-                        "\r\n" + //
                         "S. Suzuki\r\n" + //
+                        "\r\n" + //
+                        "H. Yoshida\r\n" + //
                         "\r\n" + //
                         "\r\n" + //
                         "\r\n" + //
