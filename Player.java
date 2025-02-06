@@ -48,8 +48,8 @@ class Player {
                     x = newX;
                     y = newY;
                 }else{
-                    if(grid[newX][newY].wall) System.out.printf("wallに激突しました\n");
-                    if(grid[newX][newY].obstacle) System.out.printf("obstacleに激突しました\n");
+                    //if(grid[newX][newY].wall) System.out.printf("wallに激突しました\n");
+                    //if(grid[newX][newY].obstacle) System.out.printf("obstacleに激突しました\n");
                 }
             }
         }
@@ -95,7 +95,7 @@ class Player {
         }
         
         else if(frontGrid.tool == 10 && frontGrid.hasFood() && frontGrid.cookingGauge >= 60){
-                System.out.println("炊けた米をとります。");
+                //System.out.println("炊けた米をとります。");
                 frontGrid.food.foodStatus = 3;
                 food = frontGrid.food;
                 frontGrid.food = null;
@@ -107,12 +107,12 @@ class Player {
     public void pick_up() {
         Grid currentGrid = grid[x][y]; //自分の足元のグリッド
         Grid frontGrid = getFrontGrid(); //自身の目の前のグリッド
-        System.out.printf("frontGrid = (%d,%d)\n", frontGrid.x, frontGrid.y);
+        //System.out.printf("frontGrid = (%d,%d)\n", frontGrid.x, frontGrid.y);
         if(frontGrid.tool == 10){return;} //鍋からはアクションでしか食材をとれない。 Yoshida
         if(hasPlate == false && frontGrid.tool == 3 ){ //playerは皿を持っていない かつ 目の前マスが皿ボックス
             AudioManager se = new AudioManager();
             se.playSE("./sound/music_have.wav");
-            System.out.println("皿を持ちました");
+            //System.out.println("皿を持ちました");
             plate = new Plate(); //ここでお皿をもった
             hasPlate = true; //皿を持つ
         }else if(hasPlate == false && frontGrid.isPlatePlaced == true){ //playerは皿を持っていない かつ 目の前マスに皿がある
@@ -130,38 +130,38 @@ class Player {
                 AudioManager se = new AudioManager();
                 se.playSE("./sound/music_have.wav");
                 this.food = new Cabbage();
-                System.out.println("キャベツボックスから取得しました！");
+                //System.out.println("キャベツボックスから取得しました！");
             }
             else if(frontGrid.foodBox == 2){ //目の前のマスがトマトボックスだったら
                 AudioManager se = new AudioManager();
                 se.playSE("./sound/music_have.wav");
                 this.food = new Tomato();
-                System.out.println("トマトボックスから取得しました！");
+                //System.out.println("トマトボックスから取得しました！");
             }else if(frontGrid.foodBox == 3){ //目の前のマスがきゅうりボックスだったら
                 AudioManager se = new AudioManager();
                 se.playSE("./sound/music_have.wav");
                 this.food = new Cucumber();
-                System.out.println("きゅうりボックスから取得しました！");
+                //System.out.println("きゅうりボックスから取得しました！");
             }else if(frontGrid.foodBox == 4){ //目の前のマスが米ボックスだったら
                 AudioManager se = new AudioManager();
                 se.playSE("./sound/music_have.wav");
                 this.food = new Rice();
-                System.out.println("ライスボックスから取得しました！");
+                //System.out.println("ライスボックスから取得しました！");
             }else if(frontGrid.foodBox == 5){ //目の前のマスがまぐろボックスだったら
                 AudioManager se = new AudioManager();
                 se.playSE("./sound/music_have.wav");
                 this.food = new Tuna();
-                System.out.println("マグロボックスから取得しました！");
+                //System.out.println("マグロボックスから取得しました！");
             }else if(frontGrid.foodBox == 6){ //目の前のマスがいかボックスだったら
                 AudioManager se = new AudioManager();
                 se.playSE("./sound/music_have.wav");
                 this.food = new Squid();
-                System.out.println("イカボックスから取得しました！");
+                //System.out.println("イカボックスから取得しました！");
             }else if(frontGrid.foodBox == 7){ //目の前のマスがのりボックスだったら
                 AudioManager se = new AudioManager();
                 se.playSE("./sound/music_have.wav");
                 this.food = new Seaweed();
-                System.out.println("のりボックスから取得しました！");
+                //System.out.println("のりボックスから取得しました！");
             }
             
             else if (frontGrid.hasFood()) {  // 現在のマスに食材がある場合
@@ -169,7 +169,7 @@ class Player {
                 se.playSE("./sound/music_have.wav");  
                 food = frontGrid.food;  // 食材を拾う
                 frontGrid.food = null;  // マスから食材を消す
-                System.out.println("食材を持ち上げました！");
+                //System.out.println("食材を持ち上げました！");
             } else {
                 System.out.println("ここには食材がありません。");
             }
@@ -201,7 +201,7 @@ class Player {
             plate = null;
             hasPlate = false;
             frontGrid.food = null;
-            System.out.printf("デバッグ\n");
+            //System.out.printf("デバッグ\n");
             //plate.printPlate();
         }
         /* else */if(hasPlate==true && frontGrid.isCounter==true) { //いま皿を持っていて かつ 目の前がカウンター
@@ -243,16 +243,16 @@ class Player {
         }
         if(food != null) {  // 既に食材を持っている場合
             if(frontGrid.isPlatePlaced == true){ //目の前のマスに皿が置いてある場
-                System.out.println("皿に食材を追加します！");
+                //System.out.println("皿に食材を追加します！");
                 frontGrid.plate.add(food);
                 food = null;
                 Order currentOrder = model.matchOrder(frontGrid.plate);
-                System.out.println("皿に食材を追加しました！");
+                //System.out.println("皿に食材を追加しました！");
                 frontGrid.plate.printPlate();
             }else if (!frontGrid.hasFood() && frontGrid.tool == 0) {  // 現在のマスが空いている場合 かつ そのマスがツールマスではない 
                 frontGrid.food = food;  // 食材を置く
                 food = null;  // 手持ちを空にする
-                System.out.println("皿がないマスに対して食材を置きました！");
+                //System.out.println("皿がないマスに対して食材を置きました！");
             }
             else {
                 if(frontGrid.hasFood() == true) System.out.println("ここには既に食材があります！");

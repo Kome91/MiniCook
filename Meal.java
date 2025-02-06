@@ -103,7 +103,7 @@ class Plate {
             if(foods[i] != null && foods[i].foodName == food.foodName) { continue; }
             if (foods[i] == null) {
                 foods[i] = food;
-                System.out.println(food.foodName + " を皿に追加しました。");
+                //System.out.println(food.foodName + " を皿に追加しました。");
                 return;  // 追加が完了したら終了
             }
         }
@@ -117,7 +117,7 @@ class Plate {
 
     public void printPlate(){
         String state = "";
-        System.out.print("現在、皿の上には：");
+        //System.out.print("現在、皿の上には：");
         for(int i=0; i<3; i++){
             if(foods[i] != null) {
                 switch(foods[i].foodStatus){
@@ -125,10 +125,10 @@ class Plate {
                     case 2: state = "cut"; break;
                     case 3: state = "grilled"; break;
                 }
-                System.out.print(foods[i].foodName+"("+ state + ")" + " ");
+                //System.out.print(foods[i].foodName+"("+ state + ")" + " ");
             }
         }
-        System.out.print("\n");
+        //System.out.print("\n");
         return ;
     }
 
@@ -154,7 +154,7 @@ class Plate {
 
         // **オーダーの食材数と皿の食材数が違ったら不一致とする**
         if (plateFoodCount != orderFoodCount) {
-            System.out.println("料理の食材数がオーダーと一致しません。");
+            //System.out.println("料理の食材数がオーダーと一致しません。");
             return false;
         }
 
@@ -167,7 +167,7 @@ class Plate {
                 if (!matchedIngredients[j] && foods[i] != null) {
                     if (foods[i].getClass() == orderIngredients[j].getClass() &&
                         foods[i].foodStatus == orderIngredients[j].foodStatus) {
-                        System.out.println(foods[i].foodName + "は満たされました。");
+                        //System.out.println(foods[i].foodName + "は満たされました。");
                         matchedIngredients[j] = true;
                         break;
                     }
@@ -177,18 +177,18 @@ class Plate {
 
         for(int i=0; i<matchedIngredients.length; i++){
             if(matchedIngredients[i]){
-                System.out.println("材料"+(i+1)+"は満たされいます。");
+                //System.out.println("材料"+(i+1)+"は満たされいます。");
             }
-            else System.out.println("材料"+(i+1)+"は満たされいません。");
+            //else System.out.println("材料"+(i+1)+"は満たされいません。");
         }
 
         for (boolean matched : matchedIngredients) {
             if (!matched){
-                System.out.println("料理は未完成です。");
+                //System.out.println("料理は未完成です。");
                 return false;
             }
         }
-        System.out.println("料理は完成しています。");
+        //System.out.println("料理は完成しています。");
         return true;
     }
 

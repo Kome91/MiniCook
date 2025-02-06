@@ -154,14 +154,14 @@ class DrawModel extends JPanel {
         Random random=new Random();
         for (int i = 0; i < orders.length; i++) {
             if (orders[i] == null) {
-                System.out.println("orders[" + i + "] はnullです 新しいオーダーを生成します");
+                //System.out.println("orders[" + i + "] はnullです 新しいオーダーを生成します");
                 String randommenu=menu[random.nextInt(num_menu)];     
                 orders[i] = new Order(randommenu, i , this);
                 //orders[i] = new Order("tekkamaki", i , this);
-                System.out.println("生成されたオーダー: " + orders[i].orderName);
+                //System.out.println("生成されたオーダー: " + orders[i].orderName);
                 break;
             } else {
-            System.out.println("orders[" + i + "] は存在しています: " + orders[i].orderName);
+            //System.out.println("orders[" + i + "] は存在しています: " + orders[i].orderName);
             }
         }
     }
@@ -187,7 +187,7 @@ class DrawModel extends JPanel {
             case "ikanigiri" : score += 140; break;
             case "kaisendon" : score += 220; break;
         }
-        System.out.println("scoreUp()が呼ばれました");
+        //System.out.println("scoreUp()が呼ばれました");
         //これは料理が提供された瞬間の方がいいかも知れない
         for(int i=0; i<orders.length; i++){
             //if(orders[i].orderName == order.orderName) 
@@ -198,7 +198,7 @@ class DrawModel extends JPanel {
         }
     }
     public void scoreDown(Order order){
-        System.out.println("socreDown() called");
+        //System.out.println("scoreDown() called");
         if(score == 0) return;
         if(order == null){
             score -= 60;
@@ -225,7 +225,7 @@ class DrawModel extends JPanel {
         }
     }
     public void removeOrder(int i){
-        System.out.println("get =" + i);
+        //System.out.println("get =" + i);
         if (i >= 0 && i < orders.length && orders[i] != null) {
             orders[i].cancelTimer(); // タイマーの停止
             System.out.println("注文 " + orders[i].orderName + " を削除します。");

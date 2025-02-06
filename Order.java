@@ -30,7 +30,7 @@ class Order {
         this.model = model;
         //オーダーによって必要な食材や状態(切られてる、焼かれてる等)を設定
         if("salad".equals(orderName)){
-            System.out.println("Order created: " + this.orderName);
+            //System.out.println("Order created: " + this.orderName);
             this.timeLimit = 30;
 
             this.ingredient1 = new Cabbage();
@@ -46,7 +46,7 @@ class Order {
             this.ingredient3.isOnPlate = true;
         }
         if("tekkamaki".equals(orderName)){
-            System.out.println("Order created: " + this.orderName);
+            //System.out.println("Order created: " + this.orderName);
             this.timeLimit = 30;
 
             this.ingredient1 = new Rice();
@@ -62,7 +62,7 @@ class Order {
             this.ingredient3.isOnPlate = true;
         }
         if("kappamaki".equals(orderName)){
-            System.out.println("Order created: " + this.orderName);
+            //System.out.println("Order created: " + this.orderName);
             this.timeLimit = 30;
 
             this.ingredient1 = new Rice();
@@ -78,7 +78,7 @@ class Order {
             this.ingredient3.isOnPlate = true;
         }
         if("tunanigiri".equals(orderName)){
-            System.out.println("Order created: " + this.orderName);
+            //System.out.println("Order created: " + this.orderName);
             this.timeLimit = 25;
 
             this.ingredient1 = new Rice();
@@ -91,7 +91,7 @@ class Order {
 
         }
         if("ikanigiri".equals(orderName)){
-            System.out.println("Order created: " + this.orderName);
+            //System.out.println("Order created: " + this.orderName);
             this.timeLimit = 25;
 
             this.ingredient1 = new Rice();
@@ -104,7 +104,7 @@ class Order {
 
         }
         if("kaisendon".equals(orderName)){
-            System.out.println("Order created: " + this.orderName);
+            //System.out.println("Order created: " + this.orderName);
             this.timeLimit = 30;
 
             this.ingredient1 = new Rice();
@@ -140,7 +140,7 @@ class Order {
     }
 
     public boolean isCompleted(Plate plate) { //オーダー判定処理 Kome
-        System.out.println("isCompleted() called");
+        //System.out.println("isCompleted() called");
         boolean[] matchedIngredients = new boolean[3];
         Food[] orderIngredients = {ingredient1, ingredient2, ingredient3};
     

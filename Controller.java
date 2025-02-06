@@ -106,7 +106,7 @@ class DrawController implements KeyListener {
             }
         });
         orderTimer.start();
-        System.out.println("Timer started: " + orderTimer);
+        //System.out.println("Timer started: " + orderTimer);
         
         if(gameTimer != null) return; //二重起動防止
 
@@ -128,7 +128,7 @@ class DrawController implements KeyListener {
                     stopOrderTimer();//オーダータイマーも止める
     
                     // ゲーム終了時に Result 画面を表示
-                    System.out.println("リザルト画面に切り替えます。"); //デバッグ用
+                    System.out.printf("\n\n\n---Result---\n\n\n"); //デバッグ用
                     AudioManager.playBGM("./sound/music_result.wav");
                     mainApp.showResult();
                     

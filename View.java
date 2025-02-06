@@ -642,7 +642,7 @@ class DrawView extends JPanel {
         }
     }
     private void drawGauge(Graphics g, String type, int x, int y, int width, int height, double ratio){
-        if(ratio > 1) { System.out.println("Warning : ゲージの割合が100%を超えています"); }
+        //if(ratio > 1) { System.out.println("Warning : ゲージの割合が100%を超えています"); }
         //System.out.printf("ratio = %.1f%n", ratio); //デバッグ用
         
         if(type == "up"){
@@ -897,7 +897,7 @@ class DrawView extends JPanel {
     public void addWaiter(Image mealImage){
         for(int i = 0; i < 5; i++){
             if(waiters[i] == null || waiters[i].active == false){
-                System.out.println("Waiter Instatance made.");
+                //System.out.println("Waiter Instatance made.");
                 waiters[i] = new Waiter(model, mealImage,imgWaiterDown, imgWaiterUp, headerBlank, rightBlank, player.x);
                 return;
             }
