@@ -10,6 +10,7 @@ class DrawController implements KeyListener {
     public boolean spacePushing =false;
     private Timer gameTimer;
     private MiniCook mainApp;
+    private int cCount = 0;
 
     public DrawController(DrawModel m, DrawView v, MiniCook app) {
         model = m;
@@ -42,6 +43,10 @@ class DrawController implements KeyListener {
                 dx = 1;
                 player.direction = 4;
                 model.movePlayer(dx, dy);
+                break;
+            case KeyEvent.VK_C:
+                cCount++;
+                if(cCount >= 5){ cCount = 0; printCredit(); }
                 break;
             case KeyEvent.VK_SPACE: //スペースキーでaction
                 spacePushing =true;
@@ -130,5 +135,39 @@ class DrawController implements KeyListener {
         });
     
         gameTimer.start(); // タイマー開始
+    }
+    private void printCredit(){
+        System.out.printf("\r\n" + //
+                        "\r\n" + //
+                        "----------------------------------\r\n" + //
+                        "\r\n" + //
+                        "--- Credit ---\r\n" + //
+                        "\r\n" + //
+                        "----------------------------------\r\n" + //
+                        "\r\n" + //
+                        "<Team Members>\r\n" + //
+                        "\r\n" + //
+                        "Y. Kometani\r\n" + //
+                        "\r\n" + //
+                        "H. Yoshida\r\n" + //
+                        "\r\n" + //
+                        "S. Suzuki\r\n" + //
+                        "\r\n" + //
+                        "\r\n" + //
+                        "\r\n" + //
+                        "<Special Thanks>\r\n" + //
+                        "\r\n" + //
+                        "S. Maejima (Character Designer)\r\n" + //
+                        "\r\n" + //
+                        "K. Isahaya (Background Designer)\r\n" + //
+                        "\r\n" + //
+                        "K. Kubo (Design Adviser)\r\n" + //
+                        "\r\n" + //
+                        "and All Players\r\n" + //
+                        "\r\n" + //
+                        "----------------------------------\r\n" + //
+                        "\r\n" + //
+                        "\r\n" + //
+                        "");
     }
 }
