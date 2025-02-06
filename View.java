@@ -337,16 +337,7 @@ class DrawView extends JPanel {
                 } else if (grid[i][j].obstacle) {
                     g.drawImage(imgB, i * cellSize + rB, j * cellSize + hB, cellSize, cellSize +dD3d + 14, this);
                 }
-            }
-        }
-        //影を落とす
-        g.drawImage(longShadow, 0+rightBlank, 0+headerBlank, 960, 14, this);
 
-        g.drawImage(imgCounter[(passedFlame/15)%5], 7*cellSize + rB, 8*cellSize + hB, cellSize*2, cellSize + dD3d, this); //カウンターを座標指定して描画
-
-        //すべての座標について2重for文
-        for (int i = size[0]-1; i >= 0; i--){
-            for (int j = size[1]-1; j >= 0; j--){
                 if(grid[i][j].isPlatePlaced == true){ //皿は食材の土台にあるべきなので、皿のみの特殊描画処理
                     if(grid[i][j].wall == false && grid[i][j].obstacle == false){ 
                         g.drawImage(imgPlate, i * cellSize + rB, j * cellSize + hB + dD3d, cellSize, cellSize, this);
@@ -374,6 +365,12 @@ class DrawView extends JPanel {
                 }
             }
         }
+        //影を落とす
+        g.drawImage(longShadow, 0+rightBlank, 0+headerBlank, 960, 14, this);
+
+        g.drawImage(imgCounter[(passedFlame/15)%5], 7*cellSize + rB, 8*cellSize + hB, cellSize*2, cellSize + dD3d, this); //カウンターを座標指定して描画
+
+        //すべての座標について2重for文
         for (int i = size[0]-1; i >= 0; i--){
             for (int j = size[1]-1; j >= 0; j--){
                 Image selectedImage = null;
