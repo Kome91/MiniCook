@@ -136,6 +136,28 @@ class Plate {
         boolean[] matchedIngredients = new boolean[3];
         Food[] orderIngredients = {order.ingredient1, order.ingredient2, order.ingredient3};
 
+            // 皿にある食材の数をカウント
+        int plateFoodCount = 0;
+        for (int i=0; i<3; i++) {
+            if (foods[i] != null) {
+                plateFoodCount++;
+            }
+        }
+
+        // オーダーの食材リストを作成
+        int orderFoodCount = 0;
+        for (int i=0; i<3; i++) {
+            if (orderIngredients[i] != null) {
+                orderFoodCount++;
+            }
+        }
+
+        // **オーダーの食材数と皿の食材数が違ったら不一致とする**
+        if (plateFoodCount != orderFoodCount) {
+            System.out.println("料理の食材数がオーダーと一致しません。");
+            return false;
+        }
+
         for (int i = 0; i < foods.length; i++) {
             for (int j = 0; j < orderIngredients.length; j++) {
                 if(orderIngredients[j] == null){
