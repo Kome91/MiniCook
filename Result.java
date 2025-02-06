@@ -10,6 +10,7 @@ public class Result extends JPanel {
     private Font pixelFont;
     private int score;
     private JLabel scoreLabel; // スコア表示用ラベル
+    private JLabel starLabel;
 
     public Result(MiniCook mainApp) {
         this.mainApp = mainApp;
@@ -38,6 +39,19 @@ public class Result extends JPanel {
         gbc.gridy = 1;
         add(scoreLabel, gbc);
 
+        if(score >= 0 && score < 150){
+            starLabel = new JLabel("\u2605 \u2606 \u2606", SwingConstants.CENTER); // ★ ☆ ☆
+        }
+        else if(score >= 150 && score < 300){
+            starLabel = new JLabel("\u2605 \u2605 \u2606", SwingConstants.CENTER); // ★ ★ ☆
+        }
+        else if(score >= 300){
+            starLabel = new JLabel("\u2605 \u2605 \u2605", SwingConstants.CENTER); // ★ ★ ★
+        }
+        starLabel.setFont(new Font("Meiryo", Font.PLAIN, 80));         
+        gbc.gridy = 2;
+        add(starLabel, gbc);
+
         // ボタンパネル
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
 
@@ -52,7 +66,7 @@ public class Result extends JPanel {
         buttonPanel.add(restartButton);
         buttonPanel.add(closeButton);
 
-        gbc.gridy = 2;
+        gbc.gridy = 3;
         add(buttonPanel, gbc);
     }
 
