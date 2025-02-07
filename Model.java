@@ -17,7 +17,7 @@ class DrawModel extends JPanel {
 
     public DrawModel() {
         //System.out.println("DrawModel instance: " + this);
-        gameTime = 20/*3*60 + 30*/; //　ゲーム時間は3分30秒 Yoshida
+        gameTime = 120/*3*60 + 30*/; //　ゲーム時間は3分30秒 Yoshida
         score = 0;
         orders = new Order[5];
         for(int i=0; i<5; i++){
@@ -258,7 +258,7 @@ class DrawModel extends JPanel {
 
     public void reset() {
         //System.out.println("DrawModel instance: " + this);
-        gameTime = 20/*3*60 + 30*/;
+        gameTime = 120/*3*60 + 30*/;
         score = 0;
         for(int i=0; i<5; i++){
             //orders[i].cancelTimer();  
