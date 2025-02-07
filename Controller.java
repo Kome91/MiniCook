@@ -98,7 +98,7 @@ class DrawController implements KeyListener {
         view.repaint();
 
         //こんな文法あるんだね。知らんかった Kome
-        orderTimer = new Timer(6*1000, new ActionListener() {
+        orderTimer = new Timer(8*1000, new ActionListener() {
             public void actionPerformed(ActionEvent e){
                 model.generateOrder();
                 view.repaint();

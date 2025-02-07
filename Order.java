@@ -92,7 +92,7 @@ class Order {
         }
         if("ikanigiri".equals(orderName)){
             //System.out.println("Order created: " + this.orderName);
-            this.timeLimit = 25;
+            this.timeLimit = 20;
 
             this.ingredient1 = new Rice();
             this.ingredient1.foodStatus = 3;
