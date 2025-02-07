@@ -47,7 +47,7 @@ class Order {
         }
         if("tekkamaki".equals(orderName)){
             //System.out.println("Order created: " + this.orderName);
-            this.timeLimit = 30;
+            this.timeLimit = 35;
 
             this.ingredient1 = new Rice();
             this.ingredient1.foodStatus = 3;
@@ -63,7 +63,7 @@ class Order {
         }
         if("kappamaki".equals(orderName)){
             //System.out.println("Order created: " + this.orderName);
-            this.timeLimit = 30;
+            this.timeLimit = 35;
 
             this.ingredient1 = new Rice();
             this.ingredient1.foodStatus = 3;
@@ -105,7 +105,7 @@ class Order {
         }
         if("kaisendon".equals(orderName)){
             //System.out.println("Order created: " + this.orderName);
-            this.timeLimit = 30;
+            this.timeLimit = 35;
 
             this.ingredient1 = new Rice();
             this.ingredient1.foodStatus = 3;
