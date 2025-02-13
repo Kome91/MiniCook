@@ -41,14 +41,14 @@ class Grid {
 
 class Waiter{
     int waitY = 1000; //ウェイタースタンバイ位置
-    int receiveY = 700; //ウェイターが料理を受け取る場所
+    int receiveY = 710; //ウェイターが料理を受け取る場所
     boolean active = true;
     private Image imgMeal;
     private Image imgWaiterUp;
     private Image imgWaiterDown;
     DrawModel model;
-    static final int xBefore = 490;
-    static final int xAfter = 490;
+    static final int xBefore = 470;
+    static final int xAfter = 470;
     static final int counterX = 7;
     static final int counterY = 8;
     final int headerBlank;
