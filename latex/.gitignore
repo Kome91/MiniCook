@@ -1,0 +1,7 @@
+# すべてのファイルを無視
+*
+
+# ただし、`documents/` フォルダ内の .tex と .pdf は追加
+!*.tex
+!*.pdf
+!.gitignore
