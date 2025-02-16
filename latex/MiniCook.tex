@@ -75,7 +75,7 @@
 
 
 \section{設計方針}
-　図1にクラス図を示す。MVCモデルで設計した。
+　図1にクラス図を示す。MVCモデルで設計した。%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[H]
   \begin{center}
   \includegraphics[scale=0.3]{img/class.png}
@@ -86,6 +86,46 @@
 
 
 \section{プログラムの説明}
+　以下にクラスとその説明を示す。
+\begin{itemize}
+  \item MiniCook\par
+   %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \item Model\par
+   %%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \begin{itemize}
+    \item Food\par
+     %%%%%%%%%%%%%%%%%%%%
+    \item Order\par
+     %%%%%%%%%%%%%%%%%%%%% 
+  \end{itemize}   
+  \item View\par
+   %%%%%%%%%%%%%%%%%%%%%%%%  
+  \begin{itemize}
+    \item Timer\par
+     %%%%%%%%%%%%%%% 
+    \item Image\par
+     %%%%%%%%%%%%%%%%%%%%%%%%%
+    \item Player\par
+     %%%%%%%%%%%%%%%%%%%%%%%%%
+    \begin{itemize}
+      \item Plate\par
+       %%%%%%%%%%%%%%%%%%%%%%%%% 
+      \item Grid\par
+       %%%%%%%%%%%%%%%%%%%%% 
+    \end{itemize}   
+  \end{itemize}  
+  \item Controller\par
+   %%%%%%%%%%%%%%%%%%%%%%%%%%% 
+  \item Start\par
+   %%%%%%%%%%%%%%%%%%%%% 
+  \item Result\par
+   %%%%%%%%%%%%%%%%%%%%%%%%% 
+  \item CardLayout\par
+   %%%%%%%%%%%%%%%%%%%%%%%%%%% 
+  \item AudioManager\par
+   %%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\end{itemize}
+
 
 
 \section{実行例}
@@ -148,15 +188,15 @@
 \end{figure}
 
 \section{考察}
-　予定していた以上のものが完成した。
+　予定していた以上のものが完成した。%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{感想}
 \subsection*{(米谷祐希)}
-
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection*{(鈴木早紀)}
-
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection*{(吉田陽音)}
-
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 \newpage
@@ -217,6 +257,21 @@
 
 \newpage
 \section*{付録2：プログラムリスト}
+以下にプログラムリスト全体を記述する。
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\lstset{
+  basicstyle=\ttfamily\tiny,
+  numbers=left,%左に行番号
+  numberstyle=\tiny,
+  stepnumber=1, %行番号を毎行表示
+  frame=single, %枠をつける
+  breaklines=true,%長い行を折り返す
+  tabsize=4
+}
+  \lstinputlisting{../MiniCook.java}
+
+
+
 
 
 
