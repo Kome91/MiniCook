@@ -1,7 +1,6 @@
 \documentclass[a4j]{jarticle} %jsrticleでもいい
 \usepackage{fancyhdr} %ヘッダーを表示させるのに必要
-%\usepackage{listings, jlisting} %ソースコードを貼り付けるのに必要
-\usepackage{listings} %ソースコードを貼り付けるのに必要
+\usepackage{listingsutf8}%日本語
 \usepackage{color}
 \usepackage{comment} %複数行のコメントアウトのパッケージ
 \usepackage{amsmath,amssymb}
@@ -10,25 +9,7 @@
 \usepackage{ascmac}
 \usepackage{subfigure}%画像を横に配置
 \setlength{\parindent}{0pt}
-\lstset{
-  basicstyle={\ttfamily},
-  backgroundcolor={\color[gray]{.90}},
-  identifierstyle={\small},
-  commentstyle={\smallitshape},
-  keywordstyle={\small\bfseries},
-  ndkeywordstyle={\small},
-  stringstyle={\small\ttfamily},
-  frame={tb},
-  breaklines=true,
-  columns=[l]{fullflexible},
-  %numbers=left, %行番号を表示する
-  xrightmargin=1zw,
-  xleftmargin=2zw,
-  numberstyle={\scriptsize},
-  stepnumber=1,
-  numbersep=1zw,
-  lineskip=-0.5ex
-}
+
 
 \pagestyle{fancy}
   \lhead{メディア情報学プログラミング演習} %ヘッダー左
@@ -259,18 +240,20 @@
 \section*{付録2：プログラムリスト}
 以下にプログラムリスト全体を記述する。
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\small
 \lstset{
-  basicstyle=\ttfamily\footnotesize,
-  numbers=left,%左に行番号
-  numberstyle=\tiny,
-  stepnumber=1, %行番号を毎行表示
-  frame=single, %枠をつける
-  breaklines=true,%長い行を折り返す
-  tabsize=4
+    language=Java,
+    inputencoding=utf8,
+    %basicstyle=\ttfamily\scriptsize,
+    basicstyle=\ttfamily\tiny,%最小文字、見にくいかも
+    extendedchars=false,%日本語のためらしい
+    breaklines=true,%長い行折る
+    numbers=left,%行番号を左側に
+    numberstyle=\tiny,%行番号サイズ
+    stepnumber=1, %1行ごとに番号を表示
+    frame=single, %枠
+    tabsize=4 %タブの幅
 }
-\begin{itemize}
+\begin{itemize}%日本語のコメント正しく読み込めない...
   \item MiniCook
   \lstinputlisting{../MiniCook.java}
   \item Model

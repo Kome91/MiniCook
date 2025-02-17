@@ -1,20 +1,30 @@
-\documentclass{article}
+\documentclass[a4j]{jarticle}
+\usepackage{fancyhdr}
+\usepackage{listingsutf8} % 日本語対応
+\usepackage{color}
+\usepackage{comment}
+\usepackage{amsmath, amssymb}
+\usepackage{graphicx}
+\usepackage{here}
+\usepackage{ascmac}
+\usepackage{subfigure}
+
+\lstset{
+    language=Java,
+    inputencoding=utf8,
+    basicstyle=\ttfamily,
+    extendedchars=true,
+    numbers=left,         % 行番号を左側に表示
+    numberstyle=\small,   % 行番号のフォントサイズ
+    stepnumber=1,         % 1行ごとに番号を表示
+    frame=single,         % コードを枠で囲む（オプション）
+    tabsize=4             % タブの幅を設定
+}
+
 \begin{document}
+
 Hello, LaTeX!!
-\begin{itemize}
-    \item 一つ目
-    \begin{itemize}
-      \item 入れ子一つ目
-      \begin{itemize}
-        \item 入れ子の入れ子一つ目
-        \begin{itemize}
-          \item 入れ子の入れ子の入れ子一つ目
-          \item 入れ子の入れ子の入れ子二つ目
-        \end{itemize}
-        \item 入れ子の入れ子二つ目
-      \end{itemize}
-      \item 入れ子二つ目
-    \end{itemize}
-    \item 二つ目
-  \end{itemize}
+
+\lstinputlisting{../MiniCook.java}
+
 \end{document}
