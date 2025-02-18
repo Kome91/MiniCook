@@ -11,7 +11,7 @@ class Order {
     boolean hasPlate; //まず皿が必要
     public Food ingredient1;
     public Food ingredient2;
-    public Food ingredient3; //材料は多くて3つまで？
+    public Food ingredient3; //材料は多くて3つまで
     public int timeLimit; //制限時間
     public int orderIndex;
     private DrawModel model;

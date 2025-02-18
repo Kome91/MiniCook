@@ -20,7 +20,7 @@ class DrawController implements KeyListener {
     }
 
     @Override
-    public void keyPressed(KeyEvent e) {
+    public void keyPressed(KeyEvent e) { //それぞれのキーボードの入力を個々で受け取る
         int dx = 0, dy = 0;
 
         switch (e.getKeyCode()) {
@@ -138,7 +138,7 @@ class DrawController implements KeyListener {
     
         gameTimer.start(); // タイマー開始
     }
-    private void printCredit(){
+    private void printCredit(){ //個々はクレジットをコンソールに表示する。
         System.out.printf("\r\n" + //
                         "\r\n" + //
                         "----------------------------------\r\n" + //

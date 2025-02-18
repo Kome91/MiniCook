@@ -11,13 +11,11 @@ class DrawModel extends JPanel {
     private Player player;
     private Food food;
     public int score;
-    //private static DrawModel instance;
     public Order[] orders; //orderを入れる配列
     private int gameTime;
 
     public DrawModel() {
-        //System.out.println("DrawModel instance: " + this);
-        gameTime = 120/*3*60 + 30*/; //　ゲーム時間は3分30秒 Yoshida
+        gameTime = 120; //ゲーム時間(秒)
         score = 0;
         orders = new Order[5];
         for(int i=0; i<5; i++){
@@ -36,6 +34,7 @@ class DrawModel extends JPanel {
         }
         player = new Player(2, 2, this, grid);
 
+        //以下で所定の場所に所定のオブジェクトを配置
         grid[3][3].obstacle = true;
         grid[4][3].obstacle = true;
         grid[5][3].obstacle = true;
@@ -74,9 +73,9 @@ class DrawModel extends JPanel {
         grid[12][3].tool = 9;
         
         //カウンターを設置 Yoshida
-        grid[7][8].wall = true; //元々壁だったところをカウンターにしたい
+        grid[7][8].wall = true;
         grid[7][8].isCounter = true;
-        grid[8][8].wall = true; //元々壁だったところをカウンターにしたい
+        grid[8][8].wall = true;
         grid[8][8].isCounter = true;
 
         grid[0][3].tool = 1;//ナイフ
@@ -157,7 +156,6 @@ class DrawModel extends JPanel {
                 System.out.println("orders[" + i + "] はnullです 新しいオーダーを生成します");
                 String randommenu=menu[random.nextInt(num_menu)];     
                 orders[i] = new Order(randommenu, i , this);
-                //orders[i] = new Order("tekkamaki", i , this);
                 System.out.println("生成されたオーダー: " + orders[i].orderName);
                 break;
             } else {
@@ -188,9 +186,7 @@ class DrawModel extends JPanel {
             case "kaisendon" : score += 60;
         }
         System.out.println("scoreUp()が呼ばれました");
-        //これは料理が提供された瞬間の方がいいかも知れない
         for(int i=0; i<orders.length; i++){
-            //if(orders[i].orderName == order.orderName) 
             if(orders[i] == order){ //こっちのほうが重複した料理があったときに対応できる
                 removeOrder(i);
                 return;
@@ -215,8 +211,6 @@ class DrawModel extends JPanel {
         }
         if(score < 0) score = 0;
 
-        //これは料理が提供された瞬間の方がいいかも知れない
-        //それな てかこれ失敗したときだからtrueにならんくね　Kome
         for(int i=0; i<orders.length; i++){
             if(orders[i].orderName == order.orderName){
                 removeOrder(i);
@@ -257,23 +251,18 @@ class DrawModel extends JPanel {
     }
 
     public void reset() {
-        //System.out.println("DrawModel instance: " + this);
         gameTime = 120/*3*60 + 30*/;
         score = 0;
         for(int i=0; i<5; i++){
-            //orders[i].cancelTimer();  
             orders[i] = null;
         }
-        //grid = new Grid[xsize][ysize];
         for (int i = 0; i < xsize; i++) {
             for (int j = 0; j < ysize; j++) {
-                //grid[i][j] = new Grid(i, j);
-                //imageGrid[i][j] = '\0';
                 grid[i][j].food = null;
                 grid[i][j].plate = null;
                 grid[i][j].isPlatePlaced = false;
                 if (i == 0 || j == 0 || i == xsize - 1 || j == ysize - 1) {
-                    grid[i][j].wall = true; // 外周を壁に設定
+                    grid[i][j].wall = true;
                 }
             }
         }
@@ -314,10 +303,9 @@ class DrawModel extends JPanel {
         grid[12][3].obstacle = true;
         grid[12][3].tool = 9;
         
-        //カウンターを設置 Yoshida
-        grid[7][8].wall = true; //元々壁だったところをカウンターにしたい
+        grid[7][8].wall = true;
         grid[7][8].isCounter = true;
-        grid[8][8].wall = true; //元々壁だったところをカウンターにしたい
+        grid[8][8].wall = true;
         grid[8][8].isCounter = true;
 
         grid[0][3].tool = 1;//ナイフ

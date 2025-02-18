@@ -7,7 +7,6 @@ class MiniCook extends JFrame {
     DrawController cont;
     AudioManager audio;
     Result resultScreen;
-
     private CardLayout cardLayout;
     private JPanel cardPanel;
 
@@ -24,7 +23,7 @@ class MiniCook extends JFrame {
         view.addKeyListener(cont);
 
         this.setBackground(Color.WHITE);
-        this.setTitle("MiniCookey");
+        this.setTitle("MiniCook");
         this.setSize(1016, 950);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -54,8 +53,6 @@ class MiniCook extends JFrame {
     public void startGame() {
         cardLayout.show(cardPanel, "game");
         cont.startGame();
-        //audio.playBGM("./sound/music_background2.wav");
-
         // キーボード入力を受け取るためにフォーカスを設定
         view.requestFocusInWindow();
     }

@@ -16,9 +16,7 @@ class DrawView extends JPanel {
     static final double easingFactor = 0.2;
     static final double easingFactorText = 0.2;
     double scoreAnim = 0;
-    
     private BufferedImage cacheFloorAll = null;
-
     private Timer drawTimer60fps; //60Hzでpaintcomponent()を呼び出すために使う Kome
     protected DrawModel model;
     private DrawController cont;
@@ -72,10 +70,7 @@ class DrawView extends JPanel {
     private Image imgRicCucSea;
     private Image imgRicTunSea;
     private Image imgRicTunSqu;
-
     private Image imgTrash;
-
-
     private Image[] imgCounter = new Image[5];
     private Image orderPaper;
     private Image imgKnifeBlack;
@@ -85,30 +80,22 @@ class DrawView extends JPanel {
     private Image imgFloor3;
     private Image imgTable;
     private Image imgSampleSalad;
-
     private Image imgA;
     private Image imgB;
     private Image imgC;
     private Image imgF1;
     private Image imgF2;
     private Image imgF3;
-
-
     private Image testWall;
     private Image sideWall;
     private Image longShadow;
-
     private Image imgWaiterUp;
     private Image imgWaiterDown;
-    
-
     private Image imgFire;
-
     private Image imgUIBG;
     private Image imgCoin;
     private Image imgTimer;
     private Image imgCandle;
-    
 
     Player player;
     static final int headerBlank = 220;
@@ -137,7 +124,6 @@ class DrawView extends JPanel {
         imgPlayerLeft = new ImageIcon("img/test/ghost_left.png").getImage();
         imgPlayerDown = new ImageIcon("img/test/ghost_down.png").getImage();
         imgPlayerRight = new ImageIcon("img/test/ghost_right.png").getImage();
-        //imgErrorBlock = new ImageIcon("img/error_image.png").getImage();
         imgErrorBlock = new ImageIcon("img/miss.png").getImage();
 
         //皿とツール
@@ -242,14 +228,6 @@ class DrawView extends JPanel {
         cellSize = model.getCellSize();
         loadCustomFont();
 
-        
-        /*
-        executor.scheduleAtFixedRate(() -> {
-            SwingUtilities.invokeLater(this::repaint); // Swingスレッドで描画
-        }, 0, 50, TimeUnit.MILLISECONDS);
-        */
-        
-        
         executor = Executors.newScheduledThreadPool(1); //60fpsでの描画を開始
         executor.scheduleAtFixedRate(() -> {
             long currentTime = System.nanoTime();
@@ -261,7 +239,6 @@ class DrawView extends JPanel {
                 double fps = 1000.0 * 30 / timeDiff;
                 frameCount = 0; // フレーム数をリセット
                 lastTime = currentTime; // 時間を更新
-                //System.out.println("FPS: " + fps); // デバッグ出力
             }
 
             SwingUtilities.invokeLater(this::repaint); // Swingスレッドで描画
@@ -303,14 +280,11 @@ class DrawView extends JPanel {
         super.paintComponent(g);
         passedFlame++;
         final int dD3d = 20; //疑似3Dの実装のために床を実際よりyが正向きにずれる。
-        g.drawImage(testWall,rightBlank,0,cellSize*16, headerBlank,this); //奥の壁 テスト用
-        //g.drawImage(testWall,0,0,cellSize*18, headerBlank,this); //奥の壁
+        g.drawImage(testWall,rightBlank,0,cellSize*16, headerBlank,this); //奥の壁
         g.setColor(new Color(101,68,59));
         g.drawImage(cacheFloorAll, 0+rightBlank, 0+headerBlank + dD3d, this); //床の画像だけキャッシュ(一時保存)して処理を軽く
         g.fillRect(0, 0, rightBlank, 1200);
         g.fillRect(0 + rightBlank + size[0]*cellSize, 0, rightBlank, 1200);
-        //g.drawImage(sideWall, 20, 0, 20, 1000, this);
-        //g.drawImage(sideWall, 16*60 + rightBlank, 0, 20, 1000, this);
         final int rB = rightBlank;
         final int hB = headerBlank;
         final int cS = cellSize;
@@ -459,14 +433,9 @@ class DrawView extends JPanel {
             else if(player.direction == 3) {offsetX = 0; offsetY += cellSize ;}
             else if(player.direction == 4) {offsetX += cellSize / 3; offsetY = 0;}
             setIngredientsImage(cellSize, (int)(player.xAnim*cS), (int)(player.yAnim*cS), offsetX, offsetY, player.plate, g, player.direction);
-            //setIngredientsImage(cellSize, player.x, player.y, offsetX, offsetY, player.plate, g, player.direction);
         }
         
         //装飾品の描画
-        //g.drawImage(imgCandle, 0*cellSize + rightBlank, 0 * cellSize + headerBlank - 60, 60, 120, this);
-        //g.drawImage(imgCandle, 15*cellSize + rightBlank, 0 * cellSize + headerBlank - 60, 60, 120, this);
-        //g.drawImage(imgCandle, 1*cellSize + rightBlank, 8 * cellSize + headerBlank - 60, 60, 120, this);
-        //g.drawImage(imgCandle, 14*cellSize + rightBlank, 8 * cellSize + headerBlank - 60, 60, 120, this);
         g.drawImage(imgCandle, 6*cellSize + rightBlank, 8 * cellSize + headerBlank - 60, 60, 120, this);
         g.drawImage(imgCandle, 9*cellSize + rightBlank, 8 * cellSize + headerBlank - 60, 60, 120, this);
 
@@ -567,12 +536,9 @@ class DrawView extends JPanel {
                     order.timeAnim++;
                 }
                 
-                //g.fillRect((int)order.posAnim, 0 * cellSize +20, 3*(cellSize-2), 60);
                 g.drawImage(orderPaper, (int)order.posAnim, 15, orderW, orderH, this);
                 drawGauge(g, "down", (int)(order.posAnim)+8, 22, orderW-16, 17, order.getRemainingTime()/order.timeLimit);
-                //g.drawImage(orderImage, 53 + (int)order.posAnim, 70, cellSize+5, cellSize+5, this);
-                //g.drawImage(imgSampleSalad, 42 + (int)order.posAnim, 30, 75, 75, this);//プレビューのためです Kome
-                g.drawImage(orderImage, 42 + (int)order.posAnim, 30, 75, 75, this);//プレビューのためです Kome
+                g.drawImage(orderImage, 42 + (int)order.posAnim, 30, 75, 75, this);
                 
             }
         }
@@ -587,13 +553,11 @@ class DrawView extends JPanel {
         }else if(player.actionCharge == 60) player.action();
 
         
-        // しょぼいんですけど、フライパンの火の描画です Yoshida
+        //フライパンの火の描画です
         if(player.food != null && player.food.canHeat){
             if(player.getFrontGrid().tool == 12 && cont.spacePushing == true){
                 if(player.actionCharge>0 && player.actionCharge<60){
                     float fireScall = player.actionCharge % 30;
-                    //1行目は大きめ、2行目は小さめ
-                    //g.drawImage(imgFire, player.getFrontGrid().x * cellSize +30-(int)(fireScall), player.getFrontGrid().y * cellSize + headerBlank+55-(int)(fireScall), (int)(fireScall*cellSize/30), (int)(fireScall*cellSize/30), this);
                     g.drawImage(imgFire, player.getFrontGrid().x * cellSize +30-(int)(fireScall/2), player.getFrontGrid().y * cellSize + headerBlank+55-(int)(fireScall/2), (int)(fireScall*cellSize/60), (int)(fireScall*cellSize/60), this);
     
                 }
@@ -620,7 +584,6 @@ class DrawView extends JPanel {
 
         for(int i = 0; i < 5; i++){
             if(waiters[i] != null && waiters[i].active == true){
-                //System.out.printf("waiters[%d]のdrawMe()を呼びます\n", i);
                 waiters[i].drawMe(g, this);
             }
         }
@@ -643,7 +606,6 @@ class DrawView extends JPanel {
     }
     private void drawGauge(Graphics g, String type, int x, int y, int width, int height, double ratio){//時間ゲージ・料理中ゲージ
         if(ratio > 1) { System.out.println("Warning : ゲージの割合が100%を超えています"); }
-        //System.out.printf("ratio = %.1f%n", ratio); //デバッグ用
         
         if(type == "up"){
             g.setColor(Color.WHITE);
@@ -821,24 +783,17 @@ class DrawView extends JPanel {
     }
 
     public Image setOrderImage(Order order){//オーダーを受け取ってそれぞれの完成品の画像を返す
-        //System.out.println(order.orderName +"の画像を取得します。"); //デバッグ用
         if("salad".equals(order.orderName)){
-            //System.out.println(order.orderName +"の画像を取得しました。"); //デバッグ用
             return imgCabTomCuc;
         }else if("tekkamaki".equals(order.orderName)){
-            //System.out.println(order.orderName +"の画像を取得しました。"); //デバッグ用
             return imgRicTunSea;
         }else if("kappamaki".equals(order.orderName)){
-            //System.out.println(order.orderName +"の画像を取得しました。"); //デバッグ用
             return imgRicCucSea;
         }else if("tunanigiri".equals(order.orderName)){
-            //System.out.println(order.orderName +"の画像を取得しました。"); //デバッグ用
             return imgRicTun;
         }else if("ikanigiri".equals(order.orderName)){
-            //System.out.println(order.orderName +"の画像を取得しました。"); //デバッグ用
             return imgRicSqu;
         }else if("kaisendon".equals(order.orderName)){
-            //System.out.println(order.orderName +"の画像を取得しました。"); //デバッグ用
             return imgRicTunSqu;
         }
         else return null;

@@ -74,14 +74,11 @@ class Waiter{
             //仮で正方形を描画してるよ
             g.setColor(Color.pink);
             g.drawImage(imgWaiterUp,xBefore-10, (int)((waitY*(comeFlame-flame) + receiveY*flame)/comeFlame) + rightBlank, cS+20, cS+20, io);
-            //g.fillRect(xBefore, (int)((waitY*(comeFlame-flame) + receiveY*flame)/comeFlame) + rightBlank, cS, cS);
             flame++;
         }else if(comeFlame <= flame && flame < 2*comeFlame){
             g.drawImage(imgWaiterUp,xBefore-10, receiveY + rightBlank, cS+20, cS+20, io);
-            //g.fillRect(xBefore, receiveY + rightBlank, cS, cS);
             flame++;
         }else if(2*comeFlame <= flame && flame < 3*comeFlame){
-            //g.drawRect(xBefore, (int)((waitY*(flame-2*comeFlame) + receiveY*(3*comeFlame-flame))/comeFlame) + rightBlank, cS, cS);
             g.drawImage(imgWaiterDown,xAfter-10, (int)((waitY*(flame-2*comeFlame) + receiveY*(3*comeFlame-flame))/comeFlame) + rightBlank, cS+20, cS+20, io);
             flame++;
         }else if(flame == 3*comeFlame){ active = false; flame++;}

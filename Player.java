@@ -27,7 +27,7 @@ class Player {
         this.food = null;
         this.plate = null;
         this.model = model;
-        this.direction = 1; //初期の向きは上に設定してあるけど、別になんでも
+        this.direction = 1; //初期の向きは上に設定してある
         this.grid = grid;
         this.hasPlate = false;
     }
@@ -77,7 +77,7 @@ class Player {
             if(frontGrid.tool == 1 && food.canCut == true){
                 AudioManager se = new AudioManager();
                 se.playSE("./sound/music_cut2.wav");
-                food.foodStatus = 2; //これで切ったこととなるのだ Kome
+                food.foodStatus = 2; 
                 //food.cut();
                 System.out.printf("食材を切りました\n");
                 return;
@@ -87,9 +87,8 @@ class Player {
                     se.playSE("./sound/music_boil.wav");
                     frontGrid.food = food;
                     food = null;
-                    System.out.println("釜に米を入れました。");//デバッグ用
+                    System.out.println("釜に米を入れました。");
                 }
-                //System.out.printf("食材をゆでました。%sのstatusは%dです\n", food.foodName, food.foodStatus);
                 return;
             }
         }
@@ -233,13 +232,6 @@ class Player {
                 frontGrid.food = null;
                 frontGrid.isPlatePlaced = false;
             }
-            /* //個々のコード必要なのか問題があります。一応怖いので残してます Kome
-            System.out.println(currentOrder.orderName + "が提供されました！");
-            if(currentOrder.isCompleted(frontGrid.plate) == true){
-                model.scoreUp(currentOrder);
-            }
-            else model.scoreDown(currentOrder);
-            */
         }
         if(food != null) {  // 既に食材を持っている場合
             if(frontGrid.isPlatePlaced == true){ //目の前のマスに皿が置いてある場

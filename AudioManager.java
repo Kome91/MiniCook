@@ -5,7 +5,7 @@ import java.io.IOException;
 public class AudioManager {
     private static Clip bgmClip;
 
-    // BGMを再生（WAVのみ対応）
+    // BGMを再生
     public static void playBGM(String filePath) {
         stopBGM(); // 既存のBGMを停止
         try {
@@ -27,7 +27,7 @@ public class AudioManager {
         }
     }
 
-    // SEを再生（WAVのみ対応）
+    // SEを再生
     public static void playSE(String filePath) {
         new Thread(() -> {
             try {
@@ -42,39 +42,3 @@ public class AudioManager {
         }).start();
     }
 }
-
-
-/*
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
-import java.io.File;
-
-public class AudioManager {
-    private static MediaPlayer bgmPlayer;
-
-    // BGMを再生するメソッド
-    public static void playBGM(String filePath) {
-        if (bgmPlayer != null) {
-            bgmPlayer.stop(); // すでに再生中なら停止
-        }
-        Media media = new Media(new File(filePath).toURI().toString());
-        bgmPlayer = new MediaPlayer(media);
-        bgmPlayer.setCycleCount(MediaPlayer.INDEFINITE); // ループ再生
-        bgmPlayer.play();
-    }
-
-    // BGMを停止するメソッド
-    public static void stopBGM() {
-        if (bgmPlayer != null) {
-            bgmPlayer.stop();
-        }
-    }
-
-    // SEを再生するメソッド（複数同時再生可能）
-    public static void playSE(String filePath) {
-        Media media = new Media(new File(filePath).toURI().toString());
-        MediaPlayer sePlayer = new MediaPlayer(media);
-        sePlayer.play();
-    }
-}
-*/
