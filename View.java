@@ -26,7 +26,7 @@ class DrawView extends JPanel {
     int[] size;
     final int cellSize;
     
-    private Image ImagePlayer;
+    private Image ImagePlayer;//画像のための変数
     private Image imgPlayerUp;
     private Image imgPlayerLeft;
     private Image imgPlayerDown;
@@ -131,7 +131,7 @@ class DrawView extends JPanel {
 
     //public boolean moving = true;
     private Font customFont;
-    public DrawView(DrawModel m) {
+    public DrawView(DrawModel m) {//初期化
         {//画像読み込み
         imgPlayerUp = new ImageIcon("img/test/ghost_up.png").getImage();
         imgPlayerLeft = new ImageIcon("img/test/ghost_left.png").getImage();
@@ -629,7 +629,7 @@ class DrawView extends JPanel {
 
         if(passedFlame == 60) AudioManager.playBGM("./sound/music_background2.wav");
     }
-    private void drawFloorAll(Graphics g, ImageObserver io){
+    private void drawFloorAll(Graphics g, ImageObserver io){//床
         int cS = cellSize; //この中で略語を定義
         int rB = rightBlank;
         int hB = headerBlank;
@@ -641,7 +641,7 @@ class DrawView extends JPanel {
             }
         }
     }
-    private void drawGauge(Graphics g, String type, int x, int y, int width, int height, double ratio){
+    private void drawGauge(Graphics g, String type, int x, int y, int width, int height, double ratio){//時間ゲージ・料理中ゲージ
         if(ratio > 1) { System.out.println("Warning : ゲージの割合が100%を超えています"); }
         //System.out.printf("ratio = %.1f%n", ratio); //デバッグ用
         
@@ -653,7 +653,7 @@ class DrawView extends JPanel {
         }
         else if(type == "down"){
             g.setColor(Color.GRAY);
-        g.fillRect(x, y, width, height);
+            g.fillRect(x, y, width, height);
             if(ratio >= 0.5) { g.setColor(new Color(75, 180, 35)); }
             else if(ratio >= 0.25) { g.setColor(Color.YELLOW); }
             else{ g.setColor(Color.RED); }
@@ -661,26 +661,26 @@ class DrawView extends JPanel {
         }
     }
 
-    private Image setToolImage(int toolId){
+    private Image setToolImage(int toolId){//ツールIDを引数としてその画像を返す
         switch(toolId){
-            case 1: return imgKnife;
-            case 2: return imgCabbageBox;
-            case 3: return imgPlateBox;
-            case 4: return imgTomatoBox;
-            case 5: return imgCucumberBox;
-            case 6: return imgRiceBox;
-            case 7: return imgTunaBox;
-            case 8: return imgSquidBox;
-            case 9: return imgSeaweedBox;
-            case 10: return imgBoil;
-            case 11: return imgBoilRice;
-            case 12: return imgPan;
-            case 13: return imgTrash;
+            case 1: return imgKnife;        //ナイフ
+            case 2: return imgCabbageBox;   //キャベツボックス
+            case 3: return imgPlateBox;     //皿ボックス
+            case 4: return imgTomatoBox;    //トマトボックス
+            case 5: return imgCucumberBox;  //キュウリボックス
+            case 6: return imgRiceBox;      //米ボックス
+            case 7: return imgTunaBox;      //マグロボックス
+            case 8: return imgSquidBox;     //イカボックス
+            case 9: return imgSeaweedBox;   //海苔ボックス
+            case 10: return imgBoil;        //鍋
+            case 11: return imgBoilRice;    //炊けた米
+            case 12: return imgPan;         //フライパン
+            case 13: return imgTrash;       //ごみ箱
             case 14: return null;
         }
-        return imgErrorBlock;
+        return imgErrorBlock;//14以外ならエラー
     }
-    private Image setCorrectRaw(Food foodInfo){
+    private Image setCorrectRaw(Food foodInfo){//食材情報を受け取って加工前食材の画像を返す
         if(foodInfo.foodName == "cabbage") return imgCabbage;
         else if(foodInfo.foodName == "tomato") return imgTomato;
         else if(foodInfo.foodName == "cucumber") return imgCucumber;
@@ -691,12 +691,12 @@ class DrawView extends JPanel {
       
         else return imgErrorBlock;
     }
-    private Image setCorrectMethod(Food foodInfo){
+    private Image setCorrectMethod(Food foodInfo){//オーダー用。食材の調理方法を受け取って調理法画像返す
         if(foodInfo.foodStatus == 2) return imgKnifeBlack;
         else if(foodInfo.foodStatus == 3)return imgBoilBlack;
         else return null;
     }
-    private Image setFoodImage(Food foodInfo){
+    private Image setFoodImage(Food foodInfo){//食材情報を受け取って、状態によった画像を返す。1:未加工,2:カット,3:ゆで
         // switch文にしてもいいかもね
         if(foodInfo.foodName == "cabbage"){
             if(foodInfo.foodStatus == 1) return imgCabbage;
@@ -732,7 +732,7 @@ class DrawView extends JPanel {
         }
         return imgErrorBlock;
     }
-    public Image setPlateImage(Plate targetPlate){
+    public Image setPlateImage(Plate targetPlate){//乗っている食材の画像を返す
         Food food[] = new Food[3];
         int cabbage = 0; //そのプレートにおいてそれぞれの食材がどうなっているか
         int tomato = 0; //0:存在しない 1:生 2:カット、3:ボイル
@@ -817,10 +817,10 @@ class DrawView extends JPanel {
             else if(rice == 3 && cucumber == 2 && seaweed== 1) return imgRicCucSea;//かっぱ巻
         }
 
-        return imgErrorBlock;
+        return imgErrorBlock;//どれにも当てはまらないときエラー
     }
 
-    public Image setOrderImage(Order order){
+    public Image setOrderImage(Order order){//オーダーを受け取ってそれぞれの完成品の画像を返す
         //System.out.println(order.orderName +"の画像を取得します。"); //デバッグ用
         if("salad".equals(order.orderName)){
             //System.out.println(order.orderName +"の画像を取得しました。"); //デバッグ用
