@@ -1,6 +1,6 @@
 ## コンパイル手順
-platex test.tex
-dvipdfmx test.dvi
+platex MiniCook.tex
+dvipdfmx MiniCook.dvi
 
 ## メモ
 * sample.pdfは授業のサイトにこんな感じで書いてって例が挙がってたので載せときます  
